@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_arrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 17:21:25 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/28 23:51:30 by julmuntz         ###   ########.fr       */
+/*   Created: 2023/01/28 21:21:04 by julmuntz          #+#    #+#             */
+/*   Updated: 2023/01/28 21:24:37 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int arc, char **arv, char **env)
+size_t	ft_arrstrlen(char **s)
 {
-	t_builtins	data;
+	size_t	i;
 
-	if (arc != 2 || !arv[1])
-		return (printf("Please ENTER 1 command.\n"), exit(EXIT_SUCCESS), 0);
-	data.env = env;
-	data.cmd = ft_split(arv[1], ' ');
-	if (valid_input(&data) == CUSTOM)
-		execute_builtin(&data);
-	else if (valid_input(&data) == TRUE)
-		execute_builtin(&data);
-	return (0);
+	i = 0;
+	if (s == NULL)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
+}
+
+size_t	ft_arrnbrlen(int *n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == NULL)
+		return (0);
+	while (n[i])
+		i++;
+	return (i);
 }

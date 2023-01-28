@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 SRC			=	ft_atoi.c					\
+    			ft_arrlen.c					\
     			ft_bzero.c					\
     			ft_calloc.c					\
     			ft_convert_base.c			\
@@ -23,6 +24,7 @@ SRC			=	ft_atoi.c					\
     			ft_ischar.c					\
     			ft_isdigit.c				\
     			ft_isprint.c				\
+    			ft_isspace.c				\
     			ft_itoa.c   				\
 				ft_linelen.c				\
 				ft_lstadd_back.c			\

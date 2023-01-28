@@ -6,12 +6,13 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/01/28 11:31:42 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/01/28 23:27:15 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCDIR		= 	src/
 SRC			=	main.c						\
+				check_input.c				\
 				cmd_echo.c					\
 
 OBJDIR		= 	obj/
@@ -34,7 +35,7 @@ $(NAME):		$(OBJ) libft/libft.a
 all:			$(NAME)
 
 libft/libft.a:
-					@$(MAKE) --no-print-directory -C $(LIBFT) libft.a
+					@$(MAKE) -j 500 --no-print-directory -C $(LIBFT) libft.a
 
 clean:
 					$(RM) -r $(OBJDIR)

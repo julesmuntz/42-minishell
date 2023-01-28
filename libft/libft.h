@@ -33,6 +33,8 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+size_t			ft_arrnbrlen(int *n);
+size_t			ft_arrstrlen(char **s);
 int				ft_atoi(char *str);
 void			ft_bzero(void *s, size_t n);
 void			*ft_calloc(size_t nmemb, size_t size);
@@ -48,6 +50,8 @@ int				ft_isascii(int c);
 int				ft_ischar(int c, int i);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
+int				ft_isspace(int c);
+int				ft_isspace_null(int c);
 char			*ft_itoa(int n);
 size_t			ft_linelen(char *line);
 void			ft_lstadd_back(t_list **lst, t_list *new);
