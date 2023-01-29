@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/29 16:00:44 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/01/29 18:39:03 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int		valid_input(t_builtins *data);
 int		execute_builtin(t_builtins *data);
 int		cmd_echo(t_builtins *data);
 int		cmd_pwd(void);
+int		cmd_env(t_builtins *data);
 
 #endif

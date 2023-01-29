@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/01/29 14:45:46 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/01/29 18:39:55 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ SRC			=	main.c						\
 				check_input.c				\
 				cmd_echo.c					\
 				cmd_pwd.c					\
+				cmd_env.c					\
 
 OBJDIR		= 	obj/
 OBJ			= 	$(addprefix $(OBJDIR), $(SRC:.c=.o))
