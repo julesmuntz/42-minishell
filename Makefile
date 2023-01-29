@@ -6,12 +6,13 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/01/29 18:39:55 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/01/29 22:07:59 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCDIR		= 	src/
 SRC			=	main.c						\
+				get_cmd.c					\
 				check_input.c				\
 				cmd_echo.c					\
 				cmd_pwd.c					\

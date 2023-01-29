@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/29 18:40:28 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/01/29 21:33:49 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,20 @@ static char	*find_paths(char **env)
 	return (0);
 }
 
-static char	*find_cmd(char *cmd, t_builtins *data)
+static char	*find_cmd(char *cmd, char **env)
 {
 	int		i;
 	char	*file;
 	char	*filepath;
+	char	**paths;
 
-	i = 0;
-	data->paths = ft_split(find_paths(data->env), ':');
-	while (data->paths[i])
+	i = -1;
+	paths = ft_split(find_paths(env), ':');
+	while (paths[++i])
 	{
 		if (!ft_strchr(cmd, '/'))
 		{
-			filepath = ft_strjoin(data->paths[i], "/");
+			filepath = ft_strjoin(paths[i], "/");
 			file = ft_strjoin(filepath, cmd);
 			free(filepath);
 			if (!access(file, F_OK))
@@ -49,9 +50,8 @@ static char	*find_cmd(char *cmd, t_builtins *data)
 			file = cmd;
 		if (!access(file, F_OK))
 			return (file);
-		i++;
 	}
-	ft_free_lines(data->paths);
+	ft_free_lines(paths);
 	return (0);
 }
 
@@ -76,11 +76,11 @@ static int	custom_builtins(char *cmd, t_builtins *data)
 	return (TRUE);
 }
 
-int	valid_input(t_builtins *data)
+int	valid_input(char **env, t_builtins *data)
 {
 	if (custom_builtins(*data->cmd, data) == TRUE)
 		return (CUSTOM);
-	if (!find_cmd(*data->cmd, data))
+	if (!find_cmd(*data->cmd, env))
 	{
 		if (ft_strchr(*data->cmd, '/'))
 			printf("bash: %s: No such file or directory\n", *data->cmd);
@@ -89,12 +89,12 @@ int	valid_input(t_builtins *data)
 		ft_free_lines(data->cmd);
 		return (FALSE);
 	}
-	if (execve(find_cmd(*data->cmd, data), data->cmd, data->env) == -1)
+	if (execve(find_cmd(*data->cmd, env), data->cmd, env) == -1)
 		return (FALSE);
 	return (TRUE);
 }
 
-int	execute_builtin(t_builtins *data)
+int	execute_builtin(char **env, t_builtins *data)
 {
 	if (!ft_strncmp(data->cmd_to_execute, "echo", 4))
 		cmd_echo(data);
@@ -107,10 +107,10 @@ int	execute_builtin(t_builtins *data)
 	else if (!ft_strncmp(data->cmd_to_execute, "unset", 5))
 		return (0);
 	else if (!ft_strncmp(data->cmd_to_execute, "env", 3))
-		cmd_env(data);
+		cmd_env(env);
 	else if (!ft_strncmp(data->cmd_to_execute, "exit", 4))
 		return (0);
 	else
-		execve(find_cmd(*data->cmd, data), data->cmd, data->env);
+		execve(find_cmd(*data->cmd, env), data->cmd, env);
 	return (0);
 }
