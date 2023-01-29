@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cmd_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 17:21:25 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/29 15:54:32 by julmuntz         ###   ########.fr       */
+/*   Created: 2023/01/29 14:31:40 by julmuntz          #+#    #+#             */
+/*   Updated: 2023/01/29 15:58:53 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int arc, char **arv, char **env)
+int	cmd_pwd(void)
 {
-	t_builtins	data;
+	char	path[1024];
 
-	if (arc != 2 || !arv[1])
-		return (printf("Please ENTER 1 command.\n"), exit(EXIT_SUCCESS), 0);
-	data.env = env;
-	data.cmd = ft_split(arv[1], ' ');
-	if (valid_input(&data) == FALSE)
-		return (0);
-	else if (valid_input(&data) == CUSTOM)
-		execute_builtin(&data);
-	else if (valid_input(&data) == TRUE)
-		execute_builtin(&data);
+	printf("%s\n", getcwd(path, sizeof(path)));
 	return (0);
 }

@@ -24,6 +24,9 @@
 # include <stdint.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <stdbool.h>
+# include <string.h>
+# include <sys/wait.h>
 # include "ft_printf/ft_printf.h"
 # include "../src/minishell.h"
 

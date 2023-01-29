@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/28 23:52:58 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/01/29 15:57:56 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ int	valid_input(t_builtins *data)
 		return (CUSTOM);
 	if (!find_cmd(*data->cmd, data))
 	{
-		printf("Error\n\
-Cannot access '%s': no such file or directory.\n", *data->cmd);
+		if (ft_strchr(*data->cmd, '/'))
+			printf("bash: %s: No such file or directory\n", *data->cmd);
+		else
+			printf("%s: command not found\n", *data->cmd);
 		ft_free_lines(data->cmd);
 		return (FALSE);
 	}
@@ -99,7 +101,7 @@ int	execute_builtin(t_builtins *data)
 	else if (!ft_strncmp(data->cmd_to_execute, "cd", 2))
 		return (0);
 	else if (!ft_strncmp(data->cmd_to_execute, "pwd", 3))
-		return (0);
+		cmd_pwd();
 	else if (!ft_strncmp(data->cmd_to_execute, "export", 6))
 		return (0);
 	else if (!ft_strncmp(data->cmd_to_execute, "unset", 5))

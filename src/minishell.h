@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/28 23:53:24 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/01/29 16:00:44 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define CUSTOM 10
 
 # include "../libft/libft.h"
-# include <sys/wait.h>
 
 typedef struct s_builtins
 {
@@ -31,5 +30,6 @@ typedef struct s_builtins
 int		valid_input(t_builtins *data);
 int		execute_builtin(t_builtins *data);
 int		cmd_echo(t_builtins *data);
+int		cmd_pwd(void);
 
 #endif
