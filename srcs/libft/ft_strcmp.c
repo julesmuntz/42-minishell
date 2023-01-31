@@ -1,0 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/04 15:46:38 by mbenicho          #+#    #+#             */
+/*   Updated: 2023/01/31 18:52:28 by mbenicho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (1);
+	while (s1 && s2 && s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t size)
+{
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	i = 0;
+	str1 = (void *)s1;
+	str2 = (void *)s2;
+	if (!s1 || !s2)
+		return (1);
+	while (s1 && s2 && s1[i] && s2[i] && s1[i] == s2[i] && i + 1 < size && size > 0)
+		i++;
+	return (s1[i] - s2[i]);
+}

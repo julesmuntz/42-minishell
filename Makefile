@@ -10,44 +10,65 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCDIR		= 	src/
-SRC			=	main.c						\
-				get_cmd.c					\
-				check_input.c				\
-				cmd_echo.c					\
-				cmd_pwd.c					\
-				cmd_env.c					\
+NAME		=	minishell
 
-OBJDIR		= 	obj/
-OBJ			= 	$(addprefix $(OBJDIR), $(SRC:.c=.o))
+SRC_DIR		=	srcs/
+SRC 		=	main.c					\
+				$(addprefix parsing/,	\
+				env.c					\
+				tok_utils.c				\
+				lst_utils.c				\
+				tab_utils.c				\
+				parse.c					\
+				parse2.c				\
+				)						\
+				$(addprefix builtins/,	\
+				get_cmd.c				\
+				check_input.c			\
+				cmd_echo.c				\
+				cmd_pwd.c				\
+				cmd_env.c				\
+				)						\
+				$(addprefix libft/,		\
+				ft_strcmp.c				\
+				ft_strlcpy.c			\
+				ft_strdup.c				\
+				ft_strtrim.c			\
+				ft_superatoi.c			\
+				ft_strjoin.c			\
+				ft_arrlen.c				\
+				ft_free_lines.c			\
+				ft_isspace.c			\
+				ft_split.c				\
+				ft_strchr.c				\
+				ft_strnstr.c			\
+				ft_substr.c				\
+				ft_calloc.c				\
+				ft_bzero.c				\
+				ft_strlen.c				\
+				)
 
-NAME		= 	minishell
-LIBFT		=	./libft
+OBJ_DIR		=	obj/
+OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
-CC			= 	cc
-RM			= 	rm -f
-CFLAGS		= 	-Wall -Wextra -Werror -g
+CC			=	cc
+CFLAGS		=	-Iincludes -Wall -Wextra -Werror -g
+RM			=	rm -f
 
-$(OBJDIR)%.o:	$(SRCDIR)%.c
-					@mkdir -p $(OBJDIR)
+$(OBJ_DIR)%.o:	$(SRC_DIR)%.c
+					@mkdir -p $(@D)
 					$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		$(OBJ) libft/libft.a
-					@$(CC) -g $^ -o $@
+$(NAME):		$(OBJ)
+					$(CC) $(CFLAGS) $(OBJ) -o $@ -lreadline
 
 all:			$(NAME)
 
-libft/libft.a:
-					@$(MAKE) -j 500 --no-print-directory -C $(LIBFT) libft.a
-
 clean:
-					$(RM) -r $(OBJDIR)
-					$(RM) -r libft/obj/
+					$(RM) -r $(OBJ_DIR)
 
 fclean:			clean
 					$(RM) $(NAME)
-					$(RM) $(B_NAME)
-					$(RM) libft/libft.a
 
 re:				fclean all
 
