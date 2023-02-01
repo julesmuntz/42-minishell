@@ -45,6 +45,22 @@ int	is_meta(char c)
 	return (0);
 }
 
+int	parse_quotes(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (str[0] == '"')
+		while (str[i] && str[i] != '"')
+			i++;
+	else
+		while (str[i] && str[i] != '\'')
+			i++;
+	if (!str[i])
+		i = 0;
+	return (i);
+}
+
 int	parse_line(t_data *d, char *str)
 {
 	int		i;
@@ -68,17 +84,23 @@ int	parse_line(t_data *d, char *str)
 		else
 		{
 			while (str[i + j] && str[i + j] != ' ' && !is_meta(str[i + j]))
+			{
+				if (str[i + j] == '"' || str[i + j] == '\'')
+					j += parse_quotes(str + i + j);
 				j++;
+			}
 		}
 		if (j && new_tok(&t, str + i, j))
 			return (free(str), free_tok(t), write(2, "Error\n", 6), 1);
 		i += j;
 	}
 	free(str);
-	//print_tok(t);
-	if (syntax_check(t))
-		return (free_tok(t), write(2, "Syntax error\n", 13), 1);
-	if (init_list(d, t))
-		return (write(2, "Error\n", 6), 1);
+	print_tok(t);
+	(void)d;
+	free_tok(t);
+//	if (syntax_check(t))
+//		return (free_tok(t), write(2, "Syntax error\n", 13), 1);
+//	if (init_list(d, t))
+//		return (write(2, "Error\n", 6), 1);
 	return (0);
 }

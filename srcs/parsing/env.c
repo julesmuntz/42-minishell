@@ -12,17 +12,6 @@
 
 #include "minishell.h"
 
-static int	tab_size(char **env)
-{
-	int	i;
-
-	i = 0;
-	if (env)
-		while (env[i])
-			i++;
-	return (i);
-}
-
 static char	*itoa(int n, char *str)
 {
 	char	*tmp;
@@ -40,8 +29,7 @@ static char	*itoa(int n, char *str)
 	free(str);
 	return (tmp);
 }
-
-static int slvl_init(char *env, char **dest)
+static int	slvl_init(char *env, char **dest)
 {
 	int		n;
 	char	*str;
@@ -62,21 +50,13 @@ static int slvl_init(char *env, char **dest)
 	return (0);
 }
 
-static char	**free_tab_error(char **tab, int i)
-{
-	while (i--)
-		free(tab[i]);
-	free(tab);
-	return (0);
-}
-
 char	**init_env(char **env)
 {
 	int		size;
 	int		i;
 	char	**tab;
 
-	size = tab_size(env);
+	size = ft_arrstrlen(env);
 	tab = malloc((size + 1) * sizeof(char *));
 	if (!tab)
 		return (NULL);
@@ -85,12 +65,12 @@ char	**init_env(char **env)
 	{
 		if (!ft_strncmp(env[i], "SHLVL=", 6) \
 		&& slvl_init(env[i], &(tab[i])))
-			return (free_tab_error(tab, i), NULL);
+			return (ft_free_tab(tab), NULL);
 		else if (ft_strncmp(env[i], "SHLVL=", 6))
 		{
 			tab[i] = ft_strdup(env[i]);
 			if (!tab[i])
-				return (free_tab_error(tab, i), NULL);
+				return (ft_free_tab(tab), NULL);
 		}
 		i++;
 	}

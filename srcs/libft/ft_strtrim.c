@@ -34,7 +34,9 @@ char	*ft_strtrim(char *s1, char *set)
 	int		size;
 
 	i = 0;
-	j = ft_strlen(s1) - 1;
+	j = ft_strlen(s1);
+	if (j > 0)
+		j--;
 	while (ft_ischar(s1[i], set) && s1[i])
 		i++;
 	while (ft_ischar(s1[j], set) && j > 0)

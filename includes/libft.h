@@ -6,14 +6,13 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/31 18:47:50 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/01 08:25:03 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# define BUFFER_SIZE 100
 # define TRUE 1
 # define FALSE 0
 
@@ -33,7 +32,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t size);
 char	*ft_strdup(char *s);
 size_t	ft_strlen(char *s);
-size_t	ft_strlcpy(char *dst,  char *src, size_t size);
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
 char	*ft_strtrim(char *s1, char *set);
 int		ft_superatoi(char *nptr, int *res);
 char	*ft_strjoin(char *s1, char *s2);

@@ -14,6 +14,7 @@ NAME		=	minishell
 
 SRC_DIR		=	srcs/
 SRC 		=	main.c					\
+				history.c				\
 				$(addprefix parsing/,	\
 				env.c					\
 				tok_utils.c				\

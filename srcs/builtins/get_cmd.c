@@ -6,11 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 21:57:18 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/01/31 18:54:15 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/01 08:11:05 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "built_ins.h"
 
 static int	check_dots(char **env, t_builtins *data)
 {
