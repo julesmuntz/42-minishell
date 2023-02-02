@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 21:57:18 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/02 14:01:58 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:10:00 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,7 @@ void	get_cmd(t_builtins *data, t_data *d)
 	if (valid_input(d->env, data) == FALSE)
 		return ;
 	else if (valid_input(d->env, data) == CUSTOM)
-	{
 		execute_builtin(d->env, data);
-		return ;
-	}
 	else if (valid_input(d->env, data) == TRUE)
-	{
 		execve(data->cmd_path, data->cmd, d->env);
-		return ;
-	}
-	ft_free_lines(data->cmd);
 }

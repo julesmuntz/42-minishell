@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/01 08:25:03 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:59:49 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size);
 char	*ft_strtrim(char *s1, char *set);
 int		ft_superatoi(char *nptr, int *res);
 char	*ft_strjoin(char *s1, char *s2);
+void	ft_putstr(char *s);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

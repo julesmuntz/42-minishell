@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/02 13:42:40 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/02 20:01:06 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC 		=	main.c					\
 				cmd_echo.c				\
 				cmd_pwd.c				\
 				cmd_env.c				\
+				cmd_cd.c				\
 				)						\
 				$(addprefix libft/,		\
 				ft_strcmp.c				\
@@ -48,6 +49,7 @@ SRC 		=	main.c					\
 				ft_calloc.c				\
 				ft_bzero.c				\
 				ft_strlen.c				\
+				ft_putstr.c				\
 				)
 
 OBJ_DIR		=	obj/

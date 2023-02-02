@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/02 14:06:53 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:00:56 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int					execute_builtin(char **env, t_builtins *data);
 int					cmd_echo(t_builtins *data);
 int					cmd_pwd(void);
 int					cmd_env(char **env);
+int					cmd_cd(char **env, t_builtins *data);
 void				token_to_array(t_tok *head, char **array);
 
 #endif

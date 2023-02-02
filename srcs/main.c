@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/02 14:03:29 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 18:57:28 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int	prompt(t_data *d)
 		str = readline(COLOR PROMPT COLOR_RESET);
 		if (!str)
 			return (exit_shell(d, EXIT_FAILURE), 1);
+		if (parse_line(d, str, &data, t))
+			return (exit_shell(d, EXIT_FAILURE), 1);
+		if (ft_history(d, &str))
+			return (exit_shell(d, EXIT_FAILURE), 1);
 //////////////// boucle des commandes WIP ////////////
 		pid = fork();
 		if (pid == -1)
@@ -61,16 +65,13 @@ int	prompt(t_data *d)
 		{
 			if (!ft_strcmp(str, "exit"))
 				return (free(str), exit_shell(d, EXIT_SUCCESS), 0);
-			if (ft_history(d, &str))
-				return (exit_shell(d, EXIT_FAILURE), 1);
-			if (parse_line(d, str, &data, t))
-				return (exit_shell(d, EXIT_FAILURE), 1);
-			get_cmd(&data, d);
 			d->l = ft_lst_free(d->l);
+			get_cmd(&data, d);
+			free(str);
 			// str = readline(COLOR PROMPT COLOR_RESET);
 			// if (!str)
 			// 	return (exit_shell(d, EXIT_FAILURE), 1);
-			return (0);
+			return (exit_shell(d, EXIT_SUCCESS), 0);
 		}
 //////////////////////////////////////////////////////
 		// if (!ft_strcmp(str, "exit"))

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/02 14:05:45 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:02:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,13 @@ int	parse_line(t_data *d, char *str, t_builtins *data, t_tok *t)
 			return (free(str), free_tok(t), write(2, "Unexpected error\n", 17), 1);
 		i += j;
 	}
-	free(str);
 	data->cmd = malloc(sizeof(char *) * ft_tok_size(t));
 	token_to_array(t, data->cmd);
-//	print_tok(t);
-	(void)d;
 	// if (syntax_check(t))
 	// 	return (free_tok(t), write(2, "Syntax error\n", 13), 1);
 	// if (init_list(d, t))
 	// 	return (write(2, "Unexpected error\n", 17), 1);
-	return (0);
+//	print_tok(t);
+	(void)d;
 	return (0);
 }
