@@ -43,3 +43,31 @@ void	ft_free_redir(t_redir *ptr)
 		free(ptr);
 	}
 }
+
+//temp
+void	print_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		printf("%s, ", tab[i]);
+		i++;
+	}
+	printf("\n");
+}
+
+//temp
+void	print_redir(t_redir *tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab && tab[i].str)
+	{
+		printf("%s, ", tab[i].str);
+		i++;
+	}
+	printf("\n");
+}

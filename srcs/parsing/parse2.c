@@ -104,36 +104,6 @@ int	init_infile(t_lst **new, t_tok *t)
 	return (free_tok(t), 0);
 }
 
-int	init_arg(t_lst **new, t_tok *t)
-{
-	int		size;
-	int		i;
-	t_tok	*tmp;
-
-	if (t)
-	{
-		(*new)->cmd = ft_strdup(t->str);
-		if (!(*new)->cmd)
-			return (free_tok(t), 1);
-		size = ft_tok_size(t);
-		(*new)->arg = malloc((size + 1) * sizeof(char *));
-		if (!(*new)->arg)
-			return (free((*new)->cmd), free_tok(t), 1);
-		(*new)->arg[size] = NULL;
-		i = 0;
-		tmp = t;
-		while (tmp)
-		{
-			(*new)->arg[i] = ft_strdup(tmp->str);
-			if (!(*new)->arg[i])
-				return (free((*new)->cmd), free_tok(t), ft_free_tab(((*new)->arg)), 1);
-			tmp = tmp->next;
-			i++;
-		}
-	}
-	return (free_tok(t), 0);
-}
-
 int	init_cmd(t_data *d, t_tok *t)
 {
 	t_tok	*infile;
@@ -154,12 +124,21 @@ int	init_cmd(t_data *d, t_tok *t)
 	new->next = NULL;
 	parse_tok(&t, &infile, &outfile, &arg);
 	free_tok(t);
-	if (init_arg(&new, arg))
+
+	//print_tok(infile);
+	//print_tok(outfile);
+	//print_tok(arg);
+	//printf("\n");
+
+	if (init_arg(new, arg))
 		return (free_tok(infile), free_tok(outfile), free(new), 1);
-	if (init_infile(&new, infile))
-		return (free_tok(outfile), free(new->cmd), ft_free_tab(new->arg), 1);
-	if (init_outfile(&new, outfile))
-		return (free(new->cmd), ft_free_tab(new->arg), ft_free_redir(new->infile), 1);
+//	if (init_infile(&new, infile))
+//		return (free_tok(outfile), ft_lst_free(new), 1);
+//	if (init_outfile(&new, outfile))
+//		return (ft_lstfree(new), 1);
+	
+	free_tok(infile);
+	free_tok(outfile);
 	return (ft_lst_add_back(&d->l, new), 0);
 }
 
@@ -179,6 +158,7 @@ int	init_list(t_data *d, t_tok *t)
 		t = tmp;
 		if (init_cmd(d, cmd))
 			return (free_tok(t), 1);
+		//free_tok(cmd);
 	}
 	return (0);
 }

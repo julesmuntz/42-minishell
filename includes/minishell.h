@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/01 08:23:32 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:06:53 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define COLOR "\1\033[38;5;208m\2"
 # define COLOR_RESET "\1\x1b[0m\2"
 # define PROMPT "minishell > "
+# define CUSTOM 10
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -28,7 +29,6 @@
 # include <stdbool.h>
 # include <string.h>
 # include <sys/wait.h>
-# include "built_ins.h"
 # include "libft.h"
 
 typedef struct s_tok	//utilise pour parser la ligne recupere par le prompt
@@ -61,10 +61,17 @@ typedef struct s_data
 
 }					t_data;
 
+typedef struct s_builtins
+{
+	char			**cmd;
+	char			*cmd_path;
+	char			*cmd_to_execute;
+}					t_builtins;
+
 char				**free_tab(char **tab, int i);
 void				ft_free_redir(t_redir *ptr);
 char				**init_env(char **env);
-int					parse_line(t_data *d, char *line);
+int					parse_line(t_data *d, char *line, t_builtins *data, t_tok *t);
 int					init_list(t_data *d, t_tok *t);
 int					new_tok(t_tok **t, char *str, int j);
 void				free_tok(t_tok *t);
@@ -73,8 +80,20 @@ void				tok_extract(t_tok **t, t_tok **dest, t_tok *elem);
 void				ft_free_tab(char **tab);
 void				exit_shell(t_data *d, int code);
 void				ft_lst_add_back(t_lst **l, t_lst *new);
-void				ft_lst_free(t_lst *l);
-void				print_tok(t_tok *t);
+t_lst				*ft_lst_free(t_lst *l);
+void				print_tok(t_tok *t);		//temp
+void				print_tab(char **tab);		//temp
 int					ft_history(t_data *d, char **str);
+int					init_arg(t_lst *new, t_tok *t);
+void				print_redir(t_redir *tab);	//temp
+
+char				*find_cmd(char *cmd, char **env, t_builtins *data);
+void				get_cmd(t_builtins *data, t_data *d);
+int					valid_input(char **env, t_builtins *data);
+int					execute_builtin(char **env, t_builtins *data);
+int					cmd_echo(t_builtins *data);
+int					cmd_pwd(void);
+int					cmd_env(char **env);
+void				token_to_array(t_tok *head, char **array);
 
 #endif

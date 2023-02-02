@@ -6,11 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/01 08:11:10 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:30:34 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_ins.h"
+#include "minishell.h"
 
 static char	*find_paths(char **env)
 {

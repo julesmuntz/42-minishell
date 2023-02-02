@@ -6,11 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:21:43 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/01 08:11:05 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:18:24 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_ins.h"
+#include "minishell.h"
 
 int	cmd_env(char **env)
 {

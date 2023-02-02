@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/01 08:13:55 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:03:29 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,31 @@ void	exit_shell(t_data *d, int code)
 	exit(code);
 }
 
+//fonction temporaire pour afficher les commandes apres parsing
+void	ft_print_lst(t_lst *l)
+{
+	while (l)
+	{
+		printf("cmd = %s\n", l->cmd);
+		printf("arg= ");
+		print_tab(l->arg);
+		printf("infile= ");
+		print_redir(l->infile);
+		printf("outfile= ");
+		print_redir(l->outfile);
+		printf("\n");
+		l = l->next;
+	}
+}
+
 int	prompt(t_data *d)
 {
-	char *str;
+	pid_t		pid;
+	t_builtins	data;
+	t_tok		*t;
+	char		*str;
 
+	t = NULL;
 	str = NULL;
 	d->tmp = NULL;
 	while (1)
@@ -32,13 +53,35 @@ int	prompt(t_data *d)
 		str = readline(COLOR PROMPT COLOR_RESET);
 		if (!str)
 			return (exit_shell(d, EXIT_FAILURE), 1);
-		if (!ft_strcmp(str, "exit"))
-			return (free(str), exit_shell(d, EXIT_SUCCESS), 0);
-		get_cmd(str, d->env);
-		if (ft_history(d, &str))
-			return (exit_shell(d, EXIT_FAILURE), 1);
-		if (parse_line(d, str))
-			return (exit_shell(d, EXIT_FAILURE), 1);
+//////////////// boucle des commandes WIP ////////////
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		if (pid == 0)
+		{
+			if (!ft_strcmp(str, "exit"))
+				return (free(str), exit_shell(d, EXIT_SUCCESS), 0);
+			if (ft_history(d, &str))
+				return (exit_shell(d, EXIT_FAILURE), 1);
+			if (parse_line(d, str, &data, t))
+				return (exit_shell(d, EXIT_FAILURE), 1);
+			get_cmd(&data, d);
+			d->l = ft_lst_free(d->l);
+			// str = readline(COLOR PROMPT COLOR_RESET);
+			// if (!str)
+			// 	return (exit_shell(d, EXIT_FAILURE), 1);
+			return (0);
+		}
+//////////////////////////////////////////////////////
+		// if (!ft_strcmp(str, "exit"))
+		// 	return (free(str), exit_shell(d, EXIT_SUCCESS), 0);
+		// if (ft_history(d, &str))
+		// 	return (exit_shell(d, EXIT_FAILURE), 1);
+		// if (parse_line(d, str, &data, t))
+		// 	return (exit_shell(d, EXIT_FAILURE), 1);
+		// // ft_print_lst(d->l);
+		// d->l = ft_lst_free(d->l);
+		// get_cmd(&data, d);
 	}
 	return (0);
 }

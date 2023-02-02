@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tok_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/01/31 19:19:46 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:05:53 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	new_tok(t_tok **t, char *str, int j)
 	if (!new)
 		return (1);
 	new->str = malloc((j + 1) * sizeof(char));
-	if (!str)
+	if (!new->str)
 		return (free(new), 1);
 	ft_strlcpy(new->str, str, j + 1);
 	new->next = NULL;
@@ -86,4 +86,19 @@ void	tok_extract(t_tok **t, t_tok **dest, t_tok *elem)
 		tmp->next = elem->next;
 	}
 	elem->next = NULL;
+}
+
+void	token_to_array(t_tok *head, char **array)
+{
+	t_tok	*current;
+	int		i;
+
+	current = head;
+	i = 0;
+	while (current)
+	{
+		array[i] = current->str;
+		current = current->next;
+		i++;
+	}
 }

@@ -6,11 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 21:57:18 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/01 08:11:05 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:01:58 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_ins.h"
+#include "minishell.h"
 
 static int	check_dots(char **env, t_builtins *data)
 {
@@ -35,24 +35,20 @@ static int	check_dots(char **env, t_builtins *data)
 	return (0);
 }
 
-void	get_cmd(char *str, char **env)
+void	get_cmd(t_builtins *data, t_data *d)
 {
-	t_builtins	data;
-	int			i;
-
-	i = -1;
-	while (str[++i])
-		if (!ft_isspace(str[i]))
-			break ;
-	if (!str[i])
+	check_dots(d->env, data);
+	if (valid_input(d->env, data) == FALSE)
 		return ;
-	data.cmd = ft_split(str, ' ');
-	check_dots(env, &data);
-	if (valid_input(env, &data) == FALSE)
+	else if (valid_input(d->env, data) == CUSTOM)
+	{
+		execute_builtin(d->env, data);
 		return ;
-	else if (valid_input(env, &data) == CUSTOM)
-		execute_builtin(env, &data);
-	else if (valid_input(env, &data) == TRUE)
-		execute_builtin(env, &data);
-	ft_free_lines(data.cmd);
+	}
+	else if (valid_input(d->env, data) == TRUE)
+	{
+		execve(data->cmd_path, data->cmd, d->env);
+		return ;
+	}
+	ft_free_lines(data->cmd);
 }

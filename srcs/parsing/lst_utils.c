@@ -27,12 +27,10 @@ void	ft_lst_add_back(t_lst **l, t_lst *new)
 	}
 }
 
-void	ft_lst_free(t_lst *l)
+t_lst	*ft_lst_free(t_lst *l)
 {
 	t_lst	*tmp;
 
-	if (!l)
-		return ;
 	while (l)
 	{
 		tmp = l;
@@ -43,4 +41,5 @@ void	ft_lst_free(t_lst *l)
 		ft_free_redir(tmp->outfile);
 		free(tmp);
 	}
+	return (NULL);
 }

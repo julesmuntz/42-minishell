@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_echo.c                                         :+:      :+:    :+:   */
+/*   cmd_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/02 13:59:37 by julmuntz         ###   ########.fr       */
+/*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
+/*   Updated: 2023/02/01 21:51:54 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_echo(t_builtins *data)
+int	cmd_cd(t_builtins *data)
 {
-	int	i;
-
-	i = 1;
-	if (!data->cmd[1])
-		printf("\n");
-	else if (data->cmd[1])
+	if (data->cmd[1])
 	{
-		while (data->cmd[i])
-		{
-			printf("%s", data->cmd[i]);
-			if ((i + 1) == (int)ft_arrstrlen(data->cmd))
-				break ;
-			printf(" ");
-			i++;
-		}
-		printf("\n");
+		chdir(data->cmd[1]);
 	}
 	return (0);
 }
