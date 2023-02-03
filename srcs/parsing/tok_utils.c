@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/02 14:05:53 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:19:50 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,4 @@ void	tok_extract(t_tok **t, t_tok **dest, t_tok *elem)
 		tmp->next = elem->next;
 	}
 	elem->next = NULL;
-}
-
-void	token_to_array(t_tok *head, char **array)
-{
-	t_tok	*current;
-	int		i;
-
-	current = head;
-	i = 0;
-	while (current)
-	{
-		array[i] = current->str;
-		current = current->next;
-		i++;
-	}
 }

@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/02 20:01:06 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/03 15:22:39 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC 		=	main.c					\
 				parse.c					\
 				parse2.c				\
 				init_arg.c				\
+				init_redir.c			\
 				)						\
 				$(addprefix builtins/,	\
 				get_cmd.c				\

@@ -21,10 +21,10 @@ void	ft_free_tab(char **tab)
 	{
 		while (tab[i])
 		{
-		free(tab[i]);
+			free(tab[i]);
 			i++;
 		}
-	free(tab);
+		free(tab);
 	}
 }
 
@@ -66,7 +66,7 @@ void	print_redir(t_redir *tab)
 	i = 0;
 	while (tab && tab[i].str)
 	{
-		printf("%s, ", tab[i].str);
+		printf("%s [%d], ", tab[i].str, tab[i].type);
 		i++;
 	}
 	printf("\n");
