@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_count_chars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 21:57:18 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/04 15:31:57 by julmuntz         ###   ########.fr       */
+/*   Created: 2023/02/04 15:45:22 by julmuntz          #+#    #+#             */
+/*   Updated: 2023/02/04 15:50:40 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	get_cmd(char **cmd, t_data *d)
+int	ft_count_chars(char *str, char c)
 {
-	t_builtins	data;
-	int			i;
+	int	i;
+	int	count;
 
 	i = 0;
-	data.cmd = cmd;
-	if (valid_input(&data, d) == FALSE)
-		return (1);
-	else if (valid_input(&data, d) == CUSTOM)
-		execute_builtin(&data, d);
-//	else if (valid_input(&data, d) == TRUE)
-//		execve(data.cmd_path, data.cmd, d->env);
-	return (1);
+	count = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
 }

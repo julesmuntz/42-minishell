@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/03 15:22:39 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/04 15:51:41 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC 		=	main.c					\
 				ft_bzero.c				\
 				ft_strlen.c				\
 				ft_putstr.c				\
+				ft_count_chars.c		\
 				)
 
 OBJ_DIR		=	obj/

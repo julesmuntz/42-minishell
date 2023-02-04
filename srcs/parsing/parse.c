@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:03 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:54:35 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	is_meta(char *str)
 	return (i);
 }
 
-int	parse_quotes(char *str)
+int	parse_quotes(t_data *d, char *str, int pos)
 {
 	int	i;
 
@@ -55,14 +55,18 @@ int	parse_quotes(char *str)
 			i++;
 	if (!str[i])
 		i = 0;
+	else
+		d->hide_quotes[pos] = TRUE;
 	return (i);
 }
 
-static int	parse_line(t_tok **t, char *str)
+static int	parse_line(t_tok **t, char *str, t_data *d)
 {
+	int		count;
 	int		i;
 	int		j;
 
+	count = 0;
 	i = 0;
 	while (str[i])
 	{
@@ -74,10 +78,11 @@ static int	parse_line(t_tok **t, char *str)
 			while (str[i + j] && str[i + j] != ' ' && !is_meta(str + i + j))
 			{
 				if (str[i + j] == '"' || str[i + j] == '\'')
-					j += parse_quotes(str + i + j);
+					j += parse_quotes(d, str + i + j, count);
 				j++;
 			}
 		}
+		count++;
 		if (j && new_tok(t, str + i, j))
 			return (free(str), free_tok(*t), 1);
 		i += j;
@@ -92,11 +97,12 @@ int	parsing(t_data *d, char *str)
 	t = NULL;
 	if (*str == 0)
 		return (free(str), 0);
-	if (parse_line(&t, str))
+	d->hide_quotes = ft_calloc(sizeof(int), ft_strlen(str));
+	if (parse_line(&t, str, d))
 		return (write(2, "Unexpected error\n", 17), 1);
 	free(str);
 	if (syntax_check(t))
-		return (free_tok(t), write(2, "Syntax error\n", 13), 1);
+		return (free_tok(t), write(2, "Syntax error\n", 13), 0);
 	if (init_list(d, t))
 		return (write(2, "Unexpected error\n", 17), 1);
 	return (0);
