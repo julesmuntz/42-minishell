@@ -42,7 +42,7 @@ static int	is_meta(char *str)
 	return (i);
 }
 
-int	parse_quotes(t_data *d, char *str, int pos)
+int	parse_quotes(char *str)
 {
 	int	i;
 
@@ -53,20 +53,16 @@ int	parse_quotes(t_data *d, char *str, int pos)
 	else
 		while (str[i] && str[i] != '\'')
 			i++;
-	if (!str[i])
+	if (str[i] == 0)
 		i = 0;
-	else
-		d->hide_quotes[pos] = TRUE;
 	return (i);
 }
 
-static int	parse_line(t_tok **t, char *str, t_data *d)
+static int	parse_line(t_tok **t, char *str)
 {
-	int		count;
 	int		i;
 	int		j;
 
-	count = 0;
 	i = 0;
 	while (str[i])
 	{
@@ -78,11 +74,10 @@ static int	parse_line(t_tok **t, char *str, t_data *d)
 			while (str[i + j] && str[i + j] != ' ' && !is_meta(str + i + j))
 			{
 				if (str[i + j] == '"' || str[i + j] == '\'')
-					j += parse_quotes(d, str + i + j, count);
+					j += parse_quotes(str + i + j);
 				j++;
 			}
 		}
-		count++;
 		if (j && new_tok(t, str + i, j))
 			return (free(str), free_tok(*t), 1);
 		i += j;
@@ -97,8 +92,10 @@ int	parsing(t_data *d, char *str)
 	t = NULL;
 	if (*str == 0)
 		return (free(str), 0);
-	d->hide_quotes = ft_calloc(sizeof(int), ft_strlen(str));
-	if (parse_line(&t, str, d))
+	str = expand_vars(d, str);
+	if (!str)
+		return (write(2, "Unexpected error\n", 17), 1);
+	if (parse_line(&t, str))
 		return (write(2, "Unexpected error\n", 17), 1);
 	free(str);
 	if (syntax_check(t))

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/03 18:22:05 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:46:24 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*find_cmd(char *str, char **env, t_builtins *data)
 			free(path);
 			if (!access(data->cmd_path, F_OK))
 				return (data->cmd_path);
-			free(data->cmd_path);
 		}
 		else
 			data->cmd_path = str;

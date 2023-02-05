@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/04 15:35:02 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:01:17 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 # define COLOR "\1\033[38;5;208m\2"
 # define COLOR_RESET "\1\x1b[0m\2"
-# define PROMPT "minishell > "
+# define PROMPT "@minishell:"
 # define CUSTOM 10
 
 # include <stdio.h>
@@ -58,7 +58,7 @@ typedef struct s_data
 	t_lst			*l;				//la liste des commandes apres le parsing
 	char			*tmp;			//une string qui garde le dernier input ajoute a l'historique. si on renvoie le meme ne sera pas ajoute	
 	char			**env;			//l'environnement de notre shell. c'est une copie de l'environnement recupere en argument donc on peut le modifier au besoin.
-	int				*hide_quotes;	//booleen pour print (ou non) les quotes
+	char			*prompt;		//string du prompt qui affiche le path actuel du user
 }					t_data;
 
 typedef struct s_builtins
@@ -86,6 +86,9 @@ int					ft_history(t_data *d, char **str);
 int					init_arg(t_lst *new, t_tok *t);
 void				print_redir(t_redir *tab);	//temp
 int					init_redir(t_redir **tab, t_tok *t);
+char				*expand_vars(t_data *d, char *str);
+int					parse_quotes(char *str);
+int					ft_tok_join(t_tok *t, char **str);
 
 char				*find_cmd(char *str, char **env, t_builtins *data);
 int					get_cmd(char **cmd, t_data *d);
@@ -95,5 +98,7 @@ int					cmd_echo(t_builtins *data, t_data *d);
 int					cmd_cd(t_builtins *data, t_data *d);
 int					cmd_pwd(void);
 int					cmd_env(char **env);
+void				refresh_prompt(t_data *d);
+int					exe_cmd(t_data *d);
 
 #endif

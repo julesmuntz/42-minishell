@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/04 16:11:18 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/05 19:50:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,21 @@ void	ft_print_lst(t_lst *l)
 	}
 }
 
-static int	exe_cmd(t_data *d)
+int	ft_history(t_data *d, char **str)
 {
-	char	**cmd;
+	char	*s;
 
-	cmd = d->l->arg;
-	if (!get_cmd(cmd, d))
-		return (ft_lst_free(d->l), exit_shell(d, EXIT_SUCCESS), 1);
+	s = ft_strtrim(*str, " ");
+	free(*str);
+	if (!s)
+		return (1);
+	*str = s;
+	if (!d->tmp || (d->tmp && ft_strcmp(s, d->tmp) && s[0]))
+		add_history(s);
+	free(d->tmp);
+	d->tmp = ft_strdup(s);
+	if (!d->tmp)
+		return (free(s), 1);
 	return (0);
 }
 
@@ -56,7 +64,8 @@ void	prompt(t_data *d)
 	d->tmp = NULL;
 	while (1)
 	{
-		str = readline(COLOR PROMPT COLOR_RESET);
+		refresh_prompt(d);
+		str = readline(d->prompt);
 		if (!str)
 			return (exit_shell(d, EXIT_FAILURE));
 		if (ft_history(d, &str))

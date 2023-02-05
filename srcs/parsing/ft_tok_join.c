@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_arg.c                                         :+:      :+:    :+:   */
+/*   ft_tok_join.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenicho <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,41 +12,41 @@
 
 #include "minishell.h"
 
-static int	init_arg2(t_lst *new, t_tok *t, int size)
+static int	count_size(t_tok *t)
 {
-	int		i;
-	t_tok	*tmp;
+	int	i;
 
-	i = 0;
-	tmp = t;
-	while (i < size)
+	i = 1;
+	while (t)
 	{
-		new->arg[i] = ft_strdup(tmp->str);
-		if (!new->arg[i])
-			return (1);
-		tmp = tmp->next;
-		i++;
+		i += (ft_strlen(t->str));
+		t = t->next;
 	}
-	new->arg[i] = NULL;
-	return (0);
+	return (i);
 }
 
-int	init_arg(t_lst *new, t_tok *t)
+int	ft_tok_join(t_tok *t, char **str)
 {
-	int		size;
+	int		i;
+	int		j;
+	t_tok	*tmp;
 
-	if (t)
+	*str = malloc(count_size(t) * sizeof(char));
+	if (!*str)
+		return (1);
+	i = 0;
+	tmp = t;
+	while (tmp)
 	{
-		new->cmd = ft_strdup(t->str);
-		if (!new->cmd)
-			return (free_tok(t), 1);
-		size = ft_tok_size(t);
-		new->arg = malloc((size + 1) * sizeof(char *));
-		if (!new->arg)
-			return (free(new->cmd), free_tok(t), 1);
-		if (init_arg2(new, t, size))
-			return (free(new->cmd), free_tok(t), \
-			ft_free_tab((new->arg)), 1);
+		j = 0;
+		while (tmp->str[j])
+		{
+			(*str)[i] = tmp->str[j];
+			j++;
+			i++;
+		}
+		tmp = tmp->next;
 	}
-	return (free_tok(t), 0);
+	(*str)[i] = 0;
+	return (0);
 }

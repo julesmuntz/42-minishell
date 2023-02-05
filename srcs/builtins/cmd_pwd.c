@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:31:40 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/01 18:18:24 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:18:25 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cmd_pwd(void)
 {
-	char	path[1024];
+	char	path[4096];
 
 	printf("%s\n", getcwd(path, sizeof(path)));
 	return (0);

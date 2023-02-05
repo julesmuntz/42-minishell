@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/04 15:51:41 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/05 19:35:53 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	minishell
 
 SRC_DIR		=	srcs/
 SRC 		=	main.c					\
-				history.c				\
+				main2.c					\
 				$(addprefix parsing/,	\
 				env.c					\
 				tok_utils.c				\
@@ -24,6 +24,8 @@ SRC 		=	main.c					\
 				parse2.c				\
 				init_arg.c				\
 				init_redir.c			\
+				expand.c				\
+				ft_tok_join.c			\
 				)						\
 				$(addprefix builtins/,	\
 				get_cmd.c				\
@@ -58,7 +60,7 @@ OBJ_DIR		=	obj/
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 CC			=	cc
-CFLAGS		=	-Iincludes -Wall -Wextra -Werror -g
+CFLAGS		=	-Iincludes -g
 RM			=	rm -f
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
@@ -66,7 +68,7 @@ $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 					$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJ)
-					$(CC) $(CFLAGS) $(OBJ) -o $@ -lreadline
+					@$(CC) $(CFLAGS) $(OBJ) -o $@ -lreadline
 
 all:			$(NAME)
 
