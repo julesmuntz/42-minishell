@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <julmuntz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 22:18:46 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/02/05 22:55:27 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*expand_vars(t_data *d, char *str)
 		return (NULL);
 	free(str);
 	if (replace_var(d, t))
-		return (free_tok, NULL);
+		return (free_tok(t), NULL);
 	if (ft_tok_join(t, &line))
 		return (free_tok(t), NULL);
 	return (free_tok(t), line);

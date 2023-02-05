@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/05 19:35:53 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/05 22:55:03 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ OBJ_DIR		=	obj/
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 CC			=	cc
-CFLAGS		=	-Iincludes -g
+CFLAGS		=	-Iincludes -Wall -Wextra -Werror -g
 RM			=	rm -f
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
