@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 21:01:17 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/05 23:23:36 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int					cmd_echo(t_builtins *data, t_data *d);
 int					cmd_cd(t_builtins *data, t_data *d);
 int					cmd_pwd(void);
 int					cmd_env(char **env);
+void				cmd_exit(t_builtins *data, t_data *d);
 void				refresh_prompt(t_data *d);
 int					exe_cmd(t_data *d);
 
