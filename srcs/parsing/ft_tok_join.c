@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tok_join.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <julmuntz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
 /*   Updated: 2023/02/05 22:18:46 by mbenicho         ###   ########.fr       */

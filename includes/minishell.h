@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 23:23:36 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/06 12:46:58 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int					init_redir(t_redir **tab, t_tok *t);
 char				*expand_vars(t_data *d, char *str);
 int					parse_quotes(char *str);
 int					ft_tok_join(t_tok *t, char **str);
+int					remove_quotes(char *s, char **str);
 
 char				*find_cmd(char *str, char **env, t_builtins *data);
 int					get_cmd(char **cmd, t_data *d);

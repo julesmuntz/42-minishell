@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/05 23:02:24 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:48:02 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,16 @@ int	cmd_cd(t_builtins *data, t_data *d)
 {
 	char	*path;
 
+	if (!ft_strcmp(data->cmd[1], "~") || !data->cmd[1])
+	{
+		chdir(getenv("HOME"));
+		return (0);
+	}
+	else if (!data->cmd[1])
+		return (0);
 	if (data->cmd[2])
 	{
 		printf("bash: %s: too many arguments\n", data->cmd[0]);
-		return (0);
-	}
-	if (!ft_strcmp(data->cmd[1], "~"))
-	{
-		chdir(getenv("OLDPWD"));
 		return (0);
 	}
 	path = find_dir(data->cmd[1], d->env, data);

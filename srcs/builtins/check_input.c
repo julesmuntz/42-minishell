@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/05 23:24:45 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/06 12:46:08 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,21 @@ char	*find_cmd(char *str, char **env, t_builtins *data)
 
 static int	custom_builtins(char *str, t_builtins *data)
 {
-	if (ft_isspace_null(str[4]) && !ft_strncmp(str, "echo", 4))
-		data->cmd_to_execute = "echo";
-	else if (ft_isspace_null(str[2]) && !ft_strncmp(str, "cd", 2))
-		data->cmd_to_execute = "cd";
-	else if (ft_isspace_null(str[3]) && !ft_strncmp(str, "pwd", 3))
-		data->cmd_to_execute = "pwd";
-	else if (ft_isspace_null(str[6]) && !ft_strncmp(str, "export", 6))
-		data->cmd_to_execute = "export";
-	else if (ft_isspace_null(str[5]) && !ft_strncmp(str, "unset", 5))
-		data->cmd_to_execute = "unset";
-	else if (ft_isspace_null(str[3]) && !ft_strncmp(str, "env", 3))
-		data->cmd_to_execute = "env";
-	else if (ft_isspace_null(str[4]) && !ft_strncmp(str, "exit", 4))
-		data->cmd_to_execute = "exit";
-	else
-		return (FALSE);
-	return (TRUE);
+	if (!ft_strcmp(str, "exit"))
+		return (data->cmd_to_execute = "exit", TRUE);
+	else if (!ft_strcmp(str, "echo"))
+		return (data->cmd_to_execute = "echo", TRUE);
+	else if (!ft_strcmp(str, "cd"))
+		return (data->cmd_to_execute = "cd", TRUE);
+	else if (!ft_strcmp(str, "pwd"))
+		return (data->cmd_to_execute = "pwd", TRUE);
+	else if (!ft_strcmp(str, "export"))
+		return (data->cmd_to_execute = "export", TRUE);
+	else if (!ft_strcmp(str, "unset"))
+		return (data->cmd_to_execute = "unset", TRUE);
+	else if (!ft_strcmp(str, "env"))
+		return (data->cmd_to_execute = "env", TRUE);
+	return (0);
 }
 
 int	valid_input(t_builtins *data, t_data *d)
@@ -87,7 +85,7 @@ int	valid_input(t_builtins *data, t_data *d)
 		return (FALSE);
 	}
 	if (execve(find_cmd(*data->cmd, d->env, data), data->cmd, d->env) == -1)
-		return (TRUE);
+		return (FALSE);
 	return (TRUE);
 }
 

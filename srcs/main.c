@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 23:35:14 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/06 12:18:05 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	exit_shell(t_data *d, int code)
 {
 	rl_clear_history();
+	free(d->prompt);
 	ft_free_tab(d->env);
 	ft_lst_free(d->l);
 	free(d->tmp);
@@ -72,7 +73,6 @@ void	prompt(t_data *d)
 			return (exit_shell(d, EXIT_FAILURE));
 		if (parsing(d, str))
 			return (exit_shell(d, EXIT_FAILURE));
-		ft_print_lst(d->l);
 		exe_cmd(d);
 		d->l = ft_lst_free(d->l);
 	}

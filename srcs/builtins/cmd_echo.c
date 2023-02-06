@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/05 22:56:30 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:58:06 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	cmd_echo(t_builtins *data, t_data *d)
 	int	i;
 
 	i = 1;
+	if (ft_strnstr(data->cmd[1], "-n", 2))
+		i = 2;
 	(void)d;
 	if (!data->cmd[1])
 		printf("\n");
@@ -30,7 +32,8 @@ int	cmd_echo(t_builtins *data, t_data *d)
 			printf(" ");
 			i++;
 		}
-		printf("\n");
+		if (!ft_strnstr(data->cmd[1], "-n", 2))
+			printf("\n");
 	}
 	return (0);
 }

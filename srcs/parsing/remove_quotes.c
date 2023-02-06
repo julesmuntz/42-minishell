@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_redir.c                                       :+:      :+:    :+:   */
+/*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,41 +12,45 @@
 
 #include "minishell.h"
 
-static int	init_redir2(t_redir **tab, t_tok *t, int size)
+static int	isolate_quotes(t_tok **t, char *s)
 {
-	int		i;
-	t_tok	*tmp;
+	int	i;
+	int	j;
 
 	i = 0;
-	tmp = t;
-	while (i < size)
+	while (s[i])
 	{
-		(*tab)[i].type = 0;
-		if (ft_strlen(tmp->str) == 2)
-			(*tab)[i].type = 1;
-		tmp = tmp->next;
-		(*tab)[i].str = ft_strdup(tmp->str);
-		if (!(*tab)->str)
-			return (1);
-		tmp = tmp->next;
-		i++;
+		j = parse_quotes(s + i);
+		if (j)
+			j++;
+		if (j == 0)
+		{
+			while (s[i + j])
+			{
+				if ((s[i + j] == '"' || s[i + j] == '\'') && \
+				parse_quotes(s + i + j))
+					break ;
+				j++;
+			}
+			if (j && new_tok(t, s + i, j))
+				return (free_tok(*t), 1);
+		}
+		else if (j && new_tok(t, s + i + 1, j - 2))
+			return (free_tok(*t), 1);
+		i += j;
 	}
-	(*tab)[i].str = NULL;
 	return (0);
 }
 
-int	init_redir(t_redir **tab, t_tok *t)
+int	remove_quotes(char *s, char **str)
 {
-	int		size;
+	t_tok	*t;
 
-	if (t)
-	{
-		size = ft_tok_size(t) / 2;
-		*tab = malloc((size + 1) * sizeof(t_redir));
-		if (!*tab)
-			return (free_tok(t), 1);
-		if (init_redir2(tab, t, size))
-			return (free_tok(t), ft_free_redir(*tab), *tab = NULL, 1);
-	}
-	return (free_tok(t), 0);
+	t = NULL;
+	if (isolate_quotes(&t, s))
+		return (1);
+	if (ft_tok_join(t, str))
+		return (free_tok(t), 1);
+	free_tok(t);
+	return (0);
 }

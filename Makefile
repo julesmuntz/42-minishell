@@ -26,6 +26,7 @@ SRC 		=	main.c					\
 				init_redir.c			\
 				expand.c				\
 				ft_tok_join.c			\
+				remove_quotes.c			\
 				)						\
 				$(addprefix builtins/,	\
 				get_cmd.c				\
