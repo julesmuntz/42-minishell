@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/05 22:18:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:25:12 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	exe_cmd(t_data *d)
 {
-	char	**cmd;
+	char	**no_path;
+	char	**with_path;
 
-	cmd = d->l->arg;
-	if (!get_cmd(cmd, d))
+	no_path = d->l->arg;
+	with_path = d->l->arg_path;
+	if (!get_cmd(no_path, with_path, d))
 		return (ft_lst_free(d->l), exit_shell(d, EXIT_SUCCESS), 1);
 	return (0);
 }
@@ -66,4 +68,10 @@ void	refresh_prompt(t_data *d)
 	d->prompt = ft_strdup(tmp);
 	free(cur_dir);
 	free(tmp);
+}
+
+void	handle_signals(int sig)
+{
+	if (sig == SIGINT)
+		return ;
 }

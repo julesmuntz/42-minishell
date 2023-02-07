@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/06 12:46:58 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:22:29 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define COLOR_RESET "\1\x1b[0m\2"
 # define PROMPT "@minishell:"
 # define CUSTOM 10
+# define _GNU_SOURCE
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,6 +30,7 @@
 # include <stdbool.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include "libft.h"
 
 typedef struct s_tok	//utilise pour parser la ligne recupere par le prompt
@@ -48,6 +50,7 @@ typedef struct s_lst
 	int				pid;		//pour stocker l'id du process
 	char			*cmd;		//nom de la commande en gardant le path
 	char			**arg;		//tableau d'arguments du type {cmd(sans path), arg1, arg2, ...,  NULL}
+	char			**arg_path;	//tableau d'arguments du type {cmd(avec path), arg1, arg2, ...,  NULL}
 	t_redir			*infile;	//tableau de infile a ouvrir dans l'ordre
 	t_redir			*outfile;	//tableau de outfile a ouvrir dans l'ordre
 	struct s_lst	*next;
@@ -59,13 +62,15 @@ typedef struct s_data
 	char			*tmp;			//une string qui garde le dernier input ajoute a l'historique. si on renvoie le meme ne sera pas ajoute	
 	char			**env;			//l'environnement de notre shell. c'est une copie de l'environnement recupere en argument donc on peut le modifier au besoin.
 	char			*prompt;		//string du prompt qui affiche le path actuel du user
+	pid_t			pid;			//process id pour le prompt
 }					t_data;
 
 typedef struct s_builtins
 {
-	char			**cmd;
-	char			*cmd_path;
-	char			*cmd_to_execute;
+	char			**cmd;				//copie de t_lst->arg
+	char			**cmd_with_path;	//copie de t_lst->arg_path
+	char			*cmd_path;			//dernier path trouvé
+	char			*cmd_to_execute;	//prochaine commande executée
 }					t_builtins;
 
 char				**free_tab(char **tab, int i);
@@ -92,7 +97,7 @@ int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
 char				*find_cmd(char *str, char **env, t_builtins *data);
-int					get_cmd(char **cmd, t_data *d);
+int					get_cmd(char **no_path, char **with_path, t_data *d);
 int					valid_input(t_builtins *data, t_data *d);
 int					execute_builtin(t_builtins *data, t_data *d);
 int					cmd_echo(t_builtins *data, t_data *d);
@@ -102,5 +107,7 @@ int					cmd_env(char **env);
 void				cmd_exit(t_builtins *data, t_data *d);
 void				refresh_prompt(t_data *d);
 int					exe_cmd(t_data *d);
+char				*find_dir(char *str, char **env);
+void				handle_signals(int sig);
 
 #endif
