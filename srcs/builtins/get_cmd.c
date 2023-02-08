@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 21:57:18 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/07 20:23:50 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:06:26 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,13 @@
 
 static int	check(char **env, t_builtins *data)
 {
-	if (!find_dir(data->cmd[0], env))
-		return (printf("bash: %s: is a directory\n", data->cmd[0]), 0);
-	else if (!ft_strcmp(data->cmd[0], ".") && !data->cmd[1])
-		return (printf("bash: %s: filename argument required\n\
-%s: usage: . filename [arguments]\n", data->cmd[0], data->cmd[0]), 0);
-	else if (!ft_strcmp(data->cmd[0], ".") && !find_dir(data->cmd[1], env))
-		return (printf("bash: %s: %s: is a directory\n", data->cmd[0],
-				data->cmd[1]), 0);
-	else if (!ft_strcmp(data->cmd[0], ".") && find_cmd(data->cmd[1], env, data))
-		return (printf("bash: %s: %s: cannot execute binary file\n",
-				data->cmd[0], data->cmd_path), 0);
-	else if (!ft_strcmp(data->cmd[0], ".") && find_dir(data->cmd[1], env))
-		return (printf("bash: %s: %s: No such file or directory\n",
-				data->cmd[0], data->cmd[1]), 0);
-	else if (!ft_strcmp(data->cmd[0], ".."))
-		return (printf("%s: command not found\n", data->cmd[0]), 0);
+	if (ft_strchr(data->cmd_with_path[0], '/')
+		&& find_cmd(data->cmd_with_path[0], env, data))
+		return (printf("bash: %s: Is a directory\n", data->cmd_with_path[0]),
+			0);
+	else if (!ft_strcmp(data->cmd_with_path[0], ".")
+		|| !ft_strcmp(data->cmd_with_path[0], ".."))
+		return (printf("%s: command not found\n", data->cmd_with_path[0]), 0);
 	return (0);
 }
 

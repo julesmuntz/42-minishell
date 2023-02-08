@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/06 12:46:08 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:06:57 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,13 @@ int	valid_input(t_builtins *data, t_data *d)
 {
 	if (custom_builtins(*data->cmd, data) == TRUE)
 		return (CUSTOM);
-	if (!find_cmd(*data->cmd, d->env, data))
+	if (!find_cmd(*data->cmd_with_path, d->env, data))
 	{
-		if (ft_strchr(*data->cmd, '/'))
-			printf("bash: %s: No such file or directory\n", *data->cmd);
+		if (ft_strchr(*data->cmd_with_path, '/'))
+			printf("bash: %s: No such file or directory\n",
+				*data->cmd_with_path);
 		else
-			printf("%s: command not found\n", *data->cmd);
+			printf("%s: command not found\n", *data->cmd_with_path);
 		return (FALSE);
 	}
 	if (execve(find_cmd(*data->cmd, d->env, data), data->cmd, d->env) == -1)
