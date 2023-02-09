@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 22:18:46 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:51:38 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_quotes(char *s, int i, int j)
+{
+	if ((s[i + j] == '"' || s[i + j] == '\'') && parse_quotes(s + i + j))
+		return (1);
+	return (0);
+}
 
 static int	isolate_quotes(t_tok **t, char *s)
 {
@@ -27,8 +34,7 @@ static int	isolate_quotes(t_tok **t, char *s)
 		{
 			while (s[i + j])
 			{
-				if ((s[i + j] == '"' || s[i + j] == '\'') && \
-				parse_quotes(s + i + j))
+				if (is_quotes(s, i, j))
 					break ;
 				j++;
 			}

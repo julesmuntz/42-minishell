@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/07 20:22:29 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:26:11 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int					cmd_cd(t_builtins *data, t_data *d);
 int					cmd_pwd(void);
 int					cmd_env(char **env);
 void				cmd_exit(t_builtins *data, t_data *d);
-void				refresh_prompt(t_data *d);
+int					refresh_prompt(t_data *d);
 int					exe_cmd(t_data *d);
 char				*find_dir(char *str, char **env);
 void				handle_signals(int sig);

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/04 15:51:16 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:33:17 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ char	*ft_strjoin(char *s1, char *s2);
 void	ft_putstr(char *s);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_count_chars(char *str, char c);
+char	*ft_strcat(char *dest, char *src);
+char	*ft_bigcat(char *s1, char *s2, char *s3, char *s4);
 
 #endif
