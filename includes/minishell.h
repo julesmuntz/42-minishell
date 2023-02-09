@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/09 12:26:11 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:01:15 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_builtins
 	char			**cmd_with_path;	//copie de t_lst->arg_path
 	char			*cmd_path;			//dernier path trouvé
 	char			*cmd_to_execute;	//prochaine commande executée
+	char			**env_export;		//réplique du char** utilisé par export
 }					t_builtins;
 
 char				**free_tab(char **tab, int i);
@@ -103,6 +104,7 @@ int					execute_builtin(t_builtins *data, t_data *d);
 int					cmd_echo(t_builtins *data, t_data *d);
 int					cmd_cd(t_builtins *data, t_data *d);
 int					cmd_pwd(void);
+void				cmd_export(t_builtins *data, t_data *d);
 int					cmd_env(char **env);
 void				cmd_exit(t_builtins *data, t_data *d);
 int					refresh_prompt(t_data *d);

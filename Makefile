@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/09 12:31:09 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/09 19:05:45 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC 		=	main.c					\
 				check_input.c			\
 				cmd_echo.c				\
 				cmd_pwd.c				\
+				cmd_export.c			\
 				cmd_env.c				\
 				cmd_cd.c				\
 				cmd_exit.c				\
@@ -58,6 +59,7 @@ SRC 		=	main.c					\
 				ft_count_chars.c		\
 				ft_bigcat.c				\
 				ft_strcat.c				\
+				ft_sort_array.c			\
 				)
 
 OBJ_DIR		=	obj/
