@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/09 18:01:15 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/10 22:19:38 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,17 @@ typedef struct s_lst
 	struct s_lst	*next;
 }					t_lst;
 
+typedef struct s_export
+{
+	char			*key;
+	char			*value;
+	struct s_export	*next;
+}					t_export;
+
 typedef struct s_data
 {
 	t_lst			*l;				//la liste des commandes apres le parsing
+	t_export		*x;				//la liste des variables d'export
 	char			*tmp;			//une string qui garde le dernier input ajoute a l'historique. si on renvoie le meme ne sera pas ajoute	
 	char			**env;			//l'environnement de notre shell. c'est une copie de l'environnement recupere en argument donc on peut le modifier au besoin.
 	char			*prompt;		//string du prompt qui affiche le path actuel du user
@@ -71,7 +79,6 @@ typedef struct s_builtins
 	char			**cmd_with_path;	//copie de t_lst->arg_path
 	char			*cmd_path;			//dernier path trouvé
 	char			*cmd_to_execute;	//prochaine commande executée
-	char			**env_export;		//réplique du char** utilisé par export
 }					t_builtins;
 
 char				**free_tab(char **tab, int i);
@@ -104,12 +111,25 @@ int					execute_builtin(t_builtins *data, t_data *d);
 int					cmd_echo(t_builtins *data, t_data *d);
 int					cmd_cd(t_builtins *data, t_data *d);
 int					cmd_pwd(void);
-void				cmd_export(t_builtins *data, t_data *d);
+void				cmd_export(t_data *d);
 int					cmd_env(char **env);
 void				cmd_exit(t_builtins *data, t_data *d);
 int					refresh_prompt(t_data *d);
 int					exe_cmd(t_data *d);
 char				*find_dir(char *str, char **env);
 void				handle_signals(int sig);
+
+void				init_export(t_data *d);
+t_export			*xprt_new(char *key, char *value);
+void				xprt_add_back(t_export **ptr, t_export *new);
+void				xprt_add_front(t_export **ptr, t_export *new);
+void				xprt_clear(t_export **ptr);
+t_export			*xprt_free(t_export *line);
+void				print_xprt(t_export *line);
+t_export			*sort_xprt(t_export* lst);
+char				*xprt_pop(t_export **ptr);
+void				xprt_pop_last(t_export **ptr);
+t_export			*xprt_last(t_export *node);
+int					xprt_size(t_export *node);
 
 #endif
