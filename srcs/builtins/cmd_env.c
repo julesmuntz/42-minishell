@@ -6,21 +6,30 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:21:43 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/01 18:18:24 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:51:08 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_env(char **env)
+int	cmd_env(t_builtins *data, t_export *node)
 {
-	int	i;
+	t_export	*current;
 
-	i = 0;
-	while (env[i])
+	(void)data;
+	current = node;
+	if (!data->cmd[1])
 	{
-		printf("%s\n", env[i]);
-		i++;
+		while (current != NULL)
+		{
+			printf("%s\n", current->line_env);
+			current = current->next;
+		}
+	}
+	else
+	{
+		printf("env: '%s': No such file or directory\n", data->cmd[1]);
+		return (0);
 	}
 	return (0);
 }

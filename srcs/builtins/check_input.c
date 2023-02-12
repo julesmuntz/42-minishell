@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/10 15:31:48 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:08:29 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static char	*find_paths(char **env)
 	return (0);
 }
 
-char	*find_cmd(char *str, char **env, t_builtins *data)
+char	*find_cmd(char *str, char **env)
 {
 	int		i;
 	char	*path;
 	char	**paths;
+	char	*cmd_path;
 
 	i = -1;
 	paths = ft_split(find_paths(env), ':');
@@ -39,15 +40,15 @@ char	*find_cmd(char *str, char **env, t_builtins *data)
 		if (!ft_strchr(str, '/'))
 		{
 			path = ft_strjoin(paths[i], "/");
-			data->cmd_path = ft_strjoin(path, str);
+			cmd_path = ft_strjoin(path, str);
 			free(path);
-			if (!access(data->cmd_path, F_OK))
-				return (data->cmd_path);
+			if (!access(cmd_path, F_OK))
+				return (cmd_path);
 		}
 		else
-			data->cmd_path = str;
-		if (!access(data->cmd_path, F_OK))
-			return (data->cmd_path);
+			cmd_path = str;
+		if (!access(cmd_path, F_OK))
+			return (cmd_path);
 	}
 	ft_free_lines(paths);
 	return (0);
@@ -76,35 +77,35 @@ int	valid_input(t_builtins *data, t_data *d)
 {
 	if (custom_builtins(*data->cmd, data) == TRUE)
 		return (CUSTOM);
-	if (!find_cmd(*data->cmd_with_path, d->env, data))
+	if (!find_cmd(*data->cmd_with_path, d->env))
 	{
 		if (ft_strchr(*data->cmd_with_path, '/'))
 			printf("bash: %s: No such file or directory\n",
-				*data->cmd_with_path);
+					*data->cmd_with_path);
 		else
 			printf("%s: command not found\n", *data->cmd_with_path);
 		return (FALSE);
 	}
-	if (execve(find_cmd(*data->cmd, d->env, data), data->cmd, d->env) == -1)
+	if (execve(find_cmd(*data->cmd, d->env), data->cmd, d->env) == -1)
 		return (FALSE);
 	return (TRUE);
 }
 
-int	execute_builtin(t_builtins *data, t_data *d)
+int	execute_builtin(t_builtins *data, t_export *node, t_data *d)
 {
 	if (!ft_strncmp(data->cmd_to_execute, "echo", 4))
-		cmd_echo(data, d);
+		return (cmd_echo(data, d), 1);
 	else if (!ft_strncmp(data->cmd_to_execute, "cd", 2))
-		cmd_cd(data, d);
+		return (cmd_cd(data, d), 1);
 	else if (!ft_strncmp(data->cmd_to_execute, "pwd", 3))
-		cmd_pwd();
+		return (cmd_pwd(), 1);
 	else if (!ft_strncmp(data->cmd_to_execute, "export", 6))
-		cmd_export(d);
+		return (cmd_export(data, node), 1);
 	else if (!ft_strncmp(data->cmd_to_execute, "unset", 5))
 		return (0);
 	else if (!ft_strncmp(data->cmd_to_execute, "env", 3))
-		cmd_env(d->env);
+		return (cmd_env(data, node), 1);
 	else if (!ft_strncmp(data->cmd_to_execute, "exit", 4))
-		cmd_exit(data, d);
+		return (cmd_exit(data, d), 1);
 	return (0);
 }

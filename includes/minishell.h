@@ -6,14 +6,17 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/10 22:19:38 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:42:12 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define COLOR "\1\033[38;5;208m\2"
-# define COLOR_RESET "\1\x1b[0m\2"
+# define COLOR_A "\1\033[38;5;220m\2"
+# define COLOR_B "\1\033[38;5;221m\2"
+# define COLOR_C "\1\033[38;5;222m\2"
+# define COLOR_D "\1\033[38;5;223m\2"
+# define COLOR_E "\1\033[0m\2"
 # define PROMPT "@minishell:"
 # define CUSTOM 10
 # define _GNU_SOURCE
@@ -60,13 +63,14 @@ typedef struct s_export
 {
 	char			*key;
 	char			*value;
+	char			*line_env;
+	char			*line_export;
 	struct s_export	*next;
 }					t_export;
 
 typedef struct s_data
 {
 	t_lst			*l;				//la liste des commandes apres le parsing
-	t_export		*x;				//la liste des variables d'export
 	char			*tmp;			//une string qui garde le dernier input ajoute a l'historique. si on renvoie le meme ne sera pas ajoute	
 	char			**env;			//l'environnement de notre shell. c'est une copie de l'environnement recupere en argument donc on peut le modifier au besoin.
 	char			*prompt;		//string du prompt qui affiche le path actuel du user
@@ -77,7 +81,6 @@ typedef struct s_builtins
 {
 	char			**cmd;				//copie de t_lst->arg
 	char			**cmd_with_path;	//copie de t_lst->arg_path
-	char			*cmd_path;			//dernier path trouvé
 	char			*cmd_to_execute;	//prochaine commande executée
 }					t_builtins;
 
@@ -104,32 +107,22 @@ int					parse_quotes(char *str);
 int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
-char				*find_cmd(char *str, char **env, t_builtins *data);
-int					get_cmd(char **no_path, char **with_path, t_data *d);
+char				*find_cmd(char *str, char **env);
+int					get_cmd(char **no_path, char **with_path, t_data *d, t_export *node);
 int					valid_input(t_builtins *data, t_data *d);
-int					execute_builtin(t_builtins *data, t_data *d);
+int					execute_builtin(t_builtins *data, t_export *node, t_data *d);
 int					cmd_echo(t_builtins *data, t_data *d);
 int					cmd_cd(t_builtins *data, t_data *d);
 int					cmd_pwd(void);
-void				cmd_export(t_data *d);
-int					cmd_env(char **env);
+int					cmd_export(t_builtins *data, t_export *node);
+int					cmd_env(t_builtins *data, t_export *node);
 void				cmd_exit(t_builtins *data, t_data *d);
 int					refresh_prompt(t_data *d);
-int					exe_cmd(t_data *d);
+int					exe_cmd(t_data *d, t_export *node);
 char				*find_dir(char *str, char **env);
-void				handle_signals(int sig);
+void				handle_ctrl_c(int sig);
 
-void				init_export(t_data *d);
-t_export			*xprt_new(char *key, char *value);
-void				xprt_add_back(t_export **ptr, t_export *new);
-void				xprt_add_front(t_export **ptr, t_export *new);
-void				xprt_clear(t_export **ptr);
-t_export			*xprt_free(t_export *line);
-void				print_xprt(t_export *line);
-t_export			*sort_xprt(t_export* lst);
-char				*xprt_pop(t_export **ptr);
-void				xprt_pop_last(t_export **ptr);
-t_export			*xprt_last(t_export *node);
-int					xprt_size(t_export *node);
+t_export			*create_export_list(char **env);
+t_export			*free_export(t_export *node);
 
 #endif
