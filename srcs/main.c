@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/12 02:43:53 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:16:24 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	exit_shell(t_data *d, int code)
 {
 	rl_clear_history();
 	free(d->prompt);
+	free_export(d->x);
 	ft_free_tab(d->env);
 	ft_lst_free(d->l);
 	free(d->tmp);
@@ -60,12 +61,11 @@ int	ft_history(t_data *d, char **str)
 void	prompt(t_data *d)
 {
 	char		*str;
-	t_export	*node;
-	pid_t		pid;
 
 	str = NULL;
 	d->tmp = NULL;
-	node = create_export_list(d->env);
+	d->prompt = NULL;
+	d->x = create_export_list(d->env);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -75,23 +75,14 @@ void	prompt(t_data *d)
 		str = readline(d->prompt);
 		if (!str)
 		{
-			printf("exit\n");
-			free_export(node);
+			write(1, "exit\n", 5);
 			return (exit_shell(d, EXIT_FAILURE));
 		}
-		if (ft_history(d, &str))
+		if (ft_history(d, &str) || parsing(d, str) || exe_cmd(d))
 			return (exit_shell(d, EXIT_FAILURE));
-		if (parsing(d, str))
-			return (exit_shell(d, EXIT_FAILURE));
-		if ((pid = fork()) < 0)
-			return (exit_shell(d, EXIT_FAILURE));
-		if (pid == 0)
-			exe_cmd(d, node);
-		else
-			wait(NULL);
+		free(d->prompt);
 		d->l = ft_lst_free(d->l);
 	}
-	free_export(node);
 }
 
 int	main(int argc, char **argv, char **env)

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/12 02:42:12 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:47:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # include <signal.h>
 # include "libft.h"
 
-typedef struct s_tok	//utilise pour parser la ligne recupere par le prompt
+typedef struct s_tok
 {
 	char			*str;
 	struct s_tok	*next;
@@ -44,18 +44,17 @@ typedef struct s_tok	//utilise pour parser la ligne recupere par le prompt
 
 typedef struct s_redir
 {
-	char			*str;	//nom du fichier / limiteur
-	int				type;	//type de redirection 0 pour > ou < et 1 pour >> ou <<
+	char			*str;
+	int				type;
 }					t_redir;
 
 typedef struct s_lst
 {
-	int				pid;		//pour stocker l'id du process
-	char			*cmd;		//nom de la commande en gardant le path
-	char			**arg;		//tableau d'arguments du type {cmd(sans path), arg1, arg2, ...,  NULL}
-	char			**arg_path;	//tableau d'arguments du type {cmd(avec path), arg1, arg2, ...,  NULL}
-	t_redir			*infile;	//tableau de infile a ouvrir dans l'ordre
-	t_redir			*outfile;	//tableau de outfile a ouvrir dans l'ordre
+	int				pid;
+	char			*cmd;
+	char			**arg;
+	t_redir			*infile;
+	t_redir			*outfile;
 	struct s_lst	*next;
 }					t_lst;
 
@@ -63,26 +62,19 @@ typedef struct s_export
 {
 	char			*key;
 	char			*value;
-	char			*line_env;
-	char			*line_export;
+	char			*new_key;
+	char			*new_value;
 	struct s_export	*next;
 }					t_export;
 
 typedef struct s_data
 {
-	t_lst			*l;				//la liste des commandes apres le parsing
-	char			*tmp;			//une string qui garde le dernier input ajoute a l'historique. si on renvoie le meme ne sera pas ajoute	
-	char			**env;			//l'environnement de notre shell. c'est une copie de l'environnement recupere en argument donc on peut le modifier au besoin.
-	char			*prompt;		//string du prompt qui affiche le path actuel du user
-	pid_t			pid;			//process id pour le prompt
+	t_lst			*l;
+	char			*tmp;
+	char			**env;
+	char			*prompt;
+	t_export		*x;
 }					t_data;
-
-typedef struct s_builtins
-{
-	char			**cmd;				//copie de t_lst->arg
-	char			**cmd_with_path;	//copie de t_lst->arg_path
-	char			*cmd_to_execute;	//prochaine commande executée
-}					t_builtins;
 
 char				**free_tab(char **tab, int i);
 void				ft_free_redir(t_redir *ptr);
@@ -108,20 +100,19 @@ int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
 char				*find_cmd(char *str, char **env);
-int					get_cmd(char **no_path, char **with_path, t_data *d, t_export *node);
-int					valid_input(t_builtins *data, t_data *d);
-int					execute_builtin(t_builtins *data, t_export *node, t_data *d);
-int					cmd_echo(t_builtins *data, t_data *d);
-int					cmd_cd(t_builtins *data, t_data *d);
+int					check_builtins(char *str);
+int					execute_builtin(t_data *d, t_lst *l);
+void				cmd_echo(t_lst *l);
+int					cmd_cd(t_data *d, t_lst *l);
 int					cmd_pwd(void);
-int					cmd_export(t_builtins *data, t_export *node);
-int					cmd_env(t_builtins *data, t_export *node);
-void				cmd_exit(t_builtins *data, t_data *d);
+int					cmd_export(t_data *d, t_lst *l);
+void				cmd_env(t_data *d, t_lst *l);
+void				cmd_exit(t_data *d);
 int					refresh_prompt(t_data *d);
-int					exe_cmd(t_data *d, t_export *node);
+int					exe_cmd(t_data *d);
 char				*find_dir(char *str, char **env);
 void				handle_ctrl_c(int sig);
-
+void				sort_export(t_export *node);
 t_export			*create_export_list(char **env);
 t_export			*free_export(t_export *node);
 

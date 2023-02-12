@@ -6,44 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/12 02:29:35 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/12 22:04:36 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	exe_cmd(t_data *d, t_export *node)
-{
-	char	**no_path;
-	char	**with_path;
-	int		i;
-
-	i = 0;
-	no_path = malloc(sizeof(char *) * (ft_arrstrlen(d->l->arg) + 1));
-	if (!no_path)
-		return (0);
-	while (i < (int)ft_arrstrlen(d->l->arg))
-	{
-		no_path[i] = ft_strdup(d->l->arg[i]);
-		i++;
-	}
-	no_path[i] = NULL;
-	i = 0;
-	with_path = malloc(sizeof(char *) * (ft_arrstrlen(d->l->arg_path) + 1));
-	if (!with_path)
-		return (0);
-	while (i < (int)ft_arrstrlen(d->l->arg_path))
-	{
-		with_path[i] = ft_strdup(d->l->arg_path[i]);
-		i++;
-	}
-	with_path[i] = NULL;
-	if (get_cmd(no_path, with_path, d, node))
-		return (exit_shell(d, EXIT_SUCCESS), 1);
-	else
-		execve(find_cmd(*no_path, d->env), no_path, d->env);
-	return (0);
-}
 
 static int	user_dir_name(char *cur_dir)
 {
@@ -56,8 +23,9 @@ static int	user_dir_name(char *cur_dir)
 	user = getenv("USER");
 	while (cur_dir[i])
 	{
-		if (cur_dir[i] == user[0] && cur_dir[i + (ft_strlen(user)
-				- 1)] == user[(ft_strlen(user) - 1)]
+		if (cur_dir[i] == user[0]
+			&& cur_dir[i + (ft_strlen(user) - 1)]
+			== user[(ft_strlen(user) - 1)]
 			&& cur_dir[ft_strlen(user)] == '/')
 		{
 			if (!ft_strnstr(cur_dir, user, i))

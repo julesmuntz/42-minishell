@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_exit.c                                         :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 23:20:02 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/06 01:00:37 by julmuntz         ###   ########.fr       */
+/*   Created: 2023/02/12 19:43:21 by julmuntz          #+#    #+#             */
+/*   Updated: 2023/02/12 19:43:26 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	cmd_exit(t_data *d)
+void	ft_strdel(char **s)
 {
-	write(1, "exit\n", 5);
-	exit_shell(d, EXIT_SUCCESS);
+	if (s && *s)
+	{
+		free(*s);
+		*s = NULL;
+	}
 }

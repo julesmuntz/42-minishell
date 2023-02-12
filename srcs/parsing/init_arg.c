@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/07 20:09:47 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/12 22:05:23 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,6 @@ static int	remove_path(char **str)
 		free(*str);
 		*str = tmp;
 	}
-	return (0);
-}
-
-static int	init_arg2_path(t_lst *new, t_tok *t, int size)
-{
-	int		i;
-	char	*str;
-	t_tok	*tmp;
-
-	i = 0;
-	tmp = t;
-	str = NULL;
-	while (i < size)
-	{
-		if (remove_quotes(tmp->str, &str))
-			return (1);
-		new->arg_path[i] = ft_strdup(str);
-		free(str);
-		if (!new->arg_path[i])
-			return (1);
-		tmp = tmp->next;
-		i++;
-	}
-	new->arg_path[i] = NULL;
 	return (0);
 }
 
@@ -83,7 +59,7 @@ static int	init_arg2(t_lst *new, t_tok *t, int size)
 
 int	init_arg(t_lst *new, t_tok *t)
 {
-	int		size;
+	int	size;
 
 	if (t)
 	{
@@ -95,14 +71,7 @@ int	init_arg(t_lst *new, t_tok *t)
 		if (!new->arg)
 			return (free(new->cmd), free_tok(t), 1);
 		if (init_arg2(new, t, size))
-			return (free(new->cmd), free_tok(t), \
-			ft_free_tab((new->arg)), 1);
-		new->arg_path = malloc((size + 1) * sizeof(char *));
-		if (!new->arg_path)
-			return (free(new->cmd), free_tok(t), 1);
-		if (init_arg2_path(new, t, size))
-			return (free(new->cmd), free_tok(t), \
-			ft_free_tab((new->arg)), ft_free_tab((new->arg_path)), 1);
+			return (free(new->cmd), free_tok(t), ft_free_tab((new->arg)), 1);
 	}
 	return (free_tok(t), 0);
 }
