@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/13 00:47:39 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:55:21 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_lst
 	int				pid;
 	char			*cmd;
 	char			**arg;
+	char			**arg_d;
 	t_redir			*infile;
 	t_redir			*outfile;
 	struct s_lst	*next;
@@ -99,9 +100,11 @@ int					parse_quotes(char *str);
 int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
-char				*find_cmd(char *str, char **env);
+int					exe_cmd(t_data *d);
+int					find_cmd(char **str, char **env);
 int					check_builtins(char *str);
 int					execute_builtin(t_data *d, t_lst *l);
+
 void				cmd_echo(t_lst *l);
 int					cmd_cd(t_data *d, t_lst *l);
 int					cmd_pwd(void);
@@ -109,7 +112,6 @@ int					cmd_export(t_data *d, t_lst *l);
 void				cmd_env(t_data *d, t_lst *l);
 void				cmd_exit(t_data *d);
 int					refresh_prompt(t_data *d);
-int					exe_cmd(t_data *d);
 char				*find_dir(char *str, char **env);
 void				handle_ctrl_c(int sig);
 void				sort_export(t_export *node);

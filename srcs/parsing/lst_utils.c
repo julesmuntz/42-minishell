@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/01/31 19:19:46 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/02/13 12:49:46 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_lst	*ft_lst_free(t_lst *l)
 		l = l->next;
 		free(tmp->cmd);
 		ft_free_tab(tmp->arg);
+		ft_free_tab(tmp->arg_d);
 		ft_free_redir(tmp->infile);
 		ft_free_redir(tmp->outfile);
 		free(tmp);

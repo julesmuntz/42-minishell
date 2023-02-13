@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/12 22:06:02 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:09:01 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,25 @@ int	cmd_cd(t_data *d, t_lst *l)
 {
 	char	*path;
 
-	if (!ft_strcmp(l->arg[1], "~") || !l->arg[1])
+	if (!ft_strcmp(l->arg_d[1], "~") || !l->arg_d[1])
 	{
 		chdir(getenv("HOME"));
 		return (0);
 	}
-	else if (!l->arg[1])
+	else if (!l->arg_d[1])
 		return (0);
 	if (l->arg[2])
 	{
 		printf("bash: %s: too many arguments\n", l->cmd);
 		return (0);
 	}
-	path = find_dir(l->arg[1], d->env);
+	path = find_dir(l->arg_d[1], d->env);
 	if (!path)
 	{
 		printf("bash: %s: %s: No such file or directory\n",
-			l->cmd, l->arg[1]);
+			l->cmd, l->arg_d[1]);
 		return (0);
 	}
-	chdir(l->arg[1]);
+	chdir(l->arg_d[1]);
 	return (0);
 }

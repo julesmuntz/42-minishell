@@ -23,23 +23,6 @@ void	exit_shell(t_data *d, int code)
 	exit(code);
 }
 
-// fonction temporaire pour afficher les commandes apres parsing
-void	ft_print_lst(t_lst *l)
-{
-	while (l)
-	{
-		printf("cmd = %s\n", l->cmd);
-		printf("arg= ");
-		print_tab(l->arg);
-		printf("infile= ");
-		print_redir(l->infile);
-		printf("outfile= ");
-		print_redir(l->outfile);
-		printf("\n");
-		l = l->next;
-	}
-}
-
 int	ft_history(t_data *d, char **str)
 {
 	char	*s;

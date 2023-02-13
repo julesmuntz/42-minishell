@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_cmd.c                                          :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,39 @@
 
 #include "minishell.h"
 
+void	free_stuff(t_data *d)
+{
+	rl_clear_history();
+	free(d->prompt);
+	free_export(d->x);
+	ft_lst_free(d->l);
+	free(d->tmp);
+}
+
 void	child(t_data *d, t_lst *l)
 {
+	char	*str;
+	char	**arg;
+
 	if (check_builtins(l->cmd))
+	{
 		execute_builtin(d, l);
-	else
-		execve(l->cmd, l->arg, d->env);
-	exit_shell(d, EXIT_SUCCESS);
+		exit_shell(d, EXIT_SUCCESS);
+	}
+	str = strdup(l->cmd);
+	arg = l->arg;
+	l->arg = NULL;
+	if (find_cmd(&str, d->env))
+	{
+		write(2, "Unexpected error\n", 17);
+		free(str);
+		exit_shell(d, EXIT_FAILURE);
+	}
+	free_stuff(d);
+	execve(str, arg, d->env);
+	free(str);
+	ft_free_tab(arg);
+	exit(EXIT_FAILURE);
 }
 
 int	exe_cmd(t_data *d)
