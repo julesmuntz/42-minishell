@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/06 11:58:06 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:14:11 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ void	cmd_echo(t_lst *l)
 	if (!ft_strcmp(l->arg[1], "-n"))
 		i = 2;
 	if (!l->arg[1])
-		printf("\n");
+		ft_fprintf(STDOUT_FILENO, "\n");
 	else if (l->arg[1])
 	{
 		while (l->arg[i])
 		{
-			printf("%s", l->arg[i]);
+			ft_fprintf(STDOUT_FILENO, "%s", l->arg[i]);
 			if ((i) == (int)ft_arrstrlen(l->arg) - 1)
 				break ;
-			printf(" ");
+			ft_fprintf(STDOUT_FILENO, " ");
 			i++;
 		}
 		if (ft_strcmp(l->arg[1], "-n"))
-			printf("\n");
+			ft_fprintf(STDOUT_FILENO, "\n");
 	}
 }

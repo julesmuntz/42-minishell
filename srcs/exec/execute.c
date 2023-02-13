@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/12 19:21:36 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:56:52 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,28 @@ void	free_stuff(t_data *d)
 	free(d->tmp);
 }
 
+static void	error(char *str, t_data *d)
+{
+	if (!ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
+	{
+		ft_fprintf(STDERR_FILENO, "%s: command not found\n", str);
+		free(str);
+		exit_shell(d, EXIT_FAILURE);
+	}
+	else if (!find_cmd(&str, d->env))
+	{
+		if (find_dir(str, d->env))
+			ft_fprintf(STDERR_FILENO, "bash: %s: Is a directory\n", str);
+		else if (ft_strchr(str, '/'))
+			ft_fprintf(STDERR_FILENO, "bash: %s: No such file or directory\n",
+				str);
+		else
+			ft_fprintf(STDERR_FILENO, "%s: command not found\n", str);
+		free(str);
+		exit_shell(d, EXIT_FAILURE);
+	}
+}
+
 void	child(t_data *d, t_lst *l)
 {
 	char	*str;
@@ -31,15 +53,10 @@ void	child(t_data *d, t_lst *l)
 		execute_builtin(d, l);
 		exit_shell(d, EXIT_SUCCESS);
 	}
-	str = strdup(l->cmd);
+	str = ft_strdup(l->cmd);
+	error(str, d);
 	arg = l->arg;
 	l->arg = NULL;
-	if (find_cmd(&str, d->env))
-	{
-		write(2, "Unexpected error\n", 17);
-		free(str);
-		exit_shell(d, EXIT_FAILURE);
-	}
 	free_stuff(d);
 	execve(str, arg, d->env);
 	free(str);

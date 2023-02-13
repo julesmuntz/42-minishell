@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/13 16:09:01 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:13:18 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,18 @@ char	*find_dir(char *str, char **env)
 {
 	int		i;
 	char	**paths;
+	char	*result;
 
 	i = -1;
 	paths = ft_split(find_paths(env), ':');
 	while (paths[++i])
 	{
 		if (!access(str, F_OK))
-			return (str);
+		{
+			result = ft_strdup(str);
+			ft_free_lines(paths);
+			return (result);
+		}
 	}
 	ft_free_lines(paths);
 	return (0);
@@ -55,13 +60,13 @@ int	cmd_cd(t_data *d, t_lst *l)
 		return (0);
 	if (l->arg[2])
 	{
-		printf("bash: %s: too many arguments\n", l->cmd);
+		ft_fprintf(STDERR_FILENO, "bash: %s: too many arguments\n", l->cmd);
 		return (0);
 	}
 	path = find_dir(l->arg_d[1], d->env);
 	if (!path)
 	{
-		printf("bash: %s: %s: No such file or directory\n",
+		ft_fprintf(STDERR_FILENO, "bash: %s: %s: No such file or directory\n",
 			l->cmd, l->arg_d[1]);
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/12 22:04:36 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:11:58 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ void	handle_ctrl_c(int sig)
 {
 	(void)sig;
 	signal(SIGINT, handle_ctrl_c);
-	printf("\n");
+	ft_fprintf(STDOUT_FILENO, "\n");
 }

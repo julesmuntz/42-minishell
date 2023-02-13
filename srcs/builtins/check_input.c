@@ -6,53 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/12 17:13:42 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:21:11 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*find_paths(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strnstr(env[i], "PATH", 4))
-			return (env[i] + 5);
-		i++;
-	}
-	return (0);
-}
-
-char	*find_cmd(char *str, char **env)
-{
-	int		i;
-	char	*path;
-	char	**paths;
-	char	*cmd_path;
-
-	i = -1;
-	paths = ft_split(find_paths(env), ':');
-	while (paths[++i])
-	{
-		if (!ft_strchr(str, '/'))
-		{
-			path = ft_strjoin(paths[i], "/");
-			cmd_path = ft_strjoin(path, str);
-			free(path);
-			if (!access(cmd_path, F_OK))
-				return (cmd_path);
-		}
-		else
-			cmd_path = str;
-		if (!access(cmd_path, F_OK))
-			return (cmd_path);
-	}
-	ft_free_lines(paths);
-	return (0);
-}
 
 int	check_builtins(char *str)
 {

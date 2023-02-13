@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:11:22 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/13 16:11:22 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:31:24 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	find_cmd(char **str, char **env)
 		if (!cmd_path)
 			return (ft_free_lines(paths), 1);
 		if (access(cmd_path, F_OK) == 0)
-			return (ft_free_lines(paths), free(*str), *str = cmd_path, 0);
+			return (ft_free_lines(paths), free(*str), *str = cmd_path, 1);
 		free(cmd_path);
 	}
 	return (ft_free_lines(paths), 0);

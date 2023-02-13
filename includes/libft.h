@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/12 17:27:31 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:25:21 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,10 @@ char	*ft_strncpy(char *s1, const char *s2, unsigned int n);
 char	*ft_strcpy(char *s1, const char *s2);
 char	*ft_strndup(const char *s, size_t n);
 void	ft_strdel(char **s);
+int		ft_nbrlen(int n);
+int		ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int nb, int fd);
+int		ft_fprintf(const int fd, const char *str, ...);
 
 #endif

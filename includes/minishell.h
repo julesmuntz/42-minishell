@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/13 15:55:21 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:14:41 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int					remove_quotes(char *s, char **str);
 
 int					exe_cmd(t_data *d);
 int					find_cmd(char **str, char **env);
+char				*find_dir(char *str, char **env);
 int					check_builtins(char *str);
 int					execute_builtin(t_data *d, t_lst *l);
 

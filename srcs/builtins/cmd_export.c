@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/13 00:54:53 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:20:02 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static void	print_vars(t_export *current, t_data *d, t_lst *l)
 		while (current != NULL)
 		{
 			if (!ft_strcmp(current->value, ""))
-				printf("declare -x %s\n", current->key);
+				ft_fprintf(STDOUT_FILENO, "declare -x %s\n", current->key);
 			else
-				printf("declare -x %s=\"%s\"\n", current->key, current->value);
+				ft_fprintf(STDOUT_FILENO,
+					"declare -x %s=\"%s\"\n", current->key, current->value);
 			current = current->next;
 		}
 	}
@@ -78,8 +79,8 @@ static int	get_var(t_data *d, t_lst *l, int *plus)
 		i++;
 	}
 	if (*plus > 1)
-		return (printf("bash: export: `%s\': not a valid identifier\n",
-				l->arg[1]), 1);
+		return (ft_fprintf(STDERR_FILENO,
+				"bash: export: `%s\': not a valid identifier\n", l->arg[1]), 1);
 	if (l->arg[1][i] == '=')
 	{
 		d->x->new_key = ft_strndup(l->arg[1], i - *plus);
