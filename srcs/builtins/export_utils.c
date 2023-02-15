@@ -6,54 +6,67 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:57:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/13 00:28:35 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 04:04:21 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sort_export(t_export *node)
+t_export	*copy_export2(t_export *node, t_export *copy, t_export *current)
 {
-	t_export	*current;
-	t_export	*next;
-	char		*swap;
-
-	if (node == NULL)
-		return ;
-	current = node;
-	while (current)
+	current->key = ft_strdup(node->key);
+	if (!current->key)
+		return (free_export(copy), NULL);
+	if (node->value)
 	{
-		next = current->next;
-		while (next)
-		{
-			if (ft_strcmp(current->key, next->key) > 0)
-			{
-				swap = current->key;
-				current->key = next->key;
-				next->key = swap;
-				swap = current->value;
-				current->value = next->value;
-				next->value = swap;
-			}
-			next = next->next;
-		}
-		current = current->next;
+		current->value = ft_strdup(node->value);
+		if (!current->value)
+			return (free_export(copy), NULL);
 	}
+	return (NULL);
 }
 
-t_export	*free_export(t_export *node)
+t_export	*copy_export(t_export *node)
 {
-	t_export	*tmp;
+	t_export	*copy;
+	t_export	*current;
+
+	copy = NULL;
+	while (node)
+	{
+		if (!copy)
+		{
+			copy = malloc(sizeof(t_export));
+			if (!copy)
+				return (NULL);
+			current = copy;
+		}
+		else
+		{
+			current->next = malloc(sizeof(t_export));
+			if (!current->next)
+				return (free_export(copy), NULL);
+			current = current->next;
+		}
+		copy_export2(node, copy, current);
+		node = node->next;
+	}
+	current->next = NULL;
+	return (copy);
+}
+
+void	free_export(t_export *node)
+{
+	t_export	*current;
 
 	while (node)
 	{
-		tmp = node;
+		current = node;
 		node = node->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
+		free(current->key);
+		free(current->value);
+		free(current);
 	}
-	return (NULL);
 }
 
 static t_export	*init_export(char *env)
@@ -97,7 +110,10 @@ t_export	*create_export_list(char **env)
 	{
 		node = init_export(env[i]);
 		if (!node)
+		{
+			free_export(list);
 			return (NULL);
+		}
 		if (!list)
 			list = node;
 		else

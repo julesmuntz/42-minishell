@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/13 20:13:18 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 04:05:27 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,25 @@ int	cmd_cd(t_data *d, t_lst *l)
 {
 	char	*path;
 
-	if (!ft_strcmp(l->arg_d[1], "~") || !l->arg_d[1])
+	if (!ft_strcmp(l->arg[1], "~") || !l->arg[1])
 	{
 		chdir(getenv("HOME"));
 		return (0);
 	}
-	else if (!l->arg_d[1])
+	else if (!l->arg[1])
 		return (0);
 	if (l->arg[2])
 	{
-		ft_fprintf(STDERR_FILENO, "bash: %s: too many arguments\n", l->cmd);
+		ft_fprintf(STDERR_FILENO, "minishell: %s: too many arguments\n", l->cmd);
 		return (0);
 	}
-	path = find_dir(l->arg_d[1], d->env);
+	path = find_dir(l->arg[1], d->env);
 	if (!path)
 	{
-		ft_fprintf(STDERR_FILENO, "bash: %s: %s: No such file or directory\n",
-			l->cmd, l->arg_d[1]);
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s: No such file or directory\n",
+			l->cmd, l->arg[1]);
 		return (0);
 	}
-	chdir(l->arg_d[1]);
+	chdir(l->arg[1]);
 	return (0);
 }

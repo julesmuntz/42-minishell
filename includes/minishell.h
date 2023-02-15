@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/13 17:14:41 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 04:04:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # define COLOR_D "\1\033[38;5;223m\2"
 # define COLOR_E "\1\033[0m\2"
 # define PROMPT "@minishell:"
-# define CUSTOM 10
 # define _GNU_SOURCE
 
 # include <stdio.h>
@@ -34,6 +33,8 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <errno.h>
+# include <sys/stat.h>
 # include "libft.h"
 
 typedef struct s_tok
@@ -53,7 +54,6 @@ typedef struct s_lst
 	int				pid;
 	char			*cmd;
 	char			**arg;
-	char			**arg_d;
 	t_redir			*infile;
 	t_redir			*outfile;
 	struct s_lst	*next;
@@ -75,6 +75,9 @@ typedef struct s_data
 	char			**env;
 	char			*prompt;
 	t_export		*x;
+	int				pipe;
+	int				in;
+	int				out;
 }					t_data;
 
 char				**free_tab(char **tab, int i);
@@ -115,8 +118,13 @@ void				cmd_exit(t_data *d);
 int					refresh_prompt(t_data *d);
 char				*find_dir(char *str, char **env);
 void				handle_ctrl_c(int sig);
-void				sort_export(t_export *node);
+
 t_export			*create_export_list(char **env);
-t_export			*free_export(t_export *node);
+t_export			*copy_export(t_export *node);
+void				sort_export(t_export *node);
+void				free_export(t_export *node);
+void				create_var(t_export *current, t_data *d, int found);
+void				update_var(t_export *current, t_data *d, int *plus);
+int					get_var(t_data *d, t_lst *l, int *plus);
 
 #endif

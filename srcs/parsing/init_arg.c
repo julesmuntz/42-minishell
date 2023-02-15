@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/13 12:41:37 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 02:25:40 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,6 @@ static int	remove_path(char **str)
 	return (0);
 }
 
-static int	init_arg_d(t_lst *new, t_tok *t, int size)
-{
-	int		i;
-	char	*str;
-	t_tok	*tmp;
-
-	i = 0;
-	tmp = t;
-	str = NULL;
-	while (i < size)
-	{
-		if (remove_quotes(tmp->str, &str))
-			return (1);
-		new->arg_d[i] = ft_strdup(str);
-		free(str);
-		if (!new->arg_d[i])
-			return (1);
-		tmp = tmp->next;
-		i++;
-	}
-	new->arg_d[i] = NULL;
-	return (0);
-}
-
 static int	init_arg2(t_lst *new, t_tok *t, int size)
 {
 	int		i;
@@ -68,7 +44,7 @@ static int	init_arg2(t_lst *new, t_tok *t, int size)
 	{
 		if (remove_quotes(tmp->str, &str))
 			return (1);
-		if (remove_path(&str))
+		if (i == 0 && remove_path(&str))
 			return (1);
 		new->arg[i] = ft_strdup(str);
 		free(str);
@@ -92,16 +68,10 @@ int	init_arg(t_lst *new, t_tok *t)
 			return (free_tok(t), 1);
 		size = ft_tok_size(t);
 		new->arg = malloc((size + 1) * sizeof(char *));
-		new->arg_d = malloc((size + 1) * sizeof(char *));
-		if (!new->arg || !new->arg_d)
-			return (free(new->cmd), free_tok(t), ft_free_tab((new->arg)),
-				ft_free_tab((new->arg_d)), 1);
+		if (!new->arg)
+			return (free(new->cmd), free_tok(t), 1);
 		if (init_arg2(new, t, size))
-			return (free(new->cmd), free_tok(t), ft_free_tab((new->arg)),
-				ft_free_tab((new->arg_d)), 1);
-		if (init_arg_d(new, t, size))
-			return (free(new->cmd), free_tok(t), ft_free_tab((new->arg)),
-				ft_free_tab((new->arg_d)), 1);
+			return (free(new->cmd), free_tok(t), ft_free_tab((new->arg)), 1);
 	}
 	return (free_tok(t), 0);
 }
