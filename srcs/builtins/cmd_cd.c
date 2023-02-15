@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 04:05:27 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:06:11 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	cmd_cd(t_data *d, t_lst *l)
 	path = find_dir(l->arg[1], d->env);
 	if (!path)
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s: No such file or directory\n",
-			l->cmd, l->arg[1]);
+		ft_fprintf(STDERR_FILENO, "minishell: %s:\
+%s: No such file or directory\n", l->cmd, l->arg[1]);
 		return (0);
 	}
 	chdir(l->arg[1]);

@@ -6,13 +6,13 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/13 20:14:11 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:36:35 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cmd_echo(t_lst *l)
+void	cmd_echo(t_data *d, t_lst *l)
 {
 	int	i;
 
@@ -20,18 +20,18 @@ void	cmd_echo(t_lst *l)
 	if (!ft_strcmp(l->arg[1], "-n"))
 		i = 2;
 	if (!l->arg[1])
-		ft_fprintf(STDOUT_FILENO, "\n");
+		ft_fprintf(d->out, "\n");
 	else if (l->arg[1])
 	{
 		while (l->arg[i])
 		{
-			ft_fprintf(STDOUT_FILENO, "%s", l->arg[i]);
+			ft_fprintf(d->out, "%s", l->arg[i]);
 			if ((i) == (int)ft_arrstrlen(l->arg) - 1)
 				break ;
-			ft_fprintf(STDOUT_FILENO, " ");
+			ft_fprintf(d->out, " ");
 			i++;
 		}
 		if (ft_strcmp(l->arg[1], "-n"))
-			ft_fprintf(STDOUT_FILENO, "\n");
+			ft_fprintf(d->out, "\n");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 03:58:32 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:27:57 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ static void	print_export(t_export *current, t_data *d, t_lst *l)
 		sort_export(export);
 		while (current)
 		{
-			if (current->key && !current->value)
-				ft_fprintf(STDOUT_FILENO, "declare -x %s\n", current->key);
+			if (!ft_strcmp(current->key, "_")
+				&& !ft_strcmp(current->value, getenv("_")))
+				ft_strdel(&current->key);
+			else if (current->key && !current->value)
+				ft_fprintf(d->out, "declare -x %s\n", current->key);
 			else if (current->key && current->value)
-				ft_fprintf(STDOUT_FILENO,
+				ft_fprintf(d->out,
 					"declare -x %s=\"%s\"\n", current->key, current->value);
 			current = current->next;
 		}
@@ -45,7 +48,7 @@ static void	print_env(t_export *current, t_data *d, t_lst *l)
 		while (current)
 		{
 			if (current->value)
-				ft_fprintf(STDOUT_FILENO,
+				ft_fprintf(d->out,
 					"%s=%s\n", current->key, current->value);
 			current = current->next;
 		}

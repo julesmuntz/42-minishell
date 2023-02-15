@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/12 17:13:42 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:57:49 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	check_builtins(char *str)
 int	execute_builtin(t_data *d, t_lst *l)
 {
 	if (!ft_strcmp(l->cmd, "echo"))
-		cmd_echo(l);
+		cmd_echo(d, l);
 	else if (!ft_strcmp(l->cmd, "cd"))
 		cmd_cd(d, l);
 	else if (!ft_strcmp(l->cmd, "pwd"))
-		cmd_pwd();
+		cmd_pwd(d);
 	else if (!ft_strcmp(l->cmd, "export"))
 		cmd_export(d, l);
 	else if (!ft_strcmp(l->cmd, "unset"))
