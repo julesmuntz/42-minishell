@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 13:27:57 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:23:47 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,30 @@
 
 static void	print_export(t_export *current, t_data *d, t_lst *l)
 {
-	t_export	*export;
-
-	export = copy_export(d->x);
 	if (!l->arg[1])
 	{
-		current = export;
-		sort_export(export);
+		current = d->x;
 		while (current)
 		{
-			if (!ft_strcmp(current->key, "_")
-				&& !ft_strcmp(current->value, getenv("_")))
-				ft_strdel(&current->key);
-			else if (current->key && !current->value)
-				ft_fprintf(d->out, "declare -x %s\n", current->key);
-			else if (current->key && current->value)
-				ft_fprintf(d->out,
-					"declare -x %s=\"%s\"\n", current->key, current->value);
+			if (ft_strcmp(current->key, "_")
+				&& ft_strcmp(current->value, getenv("_")))
+			{
+				if (current->key && !current->value)
+					ft_fprintf(d->out, "declare -x %s\n", current->key);
+				else if (current->key && current->value)
+					ft_fprintf(d->out,
+						"declare -x %s=\"%s\"\n", current->key, current->value);
+			}
 			current = current->next;
 		}
 	}
-	free_export(export);
 }
 
 static void	print_env(t_export *current, t_data *d, t_lst *l)
 {
-	t_export	*env;
-
-	env = copy_export(d->x);
 	if (!l->arg[1])
 	{
-		current = env;
+		current = d->x;
 		while (current)
 		{
 			if (current->value)
@@ -56,7 +49,6 @@ static void	print_env(t_export *current, t_data *d, t_lst *l)
 	else
 		ft_fprintf(STDERR_FILENO,
 			"env: '%s': No such file or directory\n", l->arg[1]);
-	free_export(env);
 }
 
 static void	print_vars(t_export *current, t_data *d, t_lst *l)

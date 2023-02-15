@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 04:02:04 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:19:23 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,6 @@ static void	get_var2(t_data *d, t_lst *l, int *plus, int *i)
 		d->x->new_key = ft_strdup(l->arg[1]);
 		d->x->new_value = NULL;
 	}
-	if (d->x->new_key)
-		free(d->x->new_key);
-	if (d->x->new_value)
-		free(d->x->new_value);
 }
 
 int	get_var(t_data *d, t_lst *l, int *plus)
