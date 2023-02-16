@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:58 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/12 21:58:17 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:28:12 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(char *s)
 	int		i;
 	char	*str;
 
+	if (!s)
+		return (NULL);
 	str = malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
@@ -35,6 +37,8 @@ char	*ft_strndup(const char *s, size_t n)
 	char	*result;
 	size_t	i;
 
+	if (!s)
+		return (NULL);
 	result = (char *)malloc(n + 1);
 	if (!result)
 		return (NULL);

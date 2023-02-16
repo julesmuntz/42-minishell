@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/15 13:57:59 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:52:29 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,22 @@ int					find_cmd(char **str, char **env);
 char				*find_dir(char *str, char **env);
 int					check_builtins(char *str);
 int					execute_builtin(t_data *d, t_lst *l);
+int					refresh_prompt(t_data *d);
+void				handle_ctrl_c(int sig);
 
 void				cmd_echo(t_data *d, t_lst *l);
 int					cmd_cd(t_data *d, t_lst *l);
 int					cmd_pwd(t_data *d);
-int					cmd_export(t_data *d, t_lst *l);
+void				cmd_export(t_data *d, t_lst *l);
+void				cmd_unset(t_data *d, t_lst *l);
 void				cmd_env(t_data *d, t_lst *l);
 void				cmd_exit(t_data *d);
-int					refresh_prompt(t_data *d);
-char				*find_dir(char *str, char **env);
-void				handle_ctrl_c(int sig);
 
-t_export			*create_export_list(char **env);
-t_export			*copy_export(t_export *node);
-void				sort_export(t_export *node);
+t_export			*init_export(char **env);
 void				free_export(t_export *node);
+int					var_cmd(t_data *d, t_lst *l);
+int					get_var(t_data *d, t_lst *l, int *plus);
 void				create_var(t_export *current, t_data *d, int found);
 void				update_var(t_export *current, t_data *d, int *plus);
-int					get_var(t_data *d, t_lst *l, int *plus);
 
 #endif

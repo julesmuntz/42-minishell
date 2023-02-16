@@ -6,54 +6,11 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:57:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 04:04:21 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:21:29 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_export	*copy_export2(t_export *node, t_export *copy, t_export *current)
-{
-	current->key = ft_strdup(node->key);
-	if (!current->key)
-		return (free_export(copy), NULL);
-	if (node->value)
-	{
-		current->value = ft_strdup(node->value);
-		if (!current->value)
-			return (free_export(copy), NULL);
-	}
-	return (NULL);
-}
-
-t_export	*copy_export(t_export *node)
-{
-	t_export	*copy;
-	t_export	*current;
-
-	copy = NULL;
-	while (node)
-	{
-		if (!copy)
-		{
-			copy = malloc(sizeof(t_export));
-			if (!copy)
-				return (NULL);
-			current = copy;
-		}
-		else
-		{
-			current->next = malloc(sizeof(t_export));
-			if (!current->next)
-				return (free_export(copy), NULL);
-			current = current->next;
-		}
-		copy_export2(node, copy, current);
-		node = node->next;
-	}
-	current->next = NULL;
-	return (copy);
-}
 
 void	free_export(t_export *node)
 {
@@ -69,34 +26,48 @@ void	free_export(t_export *node)
 	}
 }
 
-static t_export	*init_export(char *env)
+static int	malloc_key_value(t_export *node, char *ptr, char *line)
+{
+	int	key_len;
+	int	value_len;
+
+	key_len = ptr - line;
+	value_len = ft_strlen(line) - key_len - 1;
+	node->key = (char *)malloc(key_len + 1);
+	if (!node->key)
+		return (1);
+	ft_strncpy(node->key, line, key_len);
+	node->key[key_len] = '\0';
+	node->value = (char *)malloc(value_len + 1);
+	if (!node->value)
+		return (1);
+	ft_strncpy(node->value, ptr + 1, value_len);
+	node->value[value_len] = '\0';
+	return (0);
+}
+
+static t_export	*init_export2(char *line)
 {
 	t_export	*node;
 	char		*ptr;
-	int			key_len;
-	int			value_len;
 
 	node = (t_export *)malloc(sizeof(t_export));
-	ptr = strchr(env, '=');
-	if (!node || !ptr)
+	if (!node)
 		return (NULL);
-	key_len = ptr - env;
-	node->key = (char *)malloc(key_len + 1);
-	if (!node->key)
+	ptr = ft_strchr(line, '=');
+	if (!ptr)
 		return (NULL);
-	ft_strncpy(node->key, env, key_len);
-	node->key[key_len] = '\0';
-	value_len = ft_strlen(env) - key_len - 1;
-	node->value = (char *)malloc(value_len + 1);
-	if (!node->value)
+	node->key = NULL;
+	node->value = NULL;
+	node->new_key = NULL;
+	node->new_value = NULL;
+	if (malloc_key_value(node, ptr, line))
 		return (NULL);
-	ft_strncpy(node->value, ptr + 1, value_len);
-	node->value[value_len] = '\0';
 	node->next = NULL;
 	return (node);
 }
 
-t_export	*create_export_list(char **env)
+t_export	*init_export(char **env)
 {
 	t_export	*list;
 	t_export	*tail;
@@ -108,7 +79,7 @@ t_export	*create_export_list(char **env)
 	i = 0;
 	while (env[i])
 	{
-		node = init_export(env[i]);
+		node = init_export2(env[i]);
 		if (!node)
 		{
 			free_export(list);

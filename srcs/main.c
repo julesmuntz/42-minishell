@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/15 23:50:15 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:22:07 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	prompt(t_data *d)
 	str = NULL;
 	d->tmp = NULL;
 	d->prompt = NULL;
-	d->x = create_export_list(d->env);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -74,11 +73,13 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	d.l = NULL;
-	d.x = NULL;
 	if (argc != 1)
 		return (write(2, "Error\n", 6), 1);
 	d.env = init_env(env);
 	if (!d.env)
+		return (write(2, "Error\n", 6), 1);
+	d.x = init_export(d.env);
+	if (!d.x)
 		return (write(2, "Error\n", 6), 1);
 	prompt(&d);
 	return (0);
