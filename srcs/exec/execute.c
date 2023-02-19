@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/14 19:55:00 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/19 13:33:51 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,15 @@ int	exe_cmd(t_data *d)
 	if (!d->l)
 		return (0);
 	if (!d->l->next && check_builtins(d->l->cmd))
-		return (execute_builtin(d, d->l), 0);
+	{
+		redirect(d, d->l);
+		execute_builtin(d, d->l);
+		if (d->in != STDIN_FILENO)
+			close(d->in);
+		if (d->out != STDOUT_FILENO)
+			close(d->out);
+		return (0);
+	}
 	tmp = d->l;
 	while (tmp)
 	{
@@ -123,6 +131,7 @@ int	exe_cmd(t_data *d)
 		}
 		else
 			d->out = STDOUT_FILENO;
+		redirect(d, tmp);
 		tmp->pid = fork();
 		if (tmp->pid == 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/13 20:11:58 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:35:32 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ int	refresh_prompt(t_data *d)
 
 void	handle_ctrl_c(int sig)
 {
-	(void)sig;
-	signal(SIGINT, handle_ctrl_c);
-	ft_fprintf(STDOUT_FILENO, "\n");
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }

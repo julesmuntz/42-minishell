@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/04 16:54:35 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/19 13:36:50 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	parsing(t_data *d, char *str)
 	t = NULL;
 	if (*str == 0)
 		return (free(str), 0);
+	d->in = STDIN_FILENO;
+	d->out = STDOUT_FILENO;
 	str = expand_vars(d, str);
 	if (!str)
 		return (write(2, "Unexpected error\n", 17), 1);

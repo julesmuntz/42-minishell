@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/16 17:52:29 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/19 13:33:06 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
 int					exe_cmd(t_data *d);
+int					redirect(t_data *d, t_lst *l);
 int					find_cmd(char **str, char **env);
 char				*find_dir(char *str, char **env);
 int					check_builtins(char *str);
