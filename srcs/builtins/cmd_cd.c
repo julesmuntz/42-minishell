@@ -6,53 +6,14 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/20 17:31:19 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/20 19:30:57 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*find_paths(char **env)
+int	cmd_cd(t_lst *l)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strnstr(env[i], "PATH", 4))
-			return (env[i] + 5);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*find_dir(char *str, char **env)
-{
-	int		i;
-	char	**paths;
-	char	*result;
-
-	i = -1;
-	paths = ft_split(find_paths(env), ':');
-	while (paths[++i])
-	{
-		if (!access(str, F_OK))
-		{
-			result = ft_strdup(str);
-			if (!result)
-				return (NULL);
-			ft_free_lines(paths);
-			return (result);
-		}
-	}
-	ft_free_lines(paths);
-	return (NULL);
-}
-
-int	cmd_cd(t_data *d, t_lst *l)
-{
-	char	*path;
-
 	if (!ft_strcmp(l->arg[1], "~") || !l->arg[1])
 	{
 		chdir(getenv("HOME"));
@@ -65,13 +26,8 @@ int	cmd_cd(t_data *d, t_lst *l)
 		ft_fprintf(STDERR_FILENO, "minishell: %s: too many arguments\n", l->cmd);
 		return (0);
 	}
-	path = find_dir(l->arg[1], d->env);
-	if (!path)
-	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s:\
-%s: No such file or directory\n", l->cmd, l->arg[1]);
-		return (0);
-	}
-	chdir(l->arg[1]);
+	if (chdir(l->arg[1]))
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", l->arg[1],
+			strerror(errno));
 	return (0);
 }
