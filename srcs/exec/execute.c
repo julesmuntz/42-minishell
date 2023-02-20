@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/19 13:33:51 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:29:25 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_error(char *str, char **arg, t_data *d)
 	struct stat	*buf;
 
 	error = errno;
-	if ((errno == 2 && !ft_strchr(str, '/')) || !strcmp(str, ".") || !ft_strcmp(str, ".."))
+	if ((errno == 2 && !ft_strchr(str, '/')) || !ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
 		ft_fprintf(STDERR_FILENO, "minishell: %s: command not found\n", arg[0]);
 	else if (error == 13)
 	{

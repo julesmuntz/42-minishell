@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:34:24 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/19 13:34:24 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:17:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	heredoc(t_data *d, char *limiter)
+{
+	char	*str;
+	int 	fd;
+
+	fd = open(".heredoc.tmp", O_WRONLY|O_CREAT|O_TRUNC, 00644);
+	while (1)
+	{
+		str = readline("> ");
+		if (!ft_strcmp(str, limiter))
+			break ;
+		write(fd, str, ft_strlen(str));
+		write(fd, "\n", 1);
+		free(str);
+	}
+	close(fd);
+	d->in = open(".heredoc.tmp", O_RDONLY);
+	return (0);
+}
 
 static int	open_infile(t_data *d, t_lst *l)
 {
@@ -25,6 +45,8 @@ static int	open_infile(t_data *d, t_lst *l)
 			close(d->in);
 		if (l->infile[i].type == 0)
 			d->in = open(l->infile[i].str, O_RDONLY);
+		else
+			heredoc(d, l->infile[i].str);
 		i++;
 	}
 	return (0);

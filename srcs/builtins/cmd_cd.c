@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 14:06:11 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:31:19 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*find_paths(char **env)
 			return (env[i] + 5);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
 char	*find_dir(char *str, char **env)
@@ -39,12 +39,14 @@ char	*find_dir(char *str, char **env)
 		if (!access(str, F_OK))
 		{
 			result = ft_strdup(str);
+			if (!result)
+				return (NULL);
 			ft_free_lines(paths);
 			return (result);
 		}
 	}
 	ft_free_lines(paths);
-	return (0);
+	return (NULL);
 }
 
 int	cmd_cd(t_data *d, t_lst *l)
