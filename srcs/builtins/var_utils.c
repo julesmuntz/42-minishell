@@ -6,13 +6,13 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/20 18:59:51 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:58:15 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	create_var(t_export *current, t_data *d, int found)
+int	create_var(t_export *current, t_data *d, int found)
 {
 	current = d->x;
 	if (!found)
@@ -20,25 +20,32 @@ void	create_var(t_export *current, t_data *d, int found)
 		while (current->next)
 			current = current->next;
 		current->next = (t_export *)malloc(sizeof(t_export));
+		if (!current->next)
+			return (1);
 		current->next->key = d->x->new_key;
 		current->next->value = d->x->new_value;
 		current->next->next = NULL;
 	}
+	return (0);
 }
 
-void	update_var(t_export *current, t_data *d, int *plus)
+int	update_var(t_export *current, t_data *d, int *plus)
 {
 	char	*add;
 
+	add = NULL;
 	if (*plus == 1)
 	{
-		if (!current->value)
-			add = ft_strdup(d->x->new_value);
+		if (!current->value && !ft_strdup_safe(d->x->new_value))
+			return (1);
 		else
 		{
 			add = ft_strjoin(current->value, d->x->new_value);
+			if (!add)
+				return (1);
 			ft_strdel(&current->value);
 		}
+		ft_strdel(&d->x->new_value);
 		current->value = add;
 	}
 	else if (ft_strchr(d->l->arg[1], '=')
@@ -47,6 +54,22 @@ void	update_var(t_export *current, t_data *d, int *plus)
 		ft_strdel(&current->value);
 		current->value = d->x->new_value;
 	}
+	return (0);
+}
+
+static int	get_var3(t_data *d, t_lst *l, int *i)
+{
+	if (l->arg[1] && l->arg[1][*i] != '=')
+	{
+		if (ft_strcmp(l->arg[1], d->x->new_key))
+		{
+			d->x->new_key = ft_strdup(l->arg[1]);
+			if (!d->x->new_key)
+				return (1);
+		}
+		d->x->new_value = NULL;
+	}
+	return (0);
 }
 
 static int	get_var2(t_data *d, t_lst *l, int *plus, int *i)
@@ -59,24 +82,15 @@ static int	get_var2(t_data *d, t_lst *l, int *plus, int *i)
 			if (!d->x->new_key)
 				return (1);
 		}
-		if (ft_strncmp(l->arg[1] + *i + 1, d->x->new_value, ft_strlen(l->arg[1]) - *i - 1))
+		if (ft_strcmp(l->arg[1] + *i + 1, d->x->new_value))
 		{
-			d->x->new_value = ft_strndup(l->arg[1] + *i + 1,
-					ft_strlen(l->arg[1]) - *i - 1);
+			d->x->new_value = ft_strdup(l->arg[1] + *i + 1);
 			if (!d->x->new_value)
 				return (1);
 		}
 	}
-	else if (l->arg[1] && l->arg[1][*i] != '=')
-	{
-		if (ft_strcmp(l->arg[1], d->x->new_key))
-		{
-			d->x->new_key = ft_strdup(l->arg[1]);
-			if (!d->x->new_key)
-				return (1);
-		}
-		d->x->new_value = NULL;
-	}
+	else if (get_var3(d, l, i))
+		return (1);
 	return (0);
 }
 

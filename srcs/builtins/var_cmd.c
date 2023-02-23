@@ -6,13 +6,13 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/16 17:49:26 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:57:18 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_export(t_export *current, t_data *d, t_lst *l)
+static int	print_export(t_export *current, t_data *d, t_lst *l)
 {
 	if (!l->arg[1])
 	{
@@ -30,10 +30,12 @@ static void	print_export(t_export *current, t_data *d, t_lst *l)
 			}
 			current = current->next;
 		}
+		return (0);
 	}
+	return (1);
 }
 
-static void	print_env(t_export *current, t_data *d, t_lst *l)
+static int	print_env(t_export *current, t_data *d, t_lst *l)
 {
 	if (!l->arg[1])
 	{
@@ -45,19 +47,22 @@ static void	print_env(t_export *current, t_data *d, t_lst *l)
 					"%s=%s\n", current->key, current->value);
 			current = current->next;
 		}
+		return (0);
 	}
-	else
-		ft_fprintf(STDERR_FILENO,
-			"env: '%s': No such file or directory\n", l->arg[1]);
+	ft_fprintf(STDERR_FILENO,
+		"env: '%s': No such file or directory\n", l->arg[1]);
+	return (1);
 }
 
-static void	unset_var(t_export *current, const char *key)
+static int	unset_var(t_export *current, const char *key)
 {
 	t_export	*node;
 	t_export	*previous;
 
 	node = current;
 	previous = NULL;
+	if (!key)
+		return (1);
 	while (node != NULL)
 	{
 		if (!ft_strcmp(node->key, key))
@@ -66,10 +71,8 @@ static void	unset_var(t_export *current, const char *key)
 				current = node->next;
 			else
 				previous->next = node->next;
-			ft_strdel(&node->key);
-			ft_strdel(&node->value);
-			free(node);
-			return ;
+			return (ft_strdel(&node->key), ft_strdel(&node->value),
+				free(node), 0);
 		}
 		else
 		{
@@ -77,17 +80,18 @@ static void	unset_var(t_export *current, const char *key)
 			node = node->next;
 		}
 	}
-	return ;
+	return (1);
 }
 
-static void	var_cmd2(t_export *current, t_data *d, t_lst *l)
+static int	var_cmd2(t_export *current, t_data *d, t_lst *l)
 {
-	if (!ft_strcmp(l->cmd, "unset") && l->arg[1])
-		unset_var(current, l->arg[1]);
-	else if (!ft_strcmp(l->cmd, "export"))
-		print_export(current, d, l);
-	else if (!ft_strcmp(l->cmd, "env"))
-		print_env(current, d, l);
+	if (!ft_strcmp(l->cmd, "unset") && unset_var(current, l->arg[1]))
+		return (1);
+	else if (!ft_strcmp(l->cmd, "export") && print_export(current, d, l))
+		return (1);
+	else if (!ft_strcmp(l->cmd, "env") && print_env(current, d, l))
+		return (1);
+	return (0);
 }
 
 int	var_cmd(t_data *d, t_lst *l)

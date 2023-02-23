@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 18:01:55 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:17:51 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static int	start(char **arg, int n)
 	return (i);
 }
 
-void	cmd_echo(t_data *d, t_lst *l)
+int	cmd_echo(t_data *d, t_lst *l)
 {
 	int	i;
 	int	n;
 
 	if (!l->arg[1])
-		return ((void)write(d->out, "\n", 1));
+		return (write(d->out, "\n", 1), 0);
 	i = 1;
 	n = 1;
 	i = start(l->arg, n);
@@ -55,4 +55,5 @@ void	cmd_echo(t_data *d, t_lst *l)
 		if (n == i)
 			write(d->out, "\n", 1);
 	}
+	return (0);
 }

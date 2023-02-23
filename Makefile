@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/19 15:03:38 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/02/23 18:34:32 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,6 @@ SRC 		=	main.c					\
 				$(addprefix builtins/,	\
 				cmd_echo.c				\
 				cmd_pwd.c				\
-				cmd_export.c			\
-				cmd_unset.c				\
-				cmd_env.c				\
 				cmd_cd.c				\
 				cmd_exit.c				\
 				export_utils.c			\
@@ -76,7 +73,6 @@ OBJ_DIR		=	obj/
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 CC			=	cc
-# CFLAGS		=	-Iincludes -g
 CFLAGS		=	-Iincludes -Wall -Wextra -Werror -g
 RM			=	rm -f
 

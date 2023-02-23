@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/20 17:29:25 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:23:13 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ int	exe_cmd(t_data *d)
 	if (!d->l->next && check_builtins(d->l->cmd))
 	{
 		redirect(d, d->l);
-		execute_builtin(d, d->l);
+		if (execute_builtin(d, d->l))
+			return (1);
 		if (d->in != STDIN_FILENO)
 			close(d->in);
 		if (d->out != STDOUT_FILENO)
