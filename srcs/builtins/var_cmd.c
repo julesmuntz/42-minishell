@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/23 19:57:18 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/24 19:31:22 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	print_export(t_export *current, t_data *d, t_lst *l)
 		}
 		return (0);
 	}
-	return (1);
+	return (0);
 }
 
 static int	print_env(t_export *current, t_data *d, t_lst *l)
@@ -51,7 +51,7 @@ static int	print_env(t_export *current, t_data *d, t_lst *l)
 	}
 	ft_fprintf(STDERR_FILENO,
 		"env: '%s': No such file or directory\n", l->arg[1]);
-	return (1);
+	return (0);
 }
 
 static int	unset_var(t_export *current, const char *key)
@@ -80,7 +80,7 @@ static int	unset_var(t_export *current, const char *key)
 			node = node->next;
 		}
 	}
-	return (1);
+	return (0);
 }
 
 static int	var_cmd2(t_export *current, t_data *d, t_lst *l)
@@ -99,25 +99,31 @@ int	var_cmd(t_data *d, t_lst *l)
 	t_export	*current;
 	int			plus;
 	int			found;
+	int			i;
 
-	plus = 0;
-	found = 0;
-	current = d->x;
 	if (!ft_strcmp(l->cmd, "export") && l->arg[1])
 	{
-		if (get_var(d, l, &plus))
-			return (1);
-		while (current)
+		i = 1;
+		while (l->arg[i])
 		{
-			if (!ft_strcmp(current->key, d->x->new_key) && d->x->new_key)
+			plus = 0;
+			found = 0;
+			current = d->x;
+			if (get_var(d, l->arg[i], &plus))
+				return (1);
+			while (current)
 			{
-				found = 1;
-				update_var(current, d, &plus);
-				break ;
+				if (!ft_strcmp(current->key, d->x->new_key) && d->x->new_key)
+				{
+					found = 1;
+					update_var(current, d, l->arg[i], &plus);
+					break ;
+				}
+				current = current->next;
 			}
-			current = current->next;
+			create_var(current, d, found);
+			i++;
 		}
-		create_var(current, d, found);
 	}
 	var_cmd2(current, d, l);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/23 15:52:40 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:42:24 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	cmd_cd(t_lst *l)
 	if (l->arg[2])
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: too many arguments\n", l->cmd);
-		return (1);
+		return (0);
 	}
 	if (chdir(l->arg[1]))
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", l->arg[1],
 			strerror(errno));
-		return (1);
+		return (0);
 	}
 	return (0);
 }
