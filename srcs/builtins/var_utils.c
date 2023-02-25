@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/24 20:20:10 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:25:53 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	create_var(t_export *current, t_data *d, int found)
 		current->next = (t_export *)malloc(sizeof(t_export));
 		if (!current->next)
 			return (1);
+		garbage_collector(current->next, d);
 		current->next->key = d->x->new_key;
 		current->next->value = d->x->new_value;
 		current->next->next = NULL;
@@ -41,23 +42,20 @@ int	update_var(t_export *current, t_data *d, char *arg, int *plus)
 			add = ft_strdup(d->x->new_value);
 			if (!add)
 				return (1);
+			garbage_collector(add, d);
 		}
 		else
 		{
 			add = ft_strjoin(current->value, d->x->new_value);
 			if (!add)
 				return (1);
-			ft_strdel(&current->value);
+			garbage_collector(add, d);
 		}
-		ft_strdel(&d->x->new_value);
 		current->value = add;
 	}
 	else if (ft_strchr(arg, '=')
 		&& ft_strcmp(current->value, d->x->new_value))
-	{
-		ft_strdel(&current->value);
 		current->value = d->x->new_value;
-	}
 	return (0);
 }
 
@@ -65,11 +63,12 @@ static int	get_var3(t_data *d, char *arg, int *i)
 {
 	if (arg && arg[*i] != '=')
 	{
-		if (ft_strcmp(arg, d->x->new_key))
+		if (ft_strcmp(arg, d->x->key))
 		{
 			d->x->new_key = ft_strdup(arg);
 			if (!d->x->new_key)
 				return (1);
+			garbage_collector(d->x->new_key, d);
 		}
 		d->x->new_value = NULL;
 	}
@@ -80,17 +79,19 @@ static int	get_var2(t_data *d, char *arg, int *plus, int *i)
 {
 	if (arg && arg[*i] == '=' && d->x->key && d->x->value)
 	{
-		if (ft_strncmp(arg, d->x->new_key, *i - *plus))
+		if (ft_strncmp(arg, d->x->key, *i - *plus))
 		{
 			d->x->new_key = ft_strndup(arg, *i - *plus);
 			if (!d->x->new_key)
 				return (1);
+			garbage_collector(d->x->new_key, d);
 		}
-		if (ft_strcmp(arg + *i + 1, d->x->new_value))
+		if (ft_strcmp(arg + *i + 1, d->x->value))
 		{
 			d->x->new_value = ft_strdup(arg + *i + 1);
 			if (!d->x->new_value)
 				return (1);
+			garbage_collector(d->x->new_value, d);
 		}
 	}
 	else if (get_var3(d, arg, i))
@@ -109,7 +110,7 @@ int	get_var(t_data *d, char *arg, int *plus)
 			(*plus)++;
 		i++;
 	}
-	if (*plus > 1)
+	if (*plus > 1 || *arg == '=' || *arg == '+')
 		return (ft_fprintf(STDERR_FILENO,
 				"minishell: export: `%s\': not a valid identifier\n",
 				arg), 0);

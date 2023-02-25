@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/23 18:23:13 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:04:56 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	free_stuff(t_data *d)
 {
 	rl_clear_history();
 	free(d->prompt);
-	free_export(d->x);
 	ft_lst_free(d->l);
 	free(d->tmp);
 }
@@ -47,8 +46,8 @@ void	exec_error(char *str, char **arg, t_data *d)
 	free(str);
 	ft_free_tab(arg);
 	ft_free_tab(d->env);
+	free_garbage(&d->g);
 	exit(EXIT_SUCCESS);
-
 }
 
 void	child(t_data *d, t_lst *l)

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/24 19:31:22 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:14:15 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,29 +101,26 @@ int	var_cmd(t_data *d, t_lst *l)
 	int			found;
 	int			i;
 
-	if (!ft_strcmp(l->cmd, "export") && l->arg[1])
+	i = 1;
+	while (l->arg[i] && !ft_strcmp(d->l->cmd, "export") && d->l->arg[1])
 	{
-		i = 1;
-		while (l->arg[i])
+		plus = 0;
+		found = 0;
+		current = d->x;
+		if (get_var(d, l->arg[i], &plus))
+			return (1);
+		while (current)
 		{
-			plus = 0;
-			found = 0;
-			current = d->x;
-			if (get_var(d, l->arg[i], &plus))
-				return (1);
-			while (current)
+			if (!ft_strcmp(current->key, d->x->new_key) && d->x->new_key)
 			{
-				if (!ft_strcmp(current->key, d->x->new_key) && d->x->new_key)
-				{
-					found = 1;
-					update_var(current, d, l->arg[i], &plus);
-					break ;
-				}
-				current = current->next;
+				found = 1;
+				update_var(current, d, l->arg[i], &plus);
+				break ;
 			}
-			create_var(current, d, found);
-			i++;
+			current = current->next;
 		}
+		create_var(current, d, found);
+		i++;
 	}
 	var_cmd2(current, d, l);
 	return (0);

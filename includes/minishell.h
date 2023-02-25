@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/24 20:21:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:32:48 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ typedef struct s_export
 	struct s_export	*next;
 }					t_export;
 
+typedef struct s_garbge
+{
+	void			*ptr;
+	struct s_garbge	*next;
+}					t_garbage;
+
 typedef struct s_data
 {
 	t_lst			*l;
@@ -75,6 +81,7 @@ typedef struct s_data
 	char			**env;
 	char			*prompt;
 	t_export		*x;
+	t_garbage		*g;
 	int				pipe;
 	int				in;
 	int				out;
@@ -119,11 +126,13 @@ int					cmd_unset(t_data *d, t_lst *l);
 int					cmd_env(t_data *d, t_lst *l);
 int					cmd_exit(t_data *d);
 
-t_export			*init_export(char **env);
-void				free_export(t_export *node);
+t_export			*init_export(t_data *d);
 int					var_cmd(t_data *d, t_lst *l);
 int					get_var(t_data *d, char *arg, int *plus);
 int					create_var(t_export *current, t_data *d, int found);
 int					update_var(t_export *curr, t_data *d, char *arg, int *plus);
+
+void				garbage_collector(void *ptr, t_data *d);
+void				free_garbage(t_garbage **g);
 
 #endif

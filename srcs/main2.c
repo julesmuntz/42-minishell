@@ -6,11 +6,38 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/19 15:35:32 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/25 22:01:20 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	garbage_collector(void *ptr, t_data *d)
+{
+	t_garbage	*new;
+
+	if (!ptr || !d)
+		return ;
+	new = malloc(sizeof(t_garbage));
+	if (!new)
+		return ;
+	new->ptr = ptr;
+	new->next = d->g;
+	d->g = new;
+}
+
+void	free_garbage(t_garbage **g)
+{
+	t_garbage	*current;
+
+	while (*g)
+	{
+		current = *g;
+		*g = (*g)->next;
+		free(current->ptr);
+		free(current);
+	}
+}
 
 static int	user_dir_name(char *cur_dir)
 {
