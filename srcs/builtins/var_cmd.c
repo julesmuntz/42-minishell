@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/27 14:59:25 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 21:44:01 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,26 @@
 
 static int	print_export(t_export *current, t_data *d, t_lst *l)
 {
+	t_export	*sorted;
+	t_export	*tmp;
+
 	if (!l->arg[1])
 	{
-		current = d->x;
-		while (current)
+		sorted = NULL;
+		copy_export(current, &sorted, d);
+		sort_export(&sorted);
+		tmp = sorted;
+		while (tmp)
 		{
-			if (ft_strcmp(current->key, "_")
-				&& ft_strcmp(current->value, getenv("_")))
+			if (ft_strcmp(tmp->key, "_") && ft_strcmp(tmp->value, getenv("_")))
 			{
-				if (current->key && !current->value)
-					ft_fprintf(d->out, "declare -x %s\n", current->key);
-				else if (current->key && current->value)
-					ft_fprintf(d->out,
-						"declare -x %s=\"%s\"\n", current->key, current->value);
+				if (tmp->key && !tmp->value)
+					ft_fprintf(d->out, "declare -x %s\n", tmp->key);
+				else if (tmp->key && tmp->value)
+					ft_fprintf(d->out, "declare -x %s=\"%s\"\n", tmp->key,
+						tmp->value);
 			}
-			current = current->next;
+			tmp = tmp->next;
 		}
 		return (0);
 	}
@@ -42,11 +47,13 @@ static int	print_env(t_export *current, t_data *d, t_lst *l)
 		current = d->x;
 		while (current)
 		{
-			if (current->value)
+			if (ft_strcmp(current->key, "_")
+				&& ft_strcmp(current->value, getenv("_")) && current->value)
 				ft_fprintf(d->out,
 					"%s=%s\n", current->key, current->value);
 			current = current->next;
 		}
+		ft_fprintf(d->out, "_=/usr/bin/env\n");
 		return (0);
 	}
 	ft_fprintf(STDERR_FILENO,

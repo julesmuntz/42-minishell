@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/28 16:51:49 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 21:46:02 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,14 @@ int					cmd_pwd(t_data *d);
 int					cmd_exit(t_data *d);
 
 t_export			*init_export(t_data *d);
+void				copy_export(t_export *src, t_export **dst, t_data *d);
+void				sort_export(t_export **node);
 int					var_cmd(t_data *d, t_lst *l);
 int					get_var(t_data *d, char *arg, int *plus);
 int					create_var(t_export *current, t_data *d, int found);
 int					update_var(t_export *curr, t_data *d, char *arg, int *plus);
 
-void				garbage_collector(void *ptr, t_data *d);
+void				*galloc(void *ptr, size_t size, t_data *d);
 void				free_garbage(t_garbage **g);
 
 #endif

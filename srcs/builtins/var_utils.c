@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/25 22:25:53 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:57:55 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ int	create_var(t_export *current, t_data *d, int found)
 	{
 		while (current->next)
 			current = current->next;
-		current->next = (t_export *)malloc(sizeof(t_export));
+		current->next = (t_export *)galloc(NULL, sizeof(t_export), d);
 		if (!current->next)
 			return (1);
-		garbage_collector(current->next, d);
 		current->next->key = d->x->new_key;
 		current->next->value = d->x->new_value;
 		current->next->next = NULL;
@@ -39,17 +38,14 @@ int	update_var(t_export *current, t_data *d, char *arg, int *plus)
 	{
 		if (!current->value)
 		{
-			add = ft_strdup(d->x->new_value);
-			if (!add)
-				return (1);
-			garbage_collector(add, d);
+			add = galloc(ft_strdup(d->x->new_value), sizeof(char)
+					* ft_strlen(d->x->new_value) + 1, d);
 		}
 		else
 		{
-			add = ft_strjoin(current->value, d->x->new_value);
-			if (!add)
-				return (1);
-			garbage_collector(add, d);
+			add = galloc(ft_strjoin(current->value, d->x->new_value),
+					sizeof(char) * (ft_strlen(current->value)
+						+ ft_strlen(d->x->new_value)) + 1, d);
 		}
 		current->value = add;
 	}
@@ -65,10 +61,10 @@ static int	get_var3(t_data *d, char *arg, int *i)
 	{
 		if (ft_strcmp(arg, d->x->key))
 		{
-			d->x->new_key = ft_strdup(arg);
+			d->x->new_key = galloc(ft_strdup(arg),
+					sizeof(char) * ft_strlen(arg) + 1, d);
 			if (!d->x->new_key)
 				return (1);
-			garbage_collector(d->x->new_key, d);
 		}
 		d->x->new_value = NULL;
 	}
@@ -81,17 +77,17 @@ static int	get_var2(t_data *d, char *arg, int *plus, int *i)
 	{
 		if (ft_strncmp(arg, d->x->key, *i - *plus))
 		{
-			d->x->new_key = ft_strndup(arg, *i - *plus);
+			d->x->new_key = galloc(ft_strndup(arg, *i - *plus), sizeof(char)
+					* (*i - *plus) + 1, d);
 			if (!d->x->new_key)
 				return (1);
-			garbage_collector(d->x->new_key, d);
 		}
 		if (ft_strcmp(arg + *i + 1, d->x->value))
 		{
-			d->x->new_value = ft_strdup(arg + *i + 1);
+			d->x->new_value = galloc(ft_strdup(arg + *i + 1), sizeof(char)
+					* ft_strlen(arg + *i + 1) + 1, d);
 			if (!d->x->new_value)
 				return (1);
-			garbage_collector(d->x->new_value, d);
 		}
 	}
 	else if (get_var3(d, arg, i))

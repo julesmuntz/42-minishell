@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/23 19:59:08 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 21:17:54 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int		ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd);
 int		ft_fprintf(const int fd, const char *str, ...);
-char	*ft_strdup_safe(char *s);
+void	*ft_realloc(void *ptr, size_t size);
 
 #endif

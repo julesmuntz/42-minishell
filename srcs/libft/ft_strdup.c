@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:58 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/23 19:58:56 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:37:40 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,4 @@ char	*ft_strndup(const char *s, size_t n)
 	}
 	result[i] = '\0';
 	return (result);
-}
-
-char	*ft_strdup_safe(char *s)
-{
-	char	*dup;
-
-	if (!s)
-		return (NULL);
-	dup = ft_strdup(s);
-	if (!dup)
-		return (NULL);
-	return (dup);
 }
