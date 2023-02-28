@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/27 13:29:36 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 16:51:49 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_data
 	int				in;
 	int				out;
 }					t_data;
+
+extern int	g_exit_code;
 
 char				**free_tab(char **tab, int i);
 void				ft_free_redir(t_redir *ptr);

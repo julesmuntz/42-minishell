@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/25 22:32:59 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:11:32 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	prompt(t_data *d)
 	str = NULL;
 	d->tmp = NULL;
 	d->prompt = NULL;
+	rl_outstream = stderr;
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -66,6 +67,8 @@ void	prompt(t_data *d)
 		d->l = ft_lst_free(d->l);
 	}
 }
+
+int	g_exit_code = 0;
 
 int	main(int argc, char **argv, char **env)
 {
