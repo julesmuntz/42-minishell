@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:57:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/28 21:03:54 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:20:46 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,6 @@ t_export	*init_export(t_data *d)
 		tail = node;
 		i++;
 	}
+	d->env_size = i;
 	return (list);
 }

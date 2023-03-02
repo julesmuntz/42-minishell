@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/28 20:57:55 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:23:21 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	create_var(t_export *current, t_data *d, int found)
 		current->next->key = d->x->new_key;
 		current->next->value = d->x->new_value;
 		current->next->next = NULL;
+		d->env_size++;
 	}
 	return (0);
 }

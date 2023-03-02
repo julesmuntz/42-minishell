@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/28 17:11:32 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/02 01:02:09 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	exit_shell(t_data *d, int code)
 {
 	rl_clear_history();
 	free(d->prompt);
-	ft_free_tab(d->env);
 	ft_lst_free(d->l);
 	free(d->tmp);
 	free_garbage(&d->g);
@@ -79,7 +78,7 @@ int	main(int argc, char **argv, char **env)
 	d.g = NULL;
 	if (argc != 1)
 		return (write(2, "Error\n", 6), 1);
-	d.env = init_env(env);
+	d.env = init_env(env, &d);
 	if (!d.env)
 		return (write(2, "Error\n", 6), 1);
 	d.x = init_export(&d);

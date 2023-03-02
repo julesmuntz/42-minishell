@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/25 18:04:56 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:56:10 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	exec_error(char *str, char **arg, t_data *d)
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", str, strerror(error));
 	free(str);
 	ft_free_tab(arg);
-	ft_free_tab(d->env);
 	free_garbage(&d->g);
 	exit(EXIT_SUCCESS);
 }
@@ -91,6 +90,7 @@ void	child(t_data *d, t_lst *l)
 	arg = l->arg;
 	l->arg = NULL;
 	free_stuff(d);
+	d->env = update_env(d);
 	execve(str, arg, d->env);
 	exec_error(str, arg, d);
 }

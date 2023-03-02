@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/28 21:44:01 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/02 01:08:30 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,24 @@ static int	print_env(t_export *current, t_data *d, t_lst *l)
 	return (0);
 }
 
-static int	unset_var(t_export *current, const char *key)
+static int	unset_var(t_export *current, t_data *d, const char *arg)
 {
 	t_export	*node;
 	t_export	*previous;
 
 	node = current;
 	previous = NULL;
-	if (!key)
+	if (!arg)
 		return (0);
 	while (node != NULL)
 	{
-		if (!ft_strcmp(node->key, key))
+		if (!ft_strcmp(node->key, arg))
 		{
 			if (previous == NULL)
 				current = node->next;
 			else
 				previous->next = node->next;
+			d->env_size--;
 			return (0);
 		}
 		else
@@ -131,7 +132,7 @@ int	var_cmd(t_data *d, t_lst *l)
 	else if (!ft_strcmp(d->l->cmd, "unset") && l->arg[1])
 	{
 		while (l->arg[++i])
-			if (unset_var(current, l->arg[i]))
+			if (unset_var(current, d, l->arg[i]))
 				return (1);
 	}
 	if (!ft_strcmp(l->cmd, "export") && print_export(current, d, l))

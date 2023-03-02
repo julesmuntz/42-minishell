@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/28 21:46:02 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/02 01:01:58 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_data
 	t_lst			*l;
 	char			*tmp;
 	char			**env;
+	int				env_size;
 	char			*prompt;
 	t_export		*x;
 	t_garbage		*g;
@@ -91,7 +92,7 @@ extern int	g_exit_code;
 
 char				**free_tab(char **tab, int i);
 void				ft_free_redir(t_redir *ptr);
-char				**init_env(char **env);
+char				**init_env(char **env, t_data *d);
 int					parsing(t_data *d, char *str);
 int					init_list(t_data *d, t_tok *t);
 int					new_tok(t_tok **t, char *str, int j);
@@ -132,6 +133,7 @@ int					var_cmd(t_data *d, t_lst *l);
 int					get_var(t_data *d, char *arg, int *plus);
 int					create_var(t_export *current, t_data *d, int found);
 int					update_var(t_export *curr, t_data *d, char *arg, int *plus);
+char				**update_env(t_data *d);
 
 void				*galloc(void *ptr, size_t size, t_data *d);
 void				free_garbage(t_garbage **g);
