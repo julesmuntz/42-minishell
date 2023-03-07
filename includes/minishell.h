@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/02 01:01:58 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/06 14:43:12 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_redir
 typedef struct s_lst
 {
 	int				pid;
+	int				called;
 	char			*cmd;
 	char			**arg;
 	t_redir			*infile;
@@ -83,9 +84,11 @@ typedef struct s_data
 	char			*prompt;
 	t_export		*x;
 	t_garbage		*g;
+	int				pipefd[2];
 	int				pipe;
 	int				in;
 	int				out;
+	int				heredoc;
 }					t_data;
 
 extern int	g_exit_code;
@@ -114,6 +117,9 @@ int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
 int					exe_cmd(t_data *d);
+void				child(t_data *d, t_lst *l);
+void				exec_error(char *str, char **arg, t_data *d);
+void				free_stuff(t_data *d);
 int					redirect(t_data *d, t_lst *l);
 int					find_cmd(char **str, char **env);
 int					check_builtins(char *str);

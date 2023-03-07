@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/02/28 20:42:30 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/03/06 11:59:12 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRC 		=	main.c					\
 				check_builtin.c			\
 				search_path.c			\
 				redirect.c				\
+				child.c					\
+				handle_errors.c			\
 				)						\
 				$(addprefix builtins/,	\
 				cmd_echo.c				\

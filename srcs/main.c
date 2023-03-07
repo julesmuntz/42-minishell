@@ -57,7 +57,7 @@ void	prompt(t_data *d)
 		str = readline(d->prompt);
 		if (!str)
 		{
-			write(1, "exit\n", 5);
+			ft_puterr("minishell: malloc failed\n");
 			return (exit_shell(d, EXIT_FAILURE));
 		}
 		if (ft_history(d, &str) || parsing(d, str) || exe_cmd(d))

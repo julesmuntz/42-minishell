@@ -47,5 +47,9 @@ int	execute_builtin(t_data *d, t_lst *l)
 		return (1);
 	else if (!ft_strcmp(l->cmd, "exit") && cmd_exit(d))
 		return (1);
+	if (d->in != STDIN_FILENO)
+		close(d->in);
+	if (d->out != STDOUT_FILENO)
+		close(d->out);
 	return (0);
 }

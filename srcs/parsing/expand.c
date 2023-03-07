@@ -44,7 +44,7 @@ static int	replace_var(t_data *d, t_tok *t)
 {
 	while (t)
 	{
-		if (*t->str == '$' && replace_var2(d, t))
+		if (*t->str == '$' && *(t->str + 1) && replace_var2(d, t))
 			return (1);
 		t = t->next;
 	}
@@ -57,6 +57,8 @@ static int	isolate_var_name(char *str)
 
 	if (*str != '$')
 		return (0);
+	if (*(str + 1) == '?')
+		return (2);
 	i = 1;
 	while (str[i] && str[i] != ' ' && str[i] != '$')
 		i++;

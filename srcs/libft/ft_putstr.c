@@ -61,3 +61,8 @@ void	ft_putnbr_fd(int nb, int fd)
 		write(fd, &n, 1);
 	}
 }
+
+void	ft_puterr(char *s)
+{
+	write(STDERR_FILENO, s, ft_strlen(s));
+}
