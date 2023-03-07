@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:43:54 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/06 21:55:18 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:56:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	exec_error(char *str, char **arg, t_data *d)
 	{
 		buf = malloc(sizeof(struct stat));
 		if (!buf)
-			write(2, "Error when calling malloc\n", 26);
+			ft_puterr("Error when calling malloc\n");
 		else if (stat(str, buf) && errno != EACCES)
-			write(STDERR_FILENO, "Error when calling stat\n", 24);
+			ft_puterr("Error when calling stat\n");
 		else if (S_ISDIR(buf->st_mode))
 			ft_fprintf(STDERR_FILENO, "minishell: %s: is a directory\n", str);
 		else

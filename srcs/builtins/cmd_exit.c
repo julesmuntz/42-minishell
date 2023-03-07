@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 23:20:02 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/28 17:53:01 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:52:52 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	cmd_exit(t_data *d)
 
 	exit_code = g_exit_code;
 	value = 0;
-	write(STDERR_FILENO, "exit\n", 5);
+	ft_puterr("exit\n");
 	if (d->l->arg[1])
 		exit_code = get_code(d, &value, &exit_code);
 	exit_shell(d, exit_code);

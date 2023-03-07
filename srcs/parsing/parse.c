@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/19 13:36:50 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:58:09 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,19 @@ int	parsing(t_data *d, char *str)
 	t = NULL;
 	str = expand_vars(d, str);
 	if (!str)
-		return (write(STDERR_FILENO, "minishell: malloc failed\n", 25), 1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	if (*str == 0)
 		return (free(str), 0);
 	d->in = STDIN_FILENO;
 	d->out = STDOUT_FILENO;
 	if (!str)
-		return (write(2, "minishell: malloc failed\n", 25), 1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	if (parse_line(&t, str))
-		return (write(2, "minishell: malloc failed\n", 25), 1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	free(str);
 	if (syntax_check(t))
-		return (free_tok(t), write(2, "Syntax error\n", 13), 0);
+		return (free_tok(t), ft_puterr("Syntax error\n"), 0);
 	if (init_list(d, t))
-		return (write(2, "minishell: malloc failed\n", 25), 1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	return (0);
 }

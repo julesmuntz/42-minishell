@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/02 01:02:09 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:02:39 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	prompt(t_data *d)
 	str = NULL;
 	d->tmp = NULL;
 	d->prompt = NULL;
-	rl_outstream = stderr;
+	rl_outstream = stderr;//tmp
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
@@ -57,7 +57,7 @@ void	prompt(t_data *d)
 		str = readline(d->prompt);
 		if (!str)
 		{
-			ft_puterr("minishell: malloc failed\n");
+			ft_puterr("exit\n");
 			return (exit_shell(d, EXIT_FAILURE));
 		}
 		if (ft_history(d, &str) || parsing(d, str) || exe_cmd(d))
@@ -77,13 +77,13 @@ int	main(int argc, char **argv, char **env)
 	d.l = NULL;
 	d.g = NULL;
 	if (argc != 1)
-		return (write(2, "Error\n", 6), 1);
+		return (ft_puterr("Error\n"), 1);
 	d.env = init_env(env, &d);
 	if (!d.env)
-		return (write(2, "Error\n", 6), 1);
+		return (ft_puterr("Error\n"), 1);
 	d.x = init_export(&d);
 	if (!d.x)
-		return (write(2, "Error\n", 6), 1);
+		return (ft_puterr("Error\n"), 1);
 	prompt(&d);
 	return (0);
 }
