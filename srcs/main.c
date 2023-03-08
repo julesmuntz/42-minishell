@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/08 11:19:14 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:37:03 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_history(t_data *d, char **str)
 {
 	char	*s;
 
-	s = ft_strtrim(*str, " ");
+	s = ft_strtrim(*str, " \t");
 	free(*str);
 	if (!s)
 		return (1);
@@ -62,6 +62,7 @@ void	prompt(t_data *d)
 		if (ft_history(d, &str) || parsing(d, str) || exe_cmd(d))
 			return (exit_shell(d, EXIT_FAILURE));
 		free(d->prompt);
+		d->env = update_env(d);
 		d->l = ft_lst_free(d->l);
 	}
 }

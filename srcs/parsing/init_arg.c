@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/15 02:25:40 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:57:24 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int	init_arg(t_lst *new, t_tok *t)
 
 	if (t)
 	{
-		new->cmd = ft_strdup(t->str);
-		if (!new->cmd)
+		if (remove_quotes(t->str, &new->cmd))
 			return (free_tok(t), 1);
 		size = ft_tok_size(t);
 		new->arg = malloc((size + 1) * sizeof(char *));

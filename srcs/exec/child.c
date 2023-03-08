@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:43:50 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/06 21:38:33 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:13:43 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static void	exec_cmd(t_data *d, t_lst *l)
 		exit_shell(d, EXIT_FAILURE);
 	if (find_cmd(&str, d->env))
 	{
+		ft_puterr("minishell: malloc failed\n");
 		free(str);
 		exit_shell(d, EXIT_FAILURE);
 	}
 	arg = l->arg;
 	l->arg = NULL;
 	free_stuff(d);
-	d->env = update_env(d);
 	execve(str, arg, d->env);
 	exec_error(str, arg, d);
 }

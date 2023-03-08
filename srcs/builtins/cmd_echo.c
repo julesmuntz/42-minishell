@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/08 11:38:14 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:09:20 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	cmd_echo(t_data *d, t_lst *l)
 		if (n == i)
 			write(d->out, "\n", 1);
 	}
-	if (ft_strcmp(l->arg[1], "$?"))
-		g_exit_code = 0;
+	g_exit_code = 0;
 	return (0);
 }

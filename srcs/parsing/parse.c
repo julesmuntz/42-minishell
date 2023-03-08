@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/07 14:58:09 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:16:07 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ int	parse_quotes(char *str)
 	if (str[0] == '"')
 		while (str[i] && str[i] != '"')
 			i++;
-	else
+	else if (str[0] == '\'')
 		while (str[i] && str[i] != '\'')
 			i++;
+	else
+		return (0);
 	if (str[i] == 0)
 		i = 0;
 	return (i);

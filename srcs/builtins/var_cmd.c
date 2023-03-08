@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/08 13:44:04 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:22:46 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static int	print_export(t_export *current, t_data *d, t_lst *l)
 
 static int	print_env(t_export *current, t_data *d, t_lst *l)
 {
+	t_export	*tmp;
+
 	if (!l->arg[1])
 	{
 		current = d->x;
@@ -51,9 +53,13 @@ static int	print_env(t_export *current, t_data *d, t_lst *l)
 				&& ft_strcmp(current->value, getenv("_")) && current->value)
 				ft_fprintf(d->out,
 					"%s=%s\n", current->key, current->value);
+			else
+				tmp = current;
 			current = current->next;
 		}
-		ft_fprintf(d->out, "_=/usr/bin/env\n");
+		if ((getenv("_")))
+			ft_fprintf(d->out,
+				"%s=%s\n", tmp->key, tmp->value);
 		return (0);
 	}
 	ft_fprintf(STDERR_FILENO,

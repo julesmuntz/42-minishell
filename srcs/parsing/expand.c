@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/08 11:19:45 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:31:59 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int	isolate_var_name(char *str)
 	if (*(str + 1) == '?')
 		return (2);
 	i = 1;
-	while (str[i] && str[i] != ' ' && str[i] != '$')
+	while (str[i] && str[i] != ' ' && str[i] != '$'
+		&& str[i] != '\'' && str[i] != '"')
 		i++;
 	return (i);
 }
