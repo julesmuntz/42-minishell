@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/01 23:23:21 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:22:07 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int	get_var(t_data *d, char *arg, int *plus)
 			(*plus)++;
 		i++;
 	}
-	if (*plus > 1 || *arg == '=' || *arg == '+')
-		return (ft_fprintf(STDERR_FILENO,
+	if (*plus > 1)
+		return (g_exit_code = 1, ft_fprintf(STDERR_FILENO,
 				"minishell: export: `%s\': not a valid identifier\n",
 				arg), 0);
 	if (get_var2(d, arg, plus, &i))

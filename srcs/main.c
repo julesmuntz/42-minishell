@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/07 15:02:39 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:19:14 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	prompt(t_data *d)
 	str = NULL;
 	d->tmp = NULL;
 	d->prompt = NULL;
-	rl_outstream = stderr;//tmp
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);

@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/03/06 11:59:12 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/03/08 11:21:36 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC 		=	main.c					\
 				ft_strdel.c				\
 				ft_fprintf.c			\
 				ft_realloc.c			\
+				ft_itoa.c				\
 				)
 
 OBJ_DIR		=	obj/

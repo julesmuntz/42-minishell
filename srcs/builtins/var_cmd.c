@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/02 01:08:30 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:44:04 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	print_env(t_export *current, t_data *d, t_lst *l)
 	}
 	ft_fprintf(STDERR_FILENO,
 		"env: '%s': No such file or directory\n", l->arg[1]);
+	g_exit_code = 127;
 	return (0);
 }
 
@@ -95,6 +96,9 @@ static int	export_var(t_export *current, t_data *d, char *arg)
 	int	plus;
 	int	found;
 
+	if (*arg == '=' || *arg == '+')
+		return (g_exit_code = 1, ft_fprintf(STDERR_FILENO,
+				"minishell: export: `%s\': not a valid identifier\n", arg), 0);
 	plus = 0;
 	found = 0;
 	current = d->x;
@@ -123,6 +127,7 @@ int	var_cmd(t_data *d, t_lst *l)
 
 	i = 0;
 	current = d->x;
+	g_exit_code = 0;
 	if (!ft_strcmp(d->l->cmd, "export") && l->arg[1])
 	{
 		while (l->arg[++i])

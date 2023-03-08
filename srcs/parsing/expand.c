@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 22:55:27 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:19:45 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,18 @@ static int	replace_var2(t_data *d, t_tok *t)
 
 static int	replace_var(t_data *d, t_tok *t)
 {
+	char	*tmp;
+
 	while (t)
 	{
+		if (*t->str == '$' && *(t->str + 1) == '?')
+		{
+			tmp = ft_itoa(g_exit_code);
+			if (!tmp)
+				return (1);
+			free(t->str);
+			t->str = tmp;
+		}
 		if (*t->str == '$' && *(t->str + 1) && replace_var2(d, t))
 			return (1);
 		t = t->next;

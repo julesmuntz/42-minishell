@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 23:20:02 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/07 14:52:52 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:42:07 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,30 @@ long long	get_number(const char *str)
 	return (sign * value);
 }
 
-static int	get_code(t_data *d, long long *value, int *code)
+static int	get_code(t_data *d, unsigned long long *value, int *code)
 {
-	if (is_number(d->l->arg[1]))
+	if (d->l->arg[2] != NULL)
 	{
-		if (*value >= INT_MIN && *value <= INT_MAX)
-		{
-			*value = get_number(d->l->arg[1]);
+		ft_fprintf(STDERR_FILENO, "minishell: exit: too many arguments\n");
+		*code = 1;
+	}
+	else if (is_number(d->l->arg[1]))
+	{
+		*value = get_number(d->l->arg[1]);
+		if ((long long)*value >= INT_MIN && (long long)*value <= INT_MAX)
 			*code = (int)*value % 256;
-			if (d->l->arg[2] != NULL)
-			{
-				ft_fprintf(STDERR_FILENO, "minishell: exit: \
-too many arguments\n");
-				*code = 1;
-			}
-		}
-		else
+		else if (*value > LLONG_MAX)
 		{
-			ft_fprintf(STDERR_FILENO, "minishell: exit: \
-%s: numeric argument out of range\n", d->l->arg[1]);
+			ft_fprintf(STDERR_FILENO,
+				"minishell: exit: %s: numeric argument required\n",
+				d->l->arg[1]);
 			*code = 2;
 		}
 	}
 	else
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: exit: \
-%s: numeric argument required\n", d->l->arg[1]);
+		ft_fprintf(STDERR_FILENO,
+			"minishell: exit: %s: numeric argument required\n", d->l->arg[1]);
 		*code = 2;
 	}
 	return (*code);
@@ -82,8 +80,8 @@ too many arguments\n");
 
 int	cmd_exit(t_data *d)
 {
-	int			exit_code;
-	long long	value;
+	int					exit_code;
+	unsigned long long	value;
 
 	exit_code = g_exit_code;
 	value = 0;

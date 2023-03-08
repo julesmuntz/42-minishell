@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:11:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/23 18:17:51 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 11:38:14 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	cmd_echo(t_data *d, t_lst *l)
 	int	i;
 	int	n;
 
-	if (!l->arg[1])
-		return (write(d->out, "\n", 1), 0);
 	i = 1;
 	n = 1;
 	i = start(l->arg, n);
-	if (l->arg[1])
+	if (!l->arg[1])
+		write(d->out, "\n", 1);
+	else if (l->arg[1])
 	{
 		while (l->arg[i])
 		{
@@ -55,5 +55,7 @@ int	cmd_echo(t_data *d, t_lst *l)
 		if (n == i)
 			write(d->out, "\n", 1);
 	}
+	if (ft_strcmp(l->arg[1], "$?"))
+		g_exit_code = 0;
 	return (0);
 }

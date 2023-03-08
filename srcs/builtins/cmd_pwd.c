@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:31:40 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/15 13:57:44 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:42:30 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@ int	cmd_pwd(t_data *d)
 	char	path[4096];
 
 	ft_fprintf(d->out, "%s\n", getcwd(path, sizeof(path)));
+	g_exit_code = 0;
 	return (0);
 }
