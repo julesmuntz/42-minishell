@@ -6,15 +6,12 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/08 11:14:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:40:30 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-# define TRUE 1
-# define FALSE 0
 
 # include "minishell.h"
 
