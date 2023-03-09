@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/08 17:37:03 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:28:38 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,19 @@ void	exit_shell(t_data *d, int code)
 	exit(code);
 }
 
-int	ft_history(t_data *d, char **str)
+static void	handle_ctrl_c_main(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_exit_code = 130;
+	}
+}
+
+static int	ft_history(t_data *d, char **str)
 {
 	char	*s;
 
@@ -50,7 +62,7 @@ void	prompt(t_data *d)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_ctrl_c);
+		signal(SIGINT, &handle_ctrl_c_main);
 		if (refresh_prompt(d))
 			return (exit_shell(d, EXIT_FAILURE));
 		str = readline(d->prompt);

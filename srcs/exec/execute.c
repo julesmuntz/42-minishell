@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/08 11:17:03 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:22:57 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int	exe_cmd(t_data *d)
 		return (0);
 	if (handle_builtins(d))
 		return (0);
+	signal(SIGINT, &handle_ctrl_c);
 	tmp = d->l;
 	while (tmp)
 	{

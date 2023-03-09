@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/06 14:43:12 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:19:40 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ typedef struct s_data
 
 extern int	g_exit_code;
 
-char				**free_tab(char **tab, int i);
-void				ft_free_redir(t_redir *ptr);
-char				**init_env(char **env, t_data *d);
+//					PARSING
 int					parsing(t_data *d, char *str);
 int					init_list(t_data *d, t_tok *t);
 int					new_tok(t_tok **t, char *str, int j);
@@ -103,44 +101,47 @@ void				free_tok(t_tok *t);
 int					ft_tok_size(t_tok *t);
 void				tok_extract(t_tok **t, t_tok **dest, t_tok *elem);
 void				ft_free_tab(char **tab);
-void				exit_shell(t_data *d, int code);
 void				ft_lst_add_back(t_lst **l, t_lst *new);
 t_lst				*ft_lst_free(t_lst *l);
-void				print_tab(char **tab);		//temp
-int					ft_history(t_data *d, char **str);
 int					init_arg(t_lst *new, t_tok *t);
-void				print_redir(t_redir *tab);	//temp
 int					init_redir(t_redir **tab, t_tok *t);
+int					redirect(t_data *d, t_lst *l);
+void				ft_free_redir(t_redir *ptr);
 char				*expand_vars(t_data *d, char *str);
 int					parse_quotes(char *str);
 int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
+//					EXECUTION
 int					exe_cmd(t_data *d);
 void				child(t_data *d, t_lst *l);
 void				exec_error(char *str, char **arg, t_data *d);
-void				free_stuff(t_data *d);
-int					redirect(t_data *d, t_lst *l);
 int					find_cmd(char **str, char **env);
 int					check_builtins(char *str);
 int					execute_builtin(t_data *d, t_lst *l);
 int					refresh_prompt(t_data *d);
 void				handle_ctrl_c(int sig);
+void				free_stuff(t_data *d);
+void				exit_shell(t_data *d, int code);
 
+//					BUILTINS
 int					cmd_echo(t_data *d, t_lst *l);
 int					cmd_cd(t_lst *l);
 int					cmd_pwd(t_data *d);
 int					cmd_exit(t_data *d);
+int					var_cmd(t_data *d, t_lst *l);
 
+//					ENVIRONMENT
+char				**init_env(char **env, t_data *d);
 t_export			*init_export(t_data *d);
 void				copy_export(t_export *src, t_export **dst, t_data *d);
 void				sort_export(t_export **node);
-int					var_cmd(t_data *d, t_lst *l);
 int					get_var(t_data *d, char *arg, int *plus);
 int					create_var(t_export *current, t_data *d, int found);
 int					update_var(t_export *curr, t_data *d, char *arg, int *plus);
 char				**update_env(t_data *d);
 
+//					GC
 void				*galloc(void *ptr, size_t size, t_data *d);
 void				free_garbage(t_garbage **g);
 
