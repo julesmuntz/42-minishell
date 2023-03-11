@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:21:53 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/09 13:40:30 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/11 12:55:10 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ void	ft_puterr(char *s);
 int		ft_fprintf(const int fd, const char *str, ...);
 void	*ft_realloc(void *ptr, size_t size);
 char	*ft_itoa(int n);
+int		ft_str_isspace(char *str);
+int		ft_str_iskey(char *str);
 
 #endif

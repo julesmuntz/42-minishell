@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 23:20:02 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/09 15:22:50 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:59:23 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ static int	is_number(char *str)
 
 static long long	get_number(char *str)
 {
+	int			sign;
 	long long	value;
 
+	sign = 1;
 	value = 0;
-	if (*str == '-')
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			sign = -1;
 		str++;
+	}
 	while (*str)
 	{
 		if (*str < '0' || *str > '9')
@@ -47,7 +53,7 @@ static long long	get_number(char *str)
 		value = value * 10 + (*str - '0');
 		str++;
 	}
-	return (value);
+	return (value * sign);
 }
 
 static void	get_code2(t_data *d, int *code, int *error)
@@ -99,7 +105,8 @@ int	cmd_exit(t_data *d)
 	exit_code = g_exit_code;
 	value = 0;
 	error = 0;
-	ft_puterr("exit\n");
+	if (d->in == STDIN_FILENO && d->out == STDOUT_FILENO)
+		ft_puterr("exit\n");
 	if (d->l->arg[1])
 		exit_code = get_code(d, &value, &exit_code, &error);
 	if (error && exit_code == 1)
