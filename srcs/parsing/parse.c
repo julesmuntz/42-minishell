@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 10:39:19 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 20:18:04 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int	syntax_check(t_tok *t)
 	{
 		if (((*(t->str) == '>' || *(t->str) == '<') && (!t->next \
 		|| *(t->next->str) == '>' || *(t->next->str) == '<' || \
-		*(t->next->str) == '|')) || (*(t->str) == '|' && !t->next))
+		*(t->next->str) == '|')) || (*(t->str) == '|' && (!t->next || \
+		(t->next && *(t->next->str) == '|'))))
 			return (1);
 		t = t->next;
 	}
