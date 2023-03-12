@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/09 20:19:40 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:30:22 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void				exit_shell(t_data *d, int code);
 
 //					BUILTINS
 int					cmd_echo(t_data *d, t_lst *l);
-int					cmd_cd(t_lst *l);
+int					cmd_cd(t_data *d, t_lst *l);
 int					cmd_pwd(t_data *d);
 int					cmd_exit(t_data *d);
 int					var_cmd(t_data *d, t_lst *l);
@@ -140,6 +140,8 @@ int					get_var(t_data *d, char *arg, int *plus);
 int					create_var(t_export *current, t_data *d, int found);
 int					update_var(t_export *curr, t_data *d, char *arg, int *plus);
 char				**update_env(t_data *d);
+char				*ft_getenv(char *key, t_data *d);
+int					ft_setenv(char *key, char *value, t_data *d);
 
 //					GC
 void				*galloc(void *ptr, size_t size, t_data *d);

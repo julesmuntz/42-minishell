@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:43:50 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/08 16:13:43 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 14:10:33 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	child(t_data *d, t_lst *l)
 			close(d->in);
 		if (d->out != STDOUT_FILENO)
 			close(d->out);
-		exit_shell(d, EXIT_SUCCESS);
+		exit_shell(d, g_exit_code);
 	}
 	dup_fds(d);
 	exec_cmd(d, l);

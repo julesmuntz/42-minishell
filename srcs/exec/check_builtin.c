@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/02/23 18:29:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 15:25:42 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	execute_builtin(t_data *d, t_lst *l)
 {
 	if (!ft_strcmp(l->cmd, "echo") && cmd_echo(d, l))
 		return (1);
-	else if (!ft_strcmp(l->cmd, "cd") && cmd_cd(l))
+	else if (!ft_strcmp(l->cmd, "cd") && cmd_cd(d, l))
 		return (1);
 	else if (!ft_strcmp(l->cmd, "pwd") && cmd_pwd(d))
 		return (1);
