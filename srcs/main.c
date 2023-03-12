@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 12:36:33 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:58:07 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int	main(int argc, char **argv, char **env)
 	d.g = NULL;
 	if (argc != 1)
 		return (ft_puterr("minishell: too many arguments\n"), 1);
+	d.user = getenv("USER");
+	if (!d.user)
+		d.user = "user";
 	d.env = init_env(env, &d);
 	if (!d.env)
 		return (ft_puterr("minishell: malloc failed\n"), 1);

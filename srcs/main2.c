@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/12 12:43:26 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:59:49 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,13 @@ void	free_garbage(t_garbage **g)
 	}
 }
 
-static int	user_dir_name(char *cur_dir)
+static int	user_dir_name(char *cur_dir, char *user)
 {
 	int		i;
 	int		gap;
-	char	*user;
 
 	i = 0;
 	gap = 0;
-	user = getenv("USER");
 	while (cur_dir[i])
 	{
 		if (cur_dir[i] == user[0]
@@ -85,16 +83,16 @@ int	refresh_prompt(t_data *d)
 	char	path[4096];
 
 	gap = 0;
-	gap = user_dir_name(getcwd(path, 4096));
+	gap = user_dir_name(getcwd(path, 4096), d->user);
 	cur_dir = getcwd(path, 4096);
 	if (gap != 0)
 	{
-		tmp = ft_bigcat(COLOR_A, getenv("USER"), COLOR_B PROMPT COLOR_C "~",
+		tmp = ft_bigcat(COLOR_A, d->user, COLOR_B PROMPT COLOR_C "~",
 				ft_strcat(cur_dir + gap, COLOR_D "$ " COLOR_E));
 	}
 	else
 	{
-		tmp = ft_bigcat(COLOR_A, getenv("USER"), COLOR_B PROMPT COLOR_C "",
+		tmp = ft_bigcat(COLOR_A, d->user, COLOR_B PROMPT COLOR_C "",
 				ft_strcat(cur_dir, COLOR_D "$ " COLOR_E));
 	}
 	if (!tmp)

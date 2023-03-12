@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:43:50 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 14:10:33 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:56:34 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ static void	exec_cmd(t_data *d, t_lst *l)
 	arg = l->arg;
 	l->arg = NULL;
 	free_stuff(d);
-	execve(str, arg, d->env);
 	exec_error(str, arg, d);
+	execve(str, arg, d->env);
+	ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", str, strerror(errno));
+	child_exit_error(str, arg, d, errno);
 }
 
 void	child(t_data *d, t_lst *l)

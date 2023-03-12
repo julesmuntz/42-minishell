@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 18:30:22 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:04:52 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_data
 {
 	t_lst			*l;
 	char			*tmp;
+	char			*user;
 	char			**env;
 	int				env_size;
 	char			*prompt;
@@ -122,6 +123,7 @@ int					execute_builtin(t_data *d, t_lst *l);
 int					refresh_prompt(t_data *d);
 void				handle_ctrl_c(int sig);
 void				free_stuff(t_data *d);
+void				child_exit_error(char *s, char **arg, t_data *d, int error);
 void				exit_shell(t_data *d, int code);
 
 //					BUILTINS

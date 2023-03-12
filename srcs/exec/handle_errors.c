@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:43:54 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/08 11:17:42 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:57:32 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_stuff(t_data *d)
 	free(d->tmp);
 }
 
-static void	child_exit_error(char *str, char **arg, t_data *d, int error)
+void	child_exit_error(char *str, char **arg, t_data *d, int error)
 {
 	free(str);
 	ft_free_tab(arg);
@@ -34,19 +34,18 @@ static int	permission_error(char *str)
 
 	buf = malloc(sizeof(struct stat));
 	if (!buf)
-		ft_puterr("Error when calling malloc\n");
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	else if (stat(str, buf) && errno != EACCES)
-		ft_puterr("Error when calling stat\n");
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	else if (S_ISDIR(buf->st_mode))
 	{
-		if (ft_strchr(str, '/'))
-			ft_fprintf(STDERR_FILENO, "minishell: %s: is a directory\n", str);
-		else
-			ft_fprintf(STDERR_FILENO, "minishell: %s: command not found\n", str);
+		ft_fprintf(STDERR_FILENO, "minishell: %s: is a directory\n", str);
 		return (free(buf), 126);
 	}
+	else if (!access(str, X_OK))
+		return (free(buf), 0);
 	ft_fprintf(STDERR_FILENO, \
-	"minishell: %s: %s\n", str, strerror(13));
+	"minishell: %s: permission denied\n", str);
 	return (free(buf), 126);
 }
 
@@ -54,8 +53,8 @@ void	exec_error(char *str, char **arg, t_data *d)
 {
 	int			error;
 
-	error = errno;
-	if ((error == 2 && !ft_strchr(str, '/')) \
+	error = 0;
+	if ((!ft_strchr(str, '/')) \
 	|| !ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: command not found\n", str);
@@ -64,9 +63,14 @@ void	exec_error(char *str, char **arg, t_data *d)
 		else
 			error = 127;
 	}
-	else if (error == 13)
+	else if (!access(str, F_OK))
 		error = permission_error(str);
 	else
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", str, strerror(error));
-	child_exit_error(str, arg, d, error);
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: %s: no such file or directory\n",
+			str);
+		error = 127;
+	}
+	if (error)
+		child_exit_error(str, arg, d, error);
 }
