@@ -21,6 +21,8 @@ void	*ft_realloc(void *ptr, size_t size)
 	{
 		size += ft_strlen(ptr);
 		ptr = ft_calloc(1, size);
+		if (!ptr)
+			return (NULL);
 		ft_strcpy(ptr, tmp);
 		free(tmp);
 	}

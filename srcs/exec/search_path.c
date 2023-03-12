@@ -26,7 +26,7 @@ static char	*find_paths(char **env)
 	return (0);
 }
 
-int	find_cmd(char **str, char **env)
+int	find_cmd2(char **str, char **env)
 {
 	int		i;
 	char	*path;
@@ -34,8 +34,6 @@ int	find_cmd(char **str, char **env)
 	char	*cmd_path;
 
 	i = -1;
-	if (!ft_strcmp(*str, "") || ft_strchr(*str, '/') || !find_paths(env))
-		return (0);
 	paths = ft_split(find_paths(env), ':');
 	if (!paths)
 		return (1);
@@ -53,4 +51,12 @@ int	find_cmd(char **str, char **env)
 		free(cmd_path);
 	}
 	return (ft_free_lines(paths), 0);
+}
+
+int	find_cmd(char **str, char **env)
+{
+	if (!ft_strcmp(*str, "") || !ft_strcmp(*str, ".") || !ft_strcmp(*str, "..") \
+	|| ft_strchr(*str, '/') || !find_paths(env))
+		return (0);
+	return (find_cmd2(str, env));
 }

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/09 20:24:28 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 12:43:26 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@ void	*galloc(void *ptr, size_t size, t_data *d)
 	{
 		new = ft_realloc(ptr, size);
 		if (new == NULL)
-			return (NULL);
+			return (free(ptr), NULL);
 	}
 	new_garbage = malloc(sizeof(t_garbage));
-	if (new_garbage != NULL)
-	{
-		new_garbage->ptr = new;
-		new_garbage->next = d->g;
-		d->g = new_garbage;
-	}
+	if (!new_garbage)
+		return (free(new), NULL);
+	new_garbage->ptr = new;
+	new_garbage->next = d->g;
+	d->g = new_garbage;
 	return (new);
 }
 

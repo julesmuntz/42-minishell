@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/10 20:31:34 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/12 12:36:33 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ static int	ft_history(t_data *d, char **str)
 	s = ft_strtrim(*str, " \t");
 	free(*str);
 	if (!s)
-		return (1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	*str = s;
 	if (!d->tmp || (d->tmp && ft_strcmp(s, d->tmp) && s[0]))
 		add_history(s);
 	free(d->tmp);
 	d->tmp = ft_strdup(s);
 	if (!d->tmp)
-		return (free(s), 1);
+		return (ft_puterr("minishell: malloc failed\n"), free(s), 1);
 	return (0);
 }
 
@@ -89,13 +89,13 @@ int	main(int argc, char **argv, char **env)
 	d.l = NULL;
 	d.g = NULL;
 	if (argc != 1)
-		return (ft_puterr("Error\n"), 1);
+		return (ft_puterr("minishell: too many arguments\n"), 1);
 	d.env = init_env(env, &d);
 	if (!d.env)
-		return (ft_puterr("Error\n"), 1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	d.x = init_export(&d);
 	if (!d.x)
-		return (ft_puterr("Error\n"), 1);
+		return (ft_puterr("minishell: malloc failed\n"), 1);
 	prompt(&d);
 	return (0);
 }
