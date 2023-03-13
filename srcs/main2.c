@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/13 14:14:21 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:14:53 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,20 @@ int	refresh_prompt(t_data *d)
 {
 	int		gap;
 	char	*tmp;
-	char	*cur_dir;
+	char	*cur;
 	char	path[4096];
 
 	gap = 0;
 	gap = user_dir_name(getcwd(path, 4096), d->user);
-	cur_dir = getcwd(path, 4096);
-	if (gap != 0)
-	{
-		tmp = ft_bigcat(COLOR_A, d->user, COLOR_B PROMPT COLOR_C "~",
-				ft_strcat(cur_dir + gap, COLOR_D "$ " COLOR_E));
-	}
-	else
-	{
-		tmp = ft_bigcat(COLOR_A, d->user, COLOR_B PROMPT COLOR_C "",
-				ft_strcat(cur_dir, COLOR_D "$ " COLOR_E));
-	}
+	cur = getcwd(path, 4096);
+	if (gap != 0 && g_exit_code == 0)
+		tmp = ft_bigcat(O, d->user, HOST "~", ft_strcat(cur + gap, B "$ " D));
+	else if (g_exit_code == 0)
+		tmp = ft_bigcat(O, d->user, HOST "", ft_strcat(cur, B "$ " D));
+	if (gap != 0 && g_exit_code != 0)
+		tmp = ft_bigcat(O, d->user, HOST "~", ft_strcat(cur + gap, Y "$ " D));
+	else if (g_exit_code != 0)
+		tmp = ft_bigcat(O, d->user, HOST "", ft_strcat(cur, Y "$ " D));
 	if (!tmp)
 		return (1);
 	d->prompt = ft_strdup(tmp);

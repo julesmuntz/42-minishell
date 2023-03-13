@@ -6,18 +6,17 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/13 18:20:09 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:15:46 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define COLOR_A "\1\033[38;5;220m\2"
-# define COLOR_B "\1\033[38;5;221m\2"
-# define COLOR_C "\1\033[38;5;222m\2"
-# define COLOR_D "\1\033[38;5;223m\2"
-# define COLOR_E "\1\033[0m\2"
-# define PROMPT "@minishell:"
+# define O "\1\033[38;5;208m\2"
+# define B "\1\033[38;5;195m\2"
+# define Y "\1\033[38;5;220m\2"
+# define D "\1\033[0m\2"
+# define HOST "@minishell:"
 # define _GNU_SOURCE
 
 # include <stdio.h>
