@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/03/13 15:46:11 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/03/13 18:28:51 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,10 +42,12 @@ SRC 		=	main.c					\
 				cmd_pwd.c				\
 				cmd_cd.c				\
 				cmd_exit.c				\
-				var_utils.c				\
-				var_cmd.c				\
+				cmd_env.c				\
+				cmd_export.c			\
+				cmd_unset.c				\
 				env_utils.c				\
 				export_utils.c			\
+				export_utils2.c			\
 				)						\
 				$(addprefix libft/,		\
 				ft_strcmp.c				\
