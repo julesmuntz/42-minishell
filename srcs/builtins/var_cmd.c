@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/11 13:12:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:50:36 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,17 @@ int	var_cmd(t_data *d, t_lst *l)
 	i = 0;
 	current = d->x;
 	g_exit_code = 0;
-	if (!ft_strcmp(d->l->cmd, "export") && l->arg[1])
+	if (d->in != STDIN_FILENO)
+		close(d->in);
+	if (d->out != STDOUT_FILENO)
+		close(d->out);
+	if (!ft_strcmp(l->cmd, "export") && l->arg[1])
 	{
 		while (l->arg[++i])
 			if (export_var(current, d, l->arg[i]))
 				return (1);
 	}
-	else if (!ft_strcmp(d->l->cmd, "unset") && l->arg[1])
+	else if (!ft_strcmp(l->cmd, "unset") && l->arg[1])
 	{
 		while (l->arg[++i])
 			if (unset_var(current, d, l->arg[i]))
