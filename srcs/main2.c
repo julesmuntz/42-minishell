@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/12 21:59:49 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:14:21 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,13 @@ int	refresh_prompt(t_data *d)
 	return (0);
 }
 
-void	handle_ctrl_c(int sig)
+void	handle_ctrls(int sig)
 {
 	if (sig == SIGINT)
-		g_exit_code = 130;
+		g_exit_code = -1;
+	if (sig == SIGQUIT)
+	{
+		g_exit_code = -2;
+		ft_puterr("Quit (core dumped)\n");
+	}
 }

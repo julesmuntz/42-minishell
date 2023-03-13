@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/09 20:22:57 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:14:15 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ static int	wait_childs(t_data *d)
 		if (tmp->called)
 		{
 			waitpid(tmp->pid, &wstatus, 0);
-			g_exit_code = WEXITSTATUS(wstatus);
+			if (g_exit_code == -1)
+				g_exit_code = 130;
+			else if (g_exit_code == -2)
+				g_exit_code = 131;
+			else
+				g_exit_code = WEXITSTATUS(wstatus);
 		}
 		tmp = tmp->next;
 	}
@@ -117,7 +122,8 @@ int	exe_cmd(t_data *d)
 		return (0);
 	if (handle_builtins(d))
 		return (0);
-	signal(SIGINT, &handle_ctrl_c);
+	signal(SIGQUIT, &handle_ctrls);
+	signal(SIGINT, &handle_ctrls);
 	tmp = d->l;
 	while (tmp)
 	{

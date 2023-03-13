@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 21:58:07 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:13:48 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exit_shell(t_data *d, int code)
 	exit(code);
 }
 
-static void	handle_ctrl_c_main(int sig)
+static void	ctrl_c(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -62,7 +62,7 @@ void	prompt(t_data *d)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, &handle_ctrl_c_main);
+		signal(SIGINT, &ctrl_c);
 		if (refresh_prompt(d))
 			return (exit_shell(d, EXIT_FAILURE));
 		str = readline(d->prompt);
