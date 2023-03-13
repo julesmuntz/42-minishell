@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 20:17:05 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:42:56 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static int	replace_var(t_data *d, t_tok *t)
 			free(t->str);
 			t->str = tmp;
 		}
-		if (*t->str == '$' && t->next && (*(t->next->str) == '"' \
-		|| *(t->next->str) == '\''))
+		if (*t->str == '$' && !*(t->str + 1) && t->next \
+		&& (*(t->next->str) == '"' || *(t->next->str) == '\''))
 		{
 			free(t->str);
 			t->str = NULL;
@@ -93,13 +93,9 @@ static int	init_tok_list(t_tok **t, char *str)
 		j = isolate_var_name(str + i);
 		if (j == 0)
 		{
-			while (str[i + j] && !(str[i + j] == '$' && \
-			str[i + j + 1] != ' ' && str[i + j + 1] != 0))
-			{
-				if (str[i + j] == '\'')
-					j += parse_quotes(str + i + j);
+			while (str[i + j] && !(str[i + j] == '$' && str[i + j + 1] != '\t' \
+			&& str[i + j + 1] != ' ' && str[i + j + 1] != 0))
 				j++;
-			}
 		}
 		if (j && new_tok(t, str + i, j))
 			return (free(str), free_tok(*t), 1);
@@ -111,12 +107,23 @@ static int	init_tok_list(t_tok **t, char *str)
 char	*expand_vars(t_data *d, char *str)
 {
 	char	*line;
+	t_tok	*t1;
+	t_tok	*tmp;
 	t_tok	*t;
 
 	t = NULL;
-	if (init_tok_list(&t, str))
-		return (NULL);
+	t1 = NULL;
+	if (separate_quotes(&t1, str))
+		return (free(str), NULL);
 	free(str);
+	tmp = t1;
+	while (tmp)
+	{
+		if (init_tok_list(&t, tmp->str))
+			return (free_tok(t), free_tok(t1), NULL);
+		tmp = tmp->next;
+	}
+	free_tok(t1);
 	if (replace_var(d, t))
 		return (free_tok(t), NULL);
 	if (ft_tok_join(t, &line))

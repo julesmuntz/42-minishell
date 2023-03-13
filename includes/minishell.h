@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/13 14:14:04 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:11:52 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_data
 	char			*prompt;
 	t_export		*x;
 	t_garbage		*g;
+	int				main;
 	int				pipefd[2];
 	int				pipe;
 	int				in;
@@ -109,7 +110,9 @@ int					init_redir(t_redir **tab, t_tok *t);
 int					redirect(t_data *d, t_lst *l);
 void				ft_free_redir(t_redir *ptr);
 char				*expand_vars(t_data *d, char *str);
+int					separate_quotes(t_tok **t, char *s);
 int					parse_quotes(char *str);
+int					is_quotes(char *s, int i, int j);
 int					ft_tok_join(t_tok *t, char **str);
 int					remove_quotes(char *s, char **str);
 
@@ -130,7 +133,7 @@ void				exit_shell(t_data *d, int code);
 int					cmd_echo(t_data *d, t_lst *l);
 int					cmd_cd(t_data *d, t_lst *l);
 int					cmd_pwd(t_data *d);
-int					cmd_exit(t_data *d);
+int					cmd_exit(t_data *d, t_lst *l);
 int					var_cmd(t_data *d, t_lst *l);
 
 //					ENVIRONMENT

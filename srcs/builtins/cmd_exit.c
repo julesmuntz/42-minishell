@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 23:20:02 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/12 20:18:31 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:18:05 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,47 +56,45 @@ static long long	get_number(char *str)
 	return (value * sign);
 }
 
-static void	get_code2(t_data *d, int *code, int *error)
+static void	get_code2(t_lst *l, int *code, int *error)
 {
 	if (*error && *code == 1)
 		ft_fprintf(STDERR_FILENO, "minishell: exit: too many arguments\n");
 	else if (*error && *code == 2)
 	{
 		ft_fprintf(STDERR_FILENO,
-			"minishell: exit: %s: numeric argument required\n", d->l->arg[1]);
+			"minishell: exit: %s: numeric argument required\n", l->arg[1]);
 	}
-	else if (!*error && (*code != 1 || *code != 2))
-		error = 0;
 }
 
-static int	get_code(t_data *d, long long *value, int *code, int *error)
+static int	get_code(t_lst *l, long long *value, int *code, int *error)
 {
 	*error = 1;
-	if (!is_number(d->l->arg[1]))
+	if (!is_number(l->arg[1]))
 		*code = 2;
-	else if (is_number(d->l->arg[1]) && d->l->arg[2])
+	else if (is_number(l->arg[1]) && l->arg[2])
 		*code = 1;
-	else if (is_number(d->l->arg[1]) && !d->l->arg[2])
+	else if (is_number(l->arg[1]) && !l->arg[2])
 	{
-		*value = get_number(d->l->arg[1]);
+		*value = get_number(l->arg[1]);
 		if (*value >= INT_MIN && *value <= INT_MAX)
 		{
 			*error = 0;
 			*code = (int)*value % 256;
 		}
 		else if ((((unsigned long long)*value > LLONG_MAX)
-				&& (*d->l->arg[1] != '-'))
+				&& (*l->arg[1] != '-'))
 			|| (((unsigned long long)*value > (unsigned long long)LLONG_MAX + 1)
-				&& (*d->l->arg[1] == '-')))
+				&& (*l->arg[1] == '-')))
 			*code = 2;
 	}
 	else
 		*code = 2;
-	get_code2(d, code, error);
+	get_code2(l, code, error);
 	return (*code);
 }
 
-int	cmd_exit(t_data *d)
+int	cmd_exit(t_data *d, t_lst *l)
 {
 	int			exit_code;
 	long long	value;
@@ -109,12 +107,10 @@ int	cmd_exit(t_data *d)
 		close(d->in);
 	if (d->out != STDOUT_FILENO)
 		close(d->out);
-	ft_puterr("exit\n");
+	if (d->main)
+		ft_puterr("exit\n");
 	if (d->l->arg[1])
-		exit_code = get_code(d, &value, &exit_code, &error);
-	if (error && exit_code == 1)
-		return (g_exit_code = 1, 0);
-	else
-		exit_shell(d, exit_code);
+		exit_code = get_code(l, &value, &exit_code, &error);
+	exit_shell(d, exit_code);
 	return (0);
 }

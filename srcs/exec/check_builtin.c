@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 23:16:32 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/12 15:25:42 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:30:59 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execute_builtin(t_data *d, t_lst *l)
 		return (1);
 	else if (!ft_strcmp(l->cmd, "env") && var_cmd(d, l))
 		return (1);
-	else if (!ft_strcmp(l->cmd, "exit") && cmd_exit(d))
+	else if (!ft_strcmp(l->cmd, "exit") && cmd_exit(d, l))
 		return (1);
 	if (d->in != STDIN_FILENO)
 		close(d->in);
