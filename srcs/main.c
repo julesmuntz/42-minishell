@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/13 16:31:48 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 13:46:28 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	main(int argc, char **argv, char **env)
 	d.l = NULL;
 	d.g = NULL;
 	d.main = 1;
+	d.heredoc_line = 0;
 	if (argc != 1)
 		return (ft_puterr("minishell: too many arguments\n"), 1);
 	d.user = getenv("USER");

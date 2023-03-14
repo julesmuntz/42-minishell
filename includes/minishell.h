@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/13 20:15:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 13:43:27 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ typedef struct s_lst
 	int				called;
 	char			*cmd;
 	char			**arg;
-	t_redir			*infile;
-	t_redir			*outfile;
+	t_redir			*redir;
 	struct s_lst	*next;
 }					t_lst;
 
@@ -90,6 +89,7 @@ typedef struct s_data
 	int				in;
 	int				out;
 	int				heredoc;
+	int				heredoc_line;
 }					t_data;
 
 extern int	g_exit_code;

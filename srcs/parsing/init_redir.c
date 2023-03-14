@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenicho <mbenicho@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/02/05 22:18:46 by mbenicho         ###   ########.fr       */
+/*   Updated: 2023/03/14 13:46:37 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ static int	init_redir2(t_redir **tab, t_tok *t, int size)
 	while (i < size)
 	{
 		(*tab)[i].type = 0;
-		if (ft_strlen(tmp->str) == 2)
+		if (!ft_strcmp(tmp->str, ">>"))
 			(*tab)[i].type = 1;
+		if (!ft_strcmp(tmp->str, "<"))
+			(*tab)[i].type = 2;
+		if (!ft_strcmp(tmp->str, "<<"))
+			(*tab)[i].type = 3;
 		tmp = tmp->next;
 		(*tab)[i].str = ft_strdup(tmp->str);
 		if (!(*tab)->str)

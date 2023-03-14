@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/12 19:29:44 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 13:53:44 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	find_cdpath(t_data *d, t_lst *l, char *cdpath)
 
 static int	cmd_cd2(t_data *d, t_lst *l, char *path)
 {
-	char	buf[PATH_MAX];
+	char	buf[4096];
 	char	*cdpath;
 
 	if (chdir(path) == -1)
