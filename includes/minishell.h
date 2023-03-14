@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/14 13:43:27 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:03:07 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int					check_builtins(char *str);
 int					execute_builtin(t_data *d, t_lst *l);
 int					refresh_prompt(t_data *d);
 void				handle_ctrls(int sig);
+void				ctrl_c_heredoc(int sig);
 void				free_stuff(t_data *d);
 void				child_exit_error(char *s, char **arg, t_data *d, int error);
 void				exit_shell(t_data *d, int code);

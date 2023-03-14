@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/13 16:31:38 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:14:28 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ static int	wait_childs(t_data *d)
 				g_exit_code = 131;
 			else if (WIFEXITED(wstatus))
 				g_exit_code = WEXITSTATUS(wstatus);
-			else if (WIFSIGNALED(wstatus))
-			{
-				ft_puterr("Segmentation fault (core dumped)\n");
-				g_exit_code = 139;
-			}
 		}
 		tmp = tmp->next;
 	}

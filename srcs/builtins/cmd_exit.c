@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 23:20:02 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/13 16:18:05 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:57:49 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ int	cmd_exit(t_data *d, t_lst *l)
 		ft_puterr("exit\n");
 	if (d->l->arg[1])
 		exit_code = get_code(l, &value, &exit_code, &error);
-	exit_shell(d, exit_code);
+	if (error && exit_code == 1)
+		return (g_exit_code = 1, 0);
+	else
+		exit_shell(d, exit_code);
 	return (0);
 }

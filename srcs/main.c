@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/14 13:46:28 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:17:00 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	main(int argc, char **argv, char **env)
 	d.heredoc_line = 0;
 	if (argc != 1)
 		return (ft_puterr("minishell: too many arguments\n"), 1);
+	if (!isatty(0))
+		return (ft_puterr("minishell: stdin is not a tty\n"), 1);
 	d.user = getenv("USER");
 	if (!d.user)
 		d.user = "user";

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:34:24 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/14 13:46:15 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:15:21 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ static int	heredoc(t_data *d, char *limiter)
 		return (ft_puterr("minishell: heredoc: failed to open\n"), 1);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, &ctrl_c_heredoc);
+		if (g_exit_code == -3)
+		{
+			g_exit_code = 130;
+			break ;
+		}
 		str = readline("> ");
 		if (!str)
 		{
