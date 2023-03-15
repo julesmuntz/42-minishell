@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:18:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/13 15:42:56 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 22:58:29 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char	*expand_vars(t_data *d, char *str)
 	char	*line;
 	t_tok	*t;
 
+	if (*str == 0)
+		return (str);
 	t = expand_vars2(str);
 	if (!t)
 		return (NULL);

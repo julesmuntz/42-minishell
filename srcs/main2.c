@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/15 21:45:56 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 22:56:44 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	user_dir_name(char *cur_dir, char *user)
 	while (cur_dir[i])
 	{
 		if (cur_dir[i] == user[0]
+			&& ft_strlen(cur_dir) >= ft_strlen(user)
 			&& cur_dir[i + (ft_strlen(user) - 1)]
 			== user[(ft_strlen(user) - 1)]
 			&& cur_dir[ft_strlen(user)] == '/')

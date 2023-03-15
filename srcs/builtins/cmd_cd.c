@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/15 12:41:57 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 23:21:36 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,14 @@ getcwd: cannot access parent directories: No such file or directory\n"), 0);
 	else if (!ft_strcmp(l->arg[1], "-"))
 	{
 		path = ft_getenv("OLDPWD", d);
+		if (!path)
+			return (g_exit_code = 1,
+				ft_puterr("minishell: cd: OLDPWD not set\n"), 0);
 		ft_fprintf(d->out, "%s\n", path);
 	}
 	else
 		path = l->arg[1];
 	if (!path)
-	{
-		ft_puterr("minishell: cd: HOME not set\n");
-		return (g_exit_code = 1, 0);
-	}
+		return (g_exit_code = 1, ft_puterr("minishell: cd: HOME not set\n"), 0);
 	return (cmd_cd2(d, l, path));
 }
