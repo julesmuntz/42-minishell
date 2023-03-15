@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/14 13:53:44 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 00:13:50 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ int	cmd_cd(t_data *d, t_lst *l)
 {
 	char	*path;
 
+	if (!l->arg[2] && !d->cwd && !access(d->l->arg[1], F_OK))
+		return (ft_puterr("cd: error retrieving current directory: \
+getcwd: cannot access parent directories: No such file or directory\n"), 0);
 	if ((!l->arg[1]) || (!l->arg[2] && !ft_strcmp(l->arg[1], "~")))
 		path = ft_getenv("HOME", d);
 	else if (l->arg[2])

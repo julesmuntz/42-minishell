@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/14 18:14:28 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:30:19 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	handle_builtins(t_data *d)
 			unlink(".heredoc.tmp");
 		}
 		if (err)
-			return (g_exit_code = 1, 1);
+			return (1);
 		execute_builtin(d, d->l);
 		return (1);
 	}
@@ -77,10 +77,7 @@ static void	open_pipes(t_data *d, t_lst *tmp, int *pipe_err, int *error)
 	else
 		d->out = STDOUT_FILENO;
 	if (!*pipe_err && redirect(d, tmp))
-	{
 		*error = 1;
-		g_exit_code = 1;
-	}
 }
 
 static void	call_childs(t_data *d, t_lst *tmp, int *pipe_err, int *error)
