@@ -6,7 +6,7 @@
 #    By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 17:17:08 by julmuntz          #+#    #+#              #
-#    Updated: 2023/03/14 16:57:18 by julmuntz         ###   ########.fr        #
+#    Updated: 2023/03/15 01:15:52 by julmuntz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ NAME		=	minishell
 SRC_DIR		=	srcs/
 SRC 		=	main.c					\
 				main2.c					\
-				signals.c				\
 				$(addprefix parsing/,	\
 				env.c					\
 				tok_utils.c				\
@@ -35,6 +34,7 @@ SRC 		=	main.c					\
 				check_builtin.c			\
 				search_path.c			\
 				redirect.c				\
+				heredoc.c				\
 				child.c					\
 				handle_errors.c			\
 				)						\

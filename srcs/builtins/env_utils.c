@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 18:27:22 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/12 18:27:39 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:08:51 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_setenv(char *key, char *value, t_data *d)
 	{
 		if (ft_strcmp(key, current->key) == 0)
 		{
-			current->value = galloc(ft_strdup(value), ft_strlen(value), d);
+			current->value = galloc(ft_strdup(value), ft_strlen(value) + 1, d);
 			return (0);
 		}
 		current = current->next;

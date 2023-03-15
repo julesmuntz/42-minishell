@@ -6,15 +6,15 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/14 17:03:07 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 01:43:27 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define O "\1\033[38;5;208m\2"
-# define B "\1\033[38;5;195m\2"
-# define Y "\1\033[38;5;220m\2"
+# define A "\1\033[38;5;221m\2"
+# define B "\1\033[38;5;115m\2"
+# define C "\1\033[38;5;204m\2"
 # define D "\1\033[0m\2"
 # define HOST "@minishell:"
 # define _GNU_SOURCE
@@ -90,6 +90,7 @@ typedef struct s_data
 	int				out;
 	int				heredoc;
 	int				heredoc_line;
+	int				cwd;
 }					t_data;
 
 extern int	g_exit_code;
@@ -107,6 +108,7 @@ t_lst				*ft_lst_free(t_lst *l);
 int					init_arg(t_lst *new, t_tok *t);
 int					init_redir(t_redir **tab, t_tok *t);
 int					redirect(t_data *d, t_lst *l);
+int					heredoc(t_data *d, char *limiter);
 void				ft_free_redir(t_redir *ptr);
 char				*expand_vars(t_data *d, char *str);
 int					separate_quotes(t_tok **t, char *s);
@@ -124,7 +126,6 @@ int					check_builtins(char *str);
 int					execute_builtin(t_data *d, t_lst *l);
 int					refresh_prompt(t_data *d);
 void				handle_ctrls(int sig);
-void				ctrl_c_heredoc(int sig);
 void				free_stuff(t_data *d);
 void				child_exit_error(char *s, char **arg, t_data *d, int error);
 void				exit_shell(t_data *d, int code);

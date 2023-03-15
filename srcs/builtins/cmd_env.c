@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/13 18:02:32 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:06:50 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ static int	print_env(t_export *current, t_data *d, t_lst *l)
 int	cmd_env(t_data *d, t_lst *l)
 {
 	t_export	*current;
-	int			i;
 
-	i = 0;
 	current = d->x;
 	g_exit_code = 0;
 	print_env(current, d, l);
