@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/15 01:43:27 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 21:47:28 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int					heredoc(t_data *d, char *limiter);
 void				ft_free_redir(t_redir *ptr);
 char				*expand_vars(t_data *d, char *str);
 int					separate_quotes(t_tok **t, char *s);
+int					init_tok_list(t_tok **t, char *str);
+int					parse_quotes_expand(char *str);
 int					parse_quotes(char *str);
 int					is_quotes(char *s, int i, int j);
 int					ft_tok_join(t_tok *t, char **str);

@@ -67,46 +67,8 @@ static int	replace_var(t_data *d, t_tok *t)
 	return (0);
 }
 
-static int	isolate_var_name(char *str)
+static t_tok	*expand_vars2(char *str)
 {
-	int	i;
-
-	i = 0;
-	if (*str != '$')
-		return (0);
-	if (*(str + 1) == '?')
-		return (2);
-	i = 1;
-	while (ft_isalnum(str[i]) || str[i] == '_')
-		i++;
-	return (i);
-}
-
-static int	init_tok_list(t_tok **t, char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (str[i])
-	{
-		j = isolate_var_name(str + i);
-		if (j == 0)
-		{
-			while (str[i + j] && !(str[i + j] == '$' && str[i + j + 1] != '\t' \
-			&& str[i + j + 1] != ' ' && str[i + j + 1] != 0))
-				j++;
-		}
-		if (j && new_tok(t, str + i, j))
-			return (free(str), free_tok(*t), 1);
-		i += j;
-	}
-	return (0);
-}
-
-char	*expand_vars(t_data *d, char *str)
-{
-	char	*line;
 	t_tok	*t1;
 	t_tok	*tmp;
 	t_tok	*t;
@@ -124,6 +86,17 @@ char	*expand_vars(t_data *d, char *str)
 		tmp = tmp->next;
 	}
 	free_tok(t1);
+	return (t);
+}
+
+char	*expand_vars(t_data *d, char *str)
+{
+	char	*line;
+	t_tok	*t;
+
+	t = expand_vars2(str);
+	if (!t)
+		return (NULL);
 	if (replace_var(d, t))
 		return (free_tok(t), NULL);
 	if (ft_tok_join(t, &line))

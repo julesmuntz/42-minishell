@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 18:27:22 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/14 23:08:51 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 21:26:18 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ int	ft_setenv(char *key, char *value, t_data *d)
 		}
 		current = current->next;
 	}
-	current = malloc(sizeof(t_export));
+	current = galloc(NULL, sizeof(t_export), d);
 	if (!current)
 		return (ft_puterr("minishell: malloc failed\n"), 1);
-	current->key = ft_strdup(key);
-	current->value = ft_strdup(value);
+	current->key = galloc(ft_strdup(key), ft_strlen(key) + 1, d);
+	current->value = galloc(ft_strdup(value), ft_strlen(value), d);
 	current->next = d->x;
 	d->x = current;
+	d->env_size++;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:36:04 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/15 01:38:58 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/15 21:45:56 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,5 @@ void	handle_ctrls(int sig)
 	if (sig == SIGINT)
 		g_exit_code = -1;
 	if (sig == SIGQUIT)
-	{
 		g_exit_code = -2;
-		ft_puterr("Quit (core dumped)\n");
-	}
 }

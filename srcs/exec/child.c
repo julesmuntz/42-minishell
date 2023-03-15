@@ -52,8 +52,7 @@ static void	exec_cmd(t_data *d, t_lst *l)
 	free_stuff(d);
 	exec_error(str, arg, d);
 	execve(str, arg, d->env);
-	ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", str, strerror(errno));
-	child_exit_error(str, arg, d, errno);
+	child_exit_error(str, arg, d, 0);
 }
 
 void	child(t_data *d, t_lst *l)

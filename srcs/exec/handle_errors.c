@@ -56,7 +56,7 @@ void	exec_error(char *str, char **arg, t_data *d)
 	if ((!ft_strchr(str, '/')) \
 	|| !ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: command not found\n", str);
+		ft_fprintf(STDERR_FILENO, "%s: command not found\n", str);
 		if (!ft_strcmp(str, "."))
 			error = 2;
 		else
