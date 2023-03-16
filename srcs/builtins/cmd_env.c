@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/14 21:06:50 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 13:38:42 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	cmd_env(t_data *d, t_lst *l)
 
 	current = d->x;
 	g_exit_code = 0;
+	if (!l->arg[1])
+		if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
+			return (0);
 	print_env(current, d, l);
 	return (0);
 }

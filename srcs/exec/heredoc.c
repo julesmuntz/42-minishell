@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:20:52 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/15 01:13:32 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:11:01 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ at line %d delimited by end-of-file (wanted '%s')\n", d->heredoc_line, limiter);
 			break ;
 		}
 		if (!ft_strcmp(str, limiter))
+		{
+			free(str);
 			break ;
+		}
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);

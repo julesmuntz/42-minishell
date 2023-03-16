@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 02:33:30 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/13 18:27:56 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:10:27 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,23 @@
 
 int	create_var(t_export *current, t_data *d, int found)
 {
+	t_export	*new;
+
 	current = d->x;
 	if (!found)
 	{
-		while (current->next)
+		while (current && current->next)
 			current = current->next;
-		current->next = (t_export *)galloc(NULL, sizeof(t_export), d);
-		if (!current->next)
+		new = galloc(NULL, sizeof(t_export), d);
+		if (!new)
 			return (1);
-		current->next->key = d->x->new_key;
-		current->next->value = d->x->new_value;
-		current->next->next = NULL;
+		new->key = d->x_key;
+		new->value = d->x_value;
+		new->next = NULL;
+		if (current)
+			current->next = new;
+		else
+			d->x = new;
 		d->env_size++;
 	}
 	return (0);
@@ -39,20 +45,20 @@ int	update_var(t_export *current, t_data *d, char *arg, int *plus)
 	{
 		if (!current->value)
 		{
-			add = galloc(ft_strdup(d->x->new_value), sizeof(char)
-					* ft_strlen(d->x->new_value) + 1, d);
+			add = galloc(ft_strdup(d->x_value), sizeof(char)
+					* ft_strlen(d->x_value) + 1, d);
 		}
 		else
 		{
-			add = galloc(ft_strjoin(current->value, d->x->new_value),
+			add = galloc(ft_strjoin(current->value, d->x_value),
 					sizeof(char) * (ft_strlen(current->value)
-						+ ft_strlen(d->x->new_value)) + 1, d);
+						+ ft_strlen(d->x_value)) + 1, d);
 		}
 		current->value = add;
 	}
 	else if (ft_strchr(arg, '=')
-		&& ft_strcmp(current->value, d->x->new_value))
-		current->value = d->x->new_value;
+		&& ft_strcmp(current->value, d->x_value))
+		current->value = d->x_value;
 	return (0);
 }
 
@@ -60,36 +66,27 @@ static int	get_var3(t_data *d, char *arg, int *i)
 {
 	if (arg && arg[*i] != '=')
 	{
-		if (ft_strcmp(arg, d->x->key))
-		{
-			d->x->new_key = galloc(ft_strdup(arg),
-					sizeof(char) * ft_strlen(arg) + 1, d);
-			if (!d->x->new_key)
-				return (1);
-		}
-		d->x->new_value = NULL;
+		d->x_key = galloc(ft_strdup(arg),
+				sizeof(char) * ft_strlen(arg) + 1, d);
+		if (!d->x_key)
+			return (1);
+		d->x_value = NULL;
 	}
 	return (0);
 }
 
 static int	get_var2(t_data *d, char *arg, int *plus, int *i)
 {
-	if (arg && arg[*i] == '=' && d->x->key && d->x->value)
+	if (arg && arg[*i] == '=')
 	{
-		if (ft_strncmp(arg, d->x->key, *i - *plus))
-		{
-			d->x->new_key = galloc(ft_strndup(arg, *i - *plus), sizeof(char)
-					* (*i - *plus) + 1, d);
-			if (!d->x->new_key)
-				return (1);
-		}
-		if (ft_strcmp(arg + *i + 1, d->x->value))
-		{
-			d->x->new_value = galloc(ft_strdup(arg + *i + 1), sizeof(char)
-					* ft_strlen(arg + *i + 1) + 1, d);
-			if (!d->x->new_value)
-				return (1);
-		}
+		d->x_key = galloc(ft_strndup(arg, *i - *plus), sizeof(char)
+				* (*i - *plus) + 1, d);
+		if (!d->x_key)
+			return (1);
+		d->x_value = galloc(ft_strdup(arg + *i + 1), sizeof(char)
+				* ft_strlen(arg + *i + 1) + 1, d);
+		if (!d->x_value)
+			return (1);
 	}
 	else if (get_var3(d, arg, i))
 		return (1);

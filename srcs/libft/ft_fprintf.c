@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:41:52 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/13 19:17:02 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:49:45 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	ft_fprintf(const int fd, const char *str, ...)
 	i = 0;
 	va_start(ap, str);
 	len = 0;
-	if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
-		return (0);
 	if (str == NULL || fd < 0)
 		return (0);
 	while (str[i])

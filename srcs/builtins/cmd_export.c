@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:54:10 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/13 18:10:15 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:06:00 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	export_var(t_export *current, t_data *d, char *arg)
 		return (1);
 	while (current)
 	{
-		if (!ft_strcmp(current->key, d->x->new_key) && d->x->new_key)
+		if (!ft_strcmp(current->key, d->x_key) && d->x_key)
 		{
 			found = 1;
 			if (update_var(current, d, arg, &plus))
@@ -83,6 +83,9 @@ int	cmd_export(t_data *d, t_lst *l)
 			if (export_var(current, d, l->arg[i]))
 				return (1);
 	}
+	if (!l->arg[1])
+		if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
+			return (0);
 	print_export(current, d, l);
 	return (0);
 }

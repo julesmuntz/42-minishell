@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:19:46 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/12 12:39:18 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 14:22:03 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,50 @@ static int	slvl_init(char *env, char **dest, t_data *d)
 	return (0);
 }
 
+static int	init_env2(char **tab, t_data *d, char *env)
+{
+	char	*str;
+
+	if (!ft_strncmp(env, "SHLVL=", 6) \
+	&& slvl_init(env, tab, d))
+		return (free_garbage(&d->g), 1);
+	else if (ft_strncmp(env, "SHLVL=", 6))
+	{
+		str = ft_strdup(env);
+		if (!str)
+			return (free_garbage(&d->g), 1);
+		*tab = galloc(str, ft_strlen(env) + 1, d);
+		if (!*tab)
+			return (free_garbage(&d->g), 1);
+	}
+	return (0);
+}
+
 char	**init_env(char **env, t_data *d)
 {
 	int		i;
-	char	*str;
 	char	**tab;
+	int		check;
 
 	d->env_size = ft_arrstrlen(env);
-	tab = galloc(NULL, (d->env_size + 1) * sizeof(char *), d);
+	check = 0;
+	if (!getenv("SHLVL"))
+		check = 1;
+	tab = galloc(NULL, (d->env_size + 1 + check) * sizeof(char *), d);
 	if (!tab)
 		return (NULL);
 	i = -1;
 	while (env && env[++i])
 	{
-		if (!ft_strncmp(env[i], "SHLVL=", 6) \
-		&& slvl_init(env[i], &(tab[i]), d))
+		if (init_env2(&(tab[i]), d, env[i]))
+			return (NULL);
+	}
+	if (check)
+	{	
+		tab[i] = galloc(ft_strdup("SHLVL=1"), 8, d);
+		if (!tab[i])
 			return (free_garbage(&d->g), NULL);
-		else if (ft_strncmp(env[i], "SHLVL=", 6))
-		{
-			str = ft_strdup(env[i]);
-			if (!str)
-				return (free_garbage(&d->g), NULL);
-			tab[i] = galloc(str, ft_strlen(env[i]) + 1, d);
-			if (!tab[i])
-				return (free_garbage(&d->g), NULL);
-		}
+		i++;
 	}
 	return (tab[i] = NULL, tab);
 }

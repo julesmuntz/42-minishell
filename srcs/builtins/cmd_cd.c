@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 21:41:00 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/15 23:21:36 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:51:14 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	cmd_cd2(t_data *d, t_lst *l, char *path)
 		cdpath = ft_getenv("CDPATH", d);
 		if (cdpath)
 		{
-			if (find_cdpath(d, l, cdpath))
+			if (!ft_strcmp(cdpath, "") || find_cdpath(d, l, cdpath))
 				return (g_exit_code = 1, ft_fprintf(STDERR_FILENO,
 						"minishell: cd: %s: %s\n", l->arg[1],
 						strerror(errno)), 0);

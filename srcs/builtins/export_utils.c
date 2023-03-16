@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:57:26 by julmuntz          #+#    #+#             */
-/*   Updated: 2023/03/01 23:20:46 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:06:41 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	sort_export(t_export **node)
 	{
 		current = *node;
 		*node = (*node)->next;
-		if (sorted == NULL || strcmp(current->key, sorted->key) < 0)
+		if (sorted == NULL || ft_strcmp(current->key, sorted->key) < 0)
 		{
 			current->next = sorted;
 			sorted = current;
@@ -56,7 +56,7 @@ void	sort_export(t_export **node)
 		else
 		{
 			next = sorted;
-			while (next->next != NULL && strcmp(current->key,
+			while (next->next != NULL && ft_strcmp(current->key,
 					next->next->key) >= 0)
 				next = next->next;
 			current->next = next->next;
@@ -99,8 +99,8 @@ static t_export	*init_export2(char *line, t_data *d)
 		return (NULL);
 	node->key = NULL;
 	node->value = NULL;
-	node->new_key = NULL;
-	node->new_value = NULL;
+	d->x_key = NULL;
+	d->x_value = NULL;
 	if (malloc_key_value(node, ptr, line, d))
 		return (NULL);
 	node->next = NULL;

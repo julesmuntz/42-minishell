@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:09 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/15 21:47:28 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:11:46 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ typedef struct s_export
 {
 	char			*key;
 	char			*value;
-	char			*new_key;
-	char			*new_value;
 	struct s_export	*next;
 }					t_export;
 
@@ -82,6 +80,8 @@ typedef struct s_data
 	int				env_size;
 	char			*prompt;
 	t_export		*x;
+	char			*x_key;
+	char			*x_value;
 	t_garbage		*g;
 	int				main;
 	int				pipefd[2];
@@ -121,6 +121,7 @@ int					remove_quotes(char *s, char **str);
 
 //					EXECUTION
 int					exe_cmd(t_data *d);
+void				create_files(t_data *d);
 void				child(t_data *d, t_lst *l);
 void				exec_error(char *str, char **arg, t_data *d);
 int					find_cmd(char **str, char **env);

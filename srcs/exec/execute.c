@@ -6,7 +6,7 @@
 /*   By: julmuntz <julmuntz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:27:16 by mbenicho          #+#    #+#             */
-/*   Updated: 2023/03/14 21:30:19 by julmuntz         ###   ########.fr       */
+/*   Updated: 2023/03/16 13:34:46 by julmuntz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,10 @@ int	exe_cmd(t_data *d)
 	pipe_err = 0;
 	if (!d->l)
 		return (0);
+	create_files(d);
 	if (handle_builtins(d))
 		return (0);
+	signal(SIGPIPE, SIG_DFL);
 	signal(SIGQUIT, &handle_ctrls);
 	signal(SIGINT, &handle_ctrls);
 	tmp = d->l;
